@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">paymentapp</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="education">Education</string>
+    <string name="my_business">My Business</string>
+    <string name="home_id">navigation_home</string>
+    <string name="business_id">my_business</string>
+    <string name="education_id">education</string>
+    <string name="more_id">more</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
