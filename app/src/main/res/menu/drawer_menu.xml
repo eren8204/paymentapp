@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/drawer_item1"
+        android:title="Dashboard"
+        android:icon="@drawable/baseline_home_24"/>
+
+    <item
+        android:id="@+id/drawer_item2"
+        android:title="ID Card"
+        android:icon="@drawable/baseline_card_membership_24"/>
+
+    <item
+        android:id="@+id/drawer_item3"
+        android:title="Edit Profile"
+        android:icon="@drawable/baseline_perm_identity_24"/>
+
+    <item
+        android:id="@+id/drawer_item4"
+        android:title="Bank KYC"
+        android:icon="@drawable/baseline_account_balance_24"/>
+
+    <item
+        android:id="@+id/drawer_item5"
+        android:title="Gallery"
+        android:icon="@drawable/baseline_gallery_24"/>
+
+    <item
+        android:id="@+id/drawer_item6"
+        android:title="Plan PDF and Video"
+        android:icon="@drawable/baseline_picture_as_pdf_24"/>
+    <item
+        android:id="@+id/drawer_item7"
+        android:title="Forgot T-Pin"
+        android:icon="@drawable/baseline_person_pin_24"/>
+    <item
+        android:id="@+id/drawer_item8"
+        android:title="Change T-Pin"
+        android:icon="@drawable/baseline_person_pin_24"/>
+    <item
+        android:id="@+id/drawer_item9"
+        android:title="Change Login Password"
+        android:icon="@drawable/baseline_person_pin_24"/>
+    <item
+        android:id="@+id/drawer_item10"
+        android:title="Logout"
+        android:icon="@drawable/baseline_logout_24"/>
+
+</menu>
