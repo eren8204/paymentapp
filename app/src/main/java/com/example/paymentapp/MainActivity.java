@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(false);  // Disable default indicator
-        toggle.setHomeAsUpIndicator(R.drawable.baseline_person_24);  // Set your custom icon
+        toggle.setHomeAsUpIndicator(R.drawable.baseline_menu_open_24);  // Set your custom icon
         toggle.syncState();
 
         // Handle custom icon click
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId(); // Get the item ID
 
             if (id == R.id.drawer_item1) {
-                selectedFragment = new HomeFragment();
+                selectedFragment = new IDFragment();
             } else if (id == R.id.drawer_item2) {
                 selectedFragment = new BusinessFragment();
             } else if (id == R.id.drawer_item3) {
