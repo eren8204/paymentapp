@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

@@ -14,17 +14,17 @@
             android:orientation="vertical">
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="20dp">
+                android:layout_height="200sp"
+                android:layout_marginStart="20sp"
+                android:layout_marginTop="30sp"
+                android:layout_marginEnd="20sp"
+                app:cardCornerRadius="20sp"
+                app:cardElevation="20sp">
 
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/imageSlider"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="200sp"
                     app:iss_auto_cycle="true"
                     app:iss_corner_radius="20"
                     app:iss_delay="1000"
@@ -35,90 +35,90 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="30sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginEnd="20sp"
                 android:text="Testing"
                 android:textStyle="bold" />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:padding="10dp"
-                android:layout_marginBottom="5dp"
-                app:cardCornerRadius="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:padding="10sp"
+                android:layout_marginBottom="5sp"
+                app:cardCornerRadius="10sp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="10sp"
                     android:orientation="horizontal"
                     android:gravity="center_horizontal">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="10dp"
+                        android:elevation="10sp"
                         app:srcCompat="@mipmap/zoom_icon"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
-                        app:maxImageSize="56dp"/>
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="10sp"
+                        app:maxImageSize="56sp"/>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="10dp"
+                        android:elevation="10sp"
                         app:srcCompat="@mipmap/qr_icon"
-                        app:maxImageSize="56dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"/>
+                        app:maxImageSize="56sp"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="10sp"/>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="10dp"
+                        android:elevation="10sp"
                         app:srcCompat="@mipmap/premium_icon"
-                        app:maxImageSize="56dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"/>
+                        app:maxImageSize="56sp"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="10sp"/>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="10dp"
+                        android:elevation="10sp"
                         app:srcCompat="@mipmap/scanner_icon"
-                        app:maxImageSize="56dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"/>
+                        app:maxImageSize="56sp"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="10sp"/>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="10dp"
+                        android:elevation="10sp"
                         app:srcCompat="@mipmap/rupee_icon"
-                        app:maxImageSize="56dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"/>
+                        app:maxImageSize="56sp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginEnd="5sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10sp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10sp">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginEnd="10sp"
+                    android:layout_marginBottom="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -126,15 +126,15 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="50sp"
+                            android:layout_height="50sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -142,201 +142,201 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginBottom="15sp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Amount" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:textAlignment="center"
                             android:text="Bonus Wallet" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginBottom="15sp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Amount" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:textAlignment="center"
                             android:text="Fund Wallet" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginBottom="15sp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Amount" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:textAlignment="center"
                             android:text="Today Income" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginBottom="15sp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Amount" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:textAlignment="center"
                             android:text="Total Income" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_width="150sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginBottom="15sp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Amount" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:textAlignment="center"
                             android:text="Commission Wallet" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_width="150sp"
+                    android:layout_height="100sp"
+                    app:cardCornerRadius="10sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="10sp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10sp"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginEnd="10sp"
+                        android:layout_marginBottom="15sp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:text="Amount" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="10sp"
                             android:textAlignment="center"
                             android:text="Emergency Fund" />
                     </LinearLayout>
@@ -347,17 +347,17 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                app:cardCornerRadius="10dp"
+                android:padding="10sp"
+                app:cardCornerRadius="10sp"
                 android:backgroundTint="@color/green"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginBottom="10sp">
                 <TextView
                     android:id="@+id/marquee_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="10sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:text="Welcome to Customer Support All Problem Report Here \t (+91xxxxxxxxxx)"
@@ -369,12 +369,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -383,14 +383,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="10dp"
+                    android:layout_margin="5sp"
+                    android:padding="10sp"
                     android:text="Recharges and Bill Payments"/>
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alignmentMode="alignMargins"
-                    android:layout_margin="20dp"
+                    android:layout_margin="20sp"
                     android:rowCount="2"
                     android:columnCount="4">
                     <LinearLayout
@@ -400,16 +400,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
                         android:src="@drawable/upi"
                         android:layout_gravity="center"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_margin="10sp"
+                        android:layout_marginTop="10sp"
                         android:text="Add Fund"
                         android:textStyle="bold" />
                     </LinearLayout>
@@ -420,16 +420,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -440,16 +440,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -460,16 +460,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -480,16 +480,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -500,16 +500,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -520,16 +520,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="Add Fund"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -540,16 +540,16 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:src="@drawable/upi"
                             android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_margin="10sp"
+                            android:layout_marginTop="10sp"
                             android:text="More"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -560,12 +560,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -574,14 +574,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Banking and Financial Services"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
@@ -591,16 +591,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -611,16 +611,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -631,16 +631,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -651,16 +651,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -671,16 +671,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -691,16 +691,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -711,16 +711,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -731,16 +731,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -751,12 +751,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -765,14 +765,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="CIBIL Score/Credit Card/ Loan"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
@@ -782,16 +782,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -802,16 +802,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -822,16 +822,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -842,16 +842,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -861,12 +861,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -875,14 +875,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Travel and Bookings"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
@@ -892,16 +892,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -912,16 +912,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -932,16 +932,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -952,16 +952,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -972,16 +972,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -992,16 +992,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1012,16 +1012,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1032,16 +1032,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1052,12 +1052,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1066,14 +1066,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Affiliate Services"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
@@ -1083,16 +1083,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1103,16 +1103,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1123,16 +1123,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1143,16 +1143,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1163,16 +1163,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1183,16 +1183,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1203,16 +1203,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1223,16 +1223,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1243,12 +1243,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1257,14 +1257,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Shopping"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
@@ -1274,16 +1274,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1294,16 +1294,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1314,16 +1314,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1334,16 +1334,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1354,16 +1354,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1374,16 +1374,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1394,16 +1394,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1414,16 +1414,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1434,12 +1434,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1448,14 +1448,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Library"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
@@ -1465,16 +1465,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1485,16 +1485,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1505,16 +1505,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1525,16 +1525,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1544,12 +1544,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1558,14 +1558,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Learn how to use our app"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
@@ -1575,16 +1575,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1595,16 +1595,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1615,16 +1615,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1635,16 +1635,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1654,12 +1654,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="10sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1668,14 +1668,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Education"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="20dp"
+                        android:layout_margin="20sp"
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
@@ -1684,16 +1684,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1703,16 +1703,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1721,12 +1721,12 @@
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                android:layout_height="200sp"
+                android:layout_marginStart="20sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginEnd="20sp"
+                app:cardCornerRadius="20sp"
+                app:cardElevation="10sp">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1735,12 +1735,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="20sp"
+                app:cardCornerRadius="10sp"
+                android:padding="10sp"
+                android:layout_marginBottom="10sp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1749,14 +1749,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:padding="10dp"
+                        android:layout_margin="5sp"
+                        android:padding="10sp"
                         android:text="Connect with us"/>
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
-                        android:layout_margin="10dp"
+                        android:layout_margin="10sp"
                         android:rowCount="1"
                         android:columnCount="6">
                         <LinearLayout
@@ -1766,16 +1766,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1786,16 +1786,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1806,16 +1806,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -1826,16 +1826,16 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
                                 android:src="@drawable/upi"
                                 android:layout_gravity="center"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10sp"
+                                android:layout_marginTop="10sp"
                                 android:text="Add Fund"
                                 android:textStyle="bold" />
                         </LinearLayout>

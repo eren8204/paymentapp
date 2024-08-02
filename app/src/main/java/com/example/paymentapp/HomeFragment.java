@@ -21,10 +21,13 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        ImageSlider imageSlider = view.findViewById(R.id.imageSlider);
         TextView marquee_text = view.findViewById(R.id.marquee_text);
         marquee_text.setSelected(true);
-        ImageSlider imageSlider = view.findViewById(R.id.imageSlider);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
 
         slideModels.add(new SlideModel(R.drawable.a, ScaleTypes.FIT));
