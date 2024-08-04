@@ -23,6 +23,8 @@ public class BusinessFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_business, container, false);
         ImageSlider imageSlider = view.findViewById(R.id.imageSlider);
 
+        TextView marquee_text = view.findViewById(R.id.marquee_text);
+        marquee_text.setSelected(true);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
 
         slideModels.add(new SlideModel(R.drawable.a, ScaleTypes.FIT));

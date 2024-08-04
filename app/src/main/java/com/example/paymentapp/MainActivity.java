@@ -58,13 +58,23 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId(); // Get the item ID
 
             if (id == R.id.drawer_item1) {
-                selectedFragment = new IDFragment();
+                selectedFragment = new HomeFragment();
             } else if (id == R.id.drawer_item2) {
-                selectedFragment = new BusinessFragment();
+                selectedFragment = new IDFragment();
             } else if (id == R.id.drawer_item3) {
-                selectedFragment = new EducationFragment();
+                selectedFragment = new EditProfileFragment();
             } else if (id == R.id.drawer_item4) {
-                selectedFragment = new MoreFragment();
+                selectedFragment = new BankKYCFragment();
+            }else if (id == R.id.drawer_item5) {
+                selectedFragment = new GalleryFragment();
+            }else if (id == R.id.drawer_item6) {
+                selectedFragment = new PlanPDFVideoFragment();
+            }else if (id == R.id.drawer_item7) {
+                selectedFragment = new ForgetTpinFragment();
+            }else if (id == R.id.drawer_item8) {
+                selectedFragment = new ChangeTpinFragment();
+            }else if (id == R.id.drawer_item9) {
+                selectedFragment = new ChangeLoginPasswordFragment();
             }
 
             if (selectedFragment != null) {
