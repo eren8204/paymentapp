@@ -19,7 +19,7 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30sp"
+                android:layout_height="@dimen/_23sdp"
                 android:background="@color/green"
                 >
 
@@ -27,22 +27,22 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="150sp"
-                android:layout_height="120sp"
+                android:layout_width="@dimen/_116sdp"
+                android:layout_height="@dimen/_93sdp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10sp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_gravity="left"
-                android:layout_marginLeft="35sp"
+                android:layout_marginLeft="@dimen/_27sdp"
                 android:text="Bank Details"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="40sp" />
+                android:textSize="@dimen/_31sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,155 +51,155 @@
 
                 <EditText
                     android:id="@+id/User_ID"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:drawableLeft="@drawable/baseline_perm_identity_24"
                     android:hint="Z64858587"
-                    android:drawablePadding="10sp"
+                    android:drawablePadding="@dimen/_8sdp"
                     android:inputType="text"
-                    android:paddingLeft="15sp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
                 <EditText
                     android:id="@+id/User_name"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="ARSH"
                     android:focusable="false"
                     android:drawableLeft="@drawable/baseline_perm_identity_24"
-                    android:drawablePadding="10sp"
-                    android:paddingRight="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:inputType="text"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp" />
+                    android:layout_marginTop="@dimen/_16sdp" />
 
 
 
                 <EditText
                     android:id="@+id/Pan_number"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="Pan Number"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                    android:paddingRight="10sp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="text"
                     android:drawableLeft="@drawable/baseline_card_membership_24"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
                 <EditText
                     android:id="@+id/IFSCcode"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="IFSC Code"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                    android:paddingRight="10sp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="numberPassword"
                     android:drawableLeft="@drawable/baseline_home_24"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
                 <EditText
                     android:id="@+id/BankName"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="Enter Bank Name"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
-                    android:paddingRight="10sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="text"
                     android:drawableLeft="@drawable/baseline_account_balance_24"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
                 <TextView
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:text="Nominee Details"
                     android:textColor="@color/green"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10sp"
-                    android:textSize="20sp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_16sdp"
                     android:gravity="left"
-                    android:paddingTop="5sp"
+                    android:paddingTop="@dimen/_4sdp"
                     android:textStyle="bold">
 
                 </TextView>
 
                 <EditText
                     android:id="@+id/AccountNumber"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="Account Number"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                    android:paddingRight="10sp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="text"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
                 <EditText
                     android:id="@+id/ConfirmAccountNumber"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="Confirm Account Number"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                    android:paddingRight="10sp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="text"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
 
                 <EditText
                     android:id="@+id/NomineeName"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="Enter Nominee Name"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                    android:paddingRight="10sp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="text"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
                 <EditText
                     android:id="@+id/NomineeRelation"
-                    android:layout_width="300sp"
-                    android:layout_height="40sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
                     android:hint="Enter Nominee Relation"
-                    android:drawablePadding="10sp"
-                    android:paddingLeft="15sp"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
                     android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                    android:paddingRight="10sp"
+                    android:paddingRight="@dimen/_8sdp"
                     android:inputType="text"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20sp">
+                    android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
 
@@ -212,20 +212,20 @@
 
                 <Button
                     android:id="@+id/Update"
-                    android:layout_width="300sp"
-                    android:layout_height="50sp"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_39sdp"
                     android:text="Update"
-                    android:layout_margin="30sp"
+                    android:layout_margin="@dimen/_23sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="50sp"
+                    android:layout_marginLeft="@dimen/_39sdp"
                     android:textColor="#FAF7F7"
                     android:background="@drawable/btnbackground"
                     android:textStyle="bold" />
 
                 <ProgressBar
                     android:id="@+id/progressbarUpdate"
-                    android:layout_width="35sp"
-                    android:layout_height="35sp"
+                    android:layout_width="@dimen/_27sdp"
+                    android:layout_height="@dimen/_27sdp"
                     android:layout_gravity="center"
                     android:visibility="gone" />
             </FrameLayout>

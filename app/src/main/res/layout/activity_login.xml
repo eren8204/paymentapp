@@ -117,20 +117,15 @@
                 android:textColor="#FAF7F7"
                 android:background="@drawable/btnbackground"
                 android:textStyle="bold">
-
             </Button>
-
             <ProgressBar
                 android:id="@+id/progressbarlogin"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_gravity="center"
                 android:visibility="gone">
-
             </ProgressBar>
-
         </FrameLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,10 +140,7 @@
                 android:text="Dont't have a account? "
                 android:textColor="#050505"
                 android:textSize="20dp">
-
-
             </TextView>
-
             <TextView
                 android:id="@+id/signup"
                 android:layout_width="wrap_content"
@@ -159,11 +151,7 @@
                 android:textColor="#FF1A09"
                 android:textStyle="bold"
                 android:textSize="20sp">
-
             </TextView>
         </LinearLayout>
-
-
     </LinearLayout>
-
 </LinearLayout>
