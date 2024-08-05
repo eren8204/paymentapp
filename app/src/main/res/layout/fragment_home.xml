@@ -49,10 +49,14 @@
                 android:layout_marginBottom="@dimen/_4sdp"
                 app:cardCornerRadius="@dimen/_8sdp">
 
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_8sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="horizontal"
                     android:gravity="center_horizontal">
 
@@ -102,6 +106,7 @@
                         android:layout_marginStart="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_4sdp"/>
                 </LinearLayout>
+                </HorizontalScrollView>
             </androidx.cardview.widget.CardView>
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -395,6 +400,7 @@
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/prepaid_mobile"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -419,6 +425,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/postpaid_mobile"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -443,6 +450,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/dth_recharge"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -467,6 +475,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/fastag_recharge"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -491,6 +500,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/electricity_bill"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -515,6 +525,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/gas_cylinder"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -539,6 +550,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/water_bill"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -563,6 +575,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/cable_tv"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -620,6 +633,7 @@
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/money_transfer"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -644,6 +658,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/credit_card"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -668,6 +683,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/loan_repayment"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -692,6 +708,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/atm_locator"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -716,6 +733,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/bike_insurance"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -740,6 +758,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/car_insurance"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -764,6 +783,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/family_insurance"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -788,6 +808,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/tax_calculation"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -845,6 +866,7 @@
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/cibil"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -869,6 +891,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/sbi"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -893,6 +916,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/icici"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -917,6 +941,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/hdfc"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -973,6 +998,7 @@
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/irctc"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -997,6 +1023,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/confirm_tkt"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1021,6 +1048,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/spot_train"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1045,6 +1073,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/parivahan"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1069,6 +1098,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/redbus"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1093,6 +1123,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/makemytrip"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1117,6 +1148,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ola"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1141,6 +1173,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/uber"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1198,6 +1231,7 @@
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/aadhar"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1222,6 +1256,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/pan_card"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1246,6 +1281,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/income_tax"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1270,6 +1306,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ecard"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1294,6 +1331,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/voter_card"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1318,6 +1356,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/passport"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1342,6 +1381,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/post_office"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1366,6 +1406,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/rashan"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1423,6 +1464,7 @@
                         android:rowCount="2"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/amazon"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1447,6 +1489,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/flipkart"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1471,6 +1514,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/meesho"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1495,6 +1539,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/zomato"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1519,6 +1564,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/swiggy"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1543,6 +1589,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/vishal_mart"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1567,6 +1614,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/bookmyshow"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1591,6 +1639,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/tata1mg"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1648,6 +1697,7 @@
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/entertainment"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1672,6 +1722,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/kuku"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1696,6 +1747,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/business"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1720,6 +1772,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/money"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1776,6 +1829,7 @@
                         android:layout_gravity="fill_horizontal"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/full_plan"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1800,6 +1854,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/kyc"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1824,6 +1879,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/add_money"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1848,6 +1904,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/withdrawal"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1904,6 +1961,7 @@
                         android:rowCount="1"
                         android:columnCount="4">
                         <LinearLayout
+                            android:id="@+id/computer"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1928,6 +1986,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/pro_class"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1997,6 +2056,7 @@
                         android:rowCount="1"
                         android:columnCount="6">
                         <LinearLayout
+                            android:id="@+id/support"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -2011,6 +2071,7 @@
                                 android:layout_gravity="center"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/whatsapp"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -2025,6 +2086,7 @@
                                 android:layout_gravity="center"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/facebook"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -2039,6 +2101,7 @@
                                 android:layout_gravity="center"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/telegram"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -2053,6 +2116,7 @@
                                 android:layout_gravity="center"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/instagram"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -2067,6 +2131,7 @@
                                 android:layout_gravity="center"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/youtube"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
