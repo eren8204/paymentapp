@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ImageSlider imageSlider = view.findViewById(R.id.imageSlider);
         TextView marquee_text = view.findViewById(R.id.marquee_text);
-        prepaid_mobile = view.findViewById(R.id.prepaid_mobile);
+
         marquee_text.setSelected(true);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
 
@@ -42,12 +42,6 @@ public class HomeFragment extends Fragment {
 
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
-        prepaid_mobile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("click","Recharge");
-            }
-        });
         return  view;
     }
 }
