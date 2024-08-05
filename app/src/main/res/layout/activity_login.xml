@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="200sp"
-            android:layout_height="120sp"
+            android:layout_width="@dimen/_155sdp"
+            android:layout_height="@dimen/_93sdp"
             android:layout_gravity="center"
             android:src="@drawable/logo"
             >
@@ -32,13 +32,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30sp"
+            android:layout_marginTop="@dimen/_23sdp"
             android:layout_gravity="left"
-            android:layout_marginLeft="35sp"
+            android:layout_marginLeft="@dimen/_27sdp"
             android:text="LOGIN"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="40sp">
+            android:textSize="@dimen/_31sdp">
 
         </TextView>
 
@@ -46,43 +46,43 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8sp"
+            android:layout_marginTop="@dimen/_6sdp"
             android:layout_gravity="left"
-            android:layout_marginLeft="35sp"
+            android:layout_marginLeft="@dimen/_27sdp"
             android:text="Please fill the details"
             android:textColor="@color/black"
-            android:textSize="15sp">
+            android:textSize="@dimen/_12sdp">
 
         </TextView>
 
         <EditText
             android:id="@+id/email"
-            android:layout_width="300sp"
-            android:layout_height="40sp"
+            android:layout_width="@dimen/_233sdp"
+            android:layout_height="@dimen/_31sdp"
             android:background="@drawable/edittextbackground"
             android:hint="Enter Email"
             android:inputType="text"
-            android:drawablePadding="10sp"
+            android:drawablePadding="@dimen/_8sdp"
 
-            android:paddingLeft="15sp"
+            android:paddingLeft="@dimen/_12sdp"
             android:drawableLeft="@drawable/baseline_mail_24"
             android:layout_gravity="center"
-            android:layout_marginTop="20sp">
+            android:layout_marginTop="@dimen/_16sdp">
 
         </EditText>
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="300sp"
-            android:layout_height="40sp"
+            android:layout_width="@dimen/_233sdp"
+            android:layout_height="@dimen/_31sdp"
             android:background="@drawable/edittextbackground"
             android:hint="Password"
-            android:drawablePadding="10sp"
-            android:paddingLeft="15sp"
+            android:drawablePadding="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_12sdp"
             android:inputType="numberPassword"
             android:drawableLeft="@drawable/baseline_lock_24"
             android:layout_gravity="center"
-            android:layout_marginTop="20sp">
+            android:layout_marginTop="@dimen/_16sdp">
 
         </EditText>
 
@@ -91,13 +91,13 @@
             android:id="@+id/forgetpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8sp"
+            android:layout_marginTop="@dimen/_6sdp"
             android:layout_gravity="right"
-            android:layout_marginRight="55sp"
+            android:layout_marginRight="@dimen/_43sdp"
             android:text="Forgot Pasword?"
             android:textColor="#FF1A09"
             android:textStyle="bold"
-            android:textSize="20sp">
+            android:textSize="@dimen/_16sdp">
 
         </TextView>
 
@@ -108,20 +108,20 @@
 
             <Button
                 android:id="@+id/login"
-                android:layout_width="300sp"
-                android:layout_height="50sp"
+                android:layout_width="@dimen/_233sdp"
+                android:layout_height="@dimen/_39sdp"
                 android:text="LOGIN"
-                android:layout_margin="30sp"
+                android:layout_margin="@dimen/_23sdp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="50sp"
+                android:layout_marginLeft="@dimen/_39sdp"
                 android:textColor="#FAF7F7"
                 android:background="@drawable/btnbackground"
                 android:textStyle="bold">
             </Button>
             <ProgressBar
                 android:id="@+id/progressbarlogin"
-                android:layout_width="35sp"
-                android:layout_height="35sp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:layout_gravity="center"
                 android:visibility="gone">
             </ProgressBar>
@@ -135,22 +135,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8sp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:layout_gravity="left"
                 android:text="Dont't have a account? "
                 android:textColor="#050505"
-                android:textSize="20dp">
+                android:textSize="@dimen/_16sdp">
             </TextView>
             <TextView
                 android:id="@+id/signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8sp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:layout_gravity="right"
                 android:text="Sign UP"
                 android:textColor="#FF1A09"
                 android:textStyle="bold"
-                android:textSize="20sp">
+                android:textSize="@dimen/_16sdp">
             </TextView>
         </LinearLayout>
     </LinearLayout>
