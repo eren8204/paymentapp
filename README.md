@@ -11,7 +11,7 @@ Payment Application front-end design
 
 Some screenshots of project.
 
-Login(app/src/main/res/scrnsht/1.png)
+![Login](app/src/main/res/scrnsht/1.png)
 ![Register](app/src/main/res/scrnsht/2.png)
 ![NavBar](app/src/main/res/scrnsht/3.png)
 ![Home](app/src/main/res/scrnsht/4.png)
