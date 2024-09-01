@@ -8,9 +8,8 @@ Payment Application for everyone
 
 ## Features
 
-- ADD Fund : Add fund to your wallet 
-- Payment : Make Bill Payments
-- Referral system: Add friends and earn more
+- Front-End design of a Payment App
+- Intuitive design
 
 ## Screenshots
 
@@ -42,10 +41,9 @@ Clone the project and run apk
 This is just a front-end design
 
 ## Contact
-apskumar24@gmail.com
-If you have any questions, feel free to reach out to me at [your.email@example.com](mailto:your.email@example.com).
+If you have any questions, feel free to reach out to me at [your.email@example.com](apskumar24@gmail.com).
 
 ## Acknowledgments
 
-- [Library/Tool Name](link) - Brief description of how it helped.
-- Any other acknowledgments or inspirations.
+- [Android SDP](https://github.com/intuit/sdp) - Helped in managing app on different screen sizes
+- [ImageSlider](https://github.com/denzcoskun/ImageSlideshow) - Helped in adding automatic image slider
