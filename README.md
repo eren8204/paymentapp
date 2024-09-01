@@ -41,7 +41,7 @@ Clone the project and run apk
 This is just a front-end design
 
 ## Contact
-If you have any questions, feel free to reach out to me at [your.email@example.com](apskumar24@gmail.com).
+If you have any questions, feel free to reach out to me at apskumar24@gmail.com.
 
 ## Acknowledgments
 
