@@ -1,10 +1,6 @@
 # Payment APP
 
-[![License](https://img.shields.io/github/license/yourusername/your-repo.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/your-repo.svg)](https://github.com/yourusername/your-repo/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/your-repo.svg)](https://github.com/yourusername/your-repo/issues)
-
-Payment Application for everyone
+Payment Application front-end design
 
 ## Features
 
@@ -15,9 +11,11 @@ Payment Application for everyone
 
 Include some screenshots of your app in action.
 
-![Screenshot 1](path/to/screenshot1.png)
-![Screenshot 2](path/to/screenshot2.png)
-
+![Login](app/src/main/res/scrnsht/1.png)
+![Register](app/src/main/res/scrnsht/2.png)
+![NavBar](app/src/main/res/scrnsht/3.png)
+![Home](app/src/main/res/scrnsht/4.png)
+![Settings](app/src/main/res/scrnsht/5.png)
 ## Installation
 Clone the project and run apk
 
