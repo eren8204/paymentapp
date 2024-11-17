@@ -40,6 +40,7 @@ dependencies {
     implementation (libs.imageslideshow)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.material.v190)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.gridlayout)

@@ -383,7 +383,8 @@ public class HomeFragment extends Fragment {
         prepaid_mobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coming_soon();
+                Intent intent = new Intent(getActivity(), prepaid_mobile.class);
+                startActivity(intent);
             }
         });
         postpaid_mobile.setOnClickListener(new View.OnClickListener() {
