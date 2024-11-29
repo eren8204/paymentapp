@@ -379,7 +379,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

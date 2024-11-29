@@ -268,7 +268,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="#Bachat Har Baar"
+            android:text="#Bachat Har Bar"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp" />

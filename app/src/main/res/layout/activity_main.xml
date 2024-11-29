@@ -36,7 +36,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="#Bachat Har Baar"
+                        android:text="#Bachat Har Bar"
                         android:textSize="@dimen/_10sdp"
                         android:textColor="@color/white"/>
                 </LinearLayout>
