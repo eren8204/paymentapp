@@ -27,7 +27,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="@dimen/_62sdp"
                     android:layout_height="@dimen/_62sdp"
-                    android:src="@drawable/baseline_person_24" />
+                    android:src="@drawable/person" />
 
             </LinearLayout>
             <LinearLayout

@@ -17,13 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_23sdp"
-                android:background="@color/green"
-                >
 
-            </LinearLayout>
 
             <ImageView
                 android:id="@+id/logo"
@@ -31,7 +25,7 @@
                 android:layout_height="@dimen/_93sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:src="@drawable/logo" />
+                android:src="@drawable/dollar" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +36,7 @@
                 android:text="Bank Details"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="@dimen/_31sdp" />
+                android:textSize="@dimen/_25sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,8 +62,7 @@
                     android:layout_width="@dimen/_233sdp"
                     android:layout_height="@dimen/_31sdp"
                     android:background="@drawable/edittextbackground"
-                    android:hint="ARSH"
-                    android:focusable="false"
+                    android:hint="Full name"
                     android:drawableLeft="@drawable/baseline_perm_identity_24"
                     android:drawablePadding="@dimen/_8sdp"
                     android:paddingRight="@dimen/_8sdp"
@@ -131,7 +124,7 @@
                     android:layout_width="@dimen/_233sdp"
                     android:layout_height="@dimen/_31sdp"
                     android:text="Nominee Details"
-                    android:textColor="@color/green"
+                    android:textColor="@color/startColor"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:textSize="@dimen/_16sdp"
@@ -214,12 +207,13 @@
                     android:id="@+id/Update"
                     android:layout_width="@dimen/_233sdp"
                     android:layout_height="@dimen/_39sdp"
-                    android:text="Update"
+                    android:text="Submit"
                     android:layout_margin="@dimen/_23sdp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_39sdp"
                     android:textColor="#FAF7F7"
-                    android:background="@drawable/btnbackground"
+                    android:textSize="@dimen/_18sdp"
+                    android:background="@drawable/loginbtnbakground"
                     android:textStyle="bold" />
 
                 <ProgressBar

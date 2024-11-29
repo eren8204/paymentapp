@@ -1,6 +1,7 @@
 package com.example.paymentapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new ChangeTpinFragment();
             }else if (id == R.id.drawer_item9) {
                 selectedFragment = new ChangeLoginPasswordFragment();
+            }
+            else if (id == R.id.drawer_item10) {
+                Intent intent=new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+
             }
 
             if (selectedFragment != null) {
