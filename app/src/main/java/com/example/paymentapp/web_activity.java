@@ -28,7 +28,7 @@ public class web_activity extends AppCompatActivity {
         // Initialize WebView and ProgressBar
         mWebView = findViewById(R.id.web);
         mProgressBar = findViewById(R.id.progress_bar_web);
-        Toolbar toolbar = findViewById(R.id.tool_bar);
+        Toolbar toolbar = findViewById(R.id.tool_bar_web);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
