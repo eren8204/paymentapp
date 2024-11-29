@@ -393,7 +393,6 @@
                         android:padding="@dimen/_8sdp"
                         android:textStyle="bold"
                         android:text="Recharges and Bill Payments"/>
-                    <!--                    ggchvyjvj-->
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

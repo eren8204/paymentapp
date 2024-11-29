@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 public class web_activity extends AppCompatActivity {
     private WebView mWebView;
     private ProgressBar mProgressBar;
-
+    private LinearLayout linearLayout;
     @SuppressLint({"MissingInflatedId", "LocalSuppress", "CutPasteId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,9 @@ public class web_activity extends AppCompatActivity {
         // Initialize WebView and ProgressBar
         mWebView = findViewById(R.id.web);
         mProgressBar = findViewById(R.id.progress_bar_web);
+        linearLayout = findViewById(R.id.progress_bar_web_linear_layout);
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         Toolbar toolbar = findViewById(R.id.tool_bar_web);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -52,12 +58,14 @@ public class web_activity extends AppCompatActivity {
 
             @Override
             public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
+                linearLayout.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(android.view.View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 mProgressBar.setVisibility(android.view.View.GONE);
+                linearLayout.setVisibility(View.GONE);
             }
         });
 
@@ -66,9 +74,11 @@ public class web_activity extends AppCompatActivity {
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100) {
+                    linearLayout.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(android.view.View.VISIBLE);
                 } else {
                     mProgressBar.setVisibility(android.view.View.GONE);
+                    linearLayout.setVisibility(View.GONE);
                 }
             }
         });

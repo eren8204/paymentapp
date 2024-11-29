@@ -8,18 +8,6 @@
     android:orientation="vertical">
 
     <!-- unique ID of WebView -->
-    <WebView
-        android:id="@+id/web"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         />
-    <ProgressBar
-        android:id="@+id/progress_bar_web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar_web"
         android:layout_width="match_parent"
@@ -88,4 +76,24 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/progress_bar_web_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+    <ProgressBar
+        android:id="@+id/progress_bar_web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+    </LinearLayout>
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </LinearLayout>
