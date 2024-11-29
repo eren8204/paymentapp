@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,10 +28,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         // Set up the Toolbar
-        Toolbar toolbar = findViewById(R.id.tool_bar); // Ensure your toolbar ID matches
+        Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         // Initialize the DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.drawer_layout);

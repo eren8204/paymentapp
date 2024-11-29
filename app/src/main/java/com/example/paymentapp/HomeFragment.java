@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+    HorizontalScrollView horizontalScrollView;
     LinearLayout prepaid_mobile,cibil,sbi,icici,hdfc,postpaid_mobile,dth_recharge,fastag,electricity_bill,gas_cylinder,water_bill,cable_tv,money_transfer,credit_card,
             loan_repayment,atm_locator,bike_insurance,car_insurance,family_insurance,tax_calculation,irctc,confirm_tkt,spot_train,parivahan,redbus,makemytrip,
             ola,uber,aadhar,pan_card,income_tax,ecard,voter_card,passport,post_office,rashan,amazon,flipkart,meesho,zomato,swiggy,vishal_mart,bookmyshow,tata1mg,
@@ -92,6 +94,9 @@ public class HomeFragment extends Fragment {
         telegram = view.findViewById(R.id.telegram);
         instagram = view.findViewById(R.id.instagram);
         youtube = view.findViewById(R.id.youtube);
+
+        horizontalScrollView = view.findViewById(R.id.horizonatalScrollView);
+
         marquee_text.setSelected(true);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
 
@@ -103,6 +108,22 @@ public class HomeFragment extends Fragment {
         slideModels.add(new SlideModel(R.drawable.f, ScaleTypes.FIT));
 
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
+
+        Runnable autoScroll = new Runnable() {
+            @Override
+            public void run() {
+                horizontalScrollView.smoothScrollBy(5, 0); // Adjust speed
+                horizontalScrollView.postDelayed(this, 30); // Adjust delay for smoother scrolling
+
+                // Reset to the beginning when reaching the end
+                if (horizontalScrollView.getScrollX() >= horizontalScrollView.getChildAt(0).getWidth() - horizontalScrollView.getWidth()) {
+                    horizontalScrollView.scrollTo(0, 0);
+                }
+            }
+        };
+
+// Start auto-scroll
+        horizontalScrollView.post(autoScroll);
 
         cibil.setOnClickListener(new View.OnClickListener() {
             @Override
