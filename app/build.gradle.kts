@@ -49,5 +49,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.imageslideshow)
     implementation(libs.sdp.android)
-    implementation(kotlin("script-runtime"))
+    implementation(libs.kotlin.script.runtime)
+
 }
