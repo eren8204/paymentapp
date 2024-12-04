@@ -32,21 +32,14 @@
                     app:iss_period="1000"
                     app:iss_title_background="@drawable/gradient" />
             </androidx.cardview.widget.CardView>
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_23sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:text="Testing"
-                android:textStyle="bold" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:padding="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_4sdp"
                 app:cardCornerRadius="@dimen/_8sdp">
 
@@ -128,7 +121,8 @@
                         android:layout_marginStart="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_8sdp">
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        >
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -420,7 +414,6 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/_8sdp"
                                 android:layout_gravity="center"
-                                android:layout_margin="@dimen/_8sdp"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:textAlignment="center"
                                 android:text="Prepaid\nMobile"
@@ -613,7 +606,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -768,6 +762,7 @@
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:gravity="center">
+
                             <ImageView
                                 android:layout_width="@dimen/_23sdp"
                                 android:layout_height="@dimen/_23sdp"
@@ -846,7 +841,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -978,7 +974,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1211,7 +1208,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1444,6 +1442,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF"
                 android:layout_marginBottom="@dimen/_8sdp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1677,6 +1676,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF"
                 android:layout_marginBottom="@dimen/_8sdp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1809,6 +1809,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF"
                 android:layout_marginBottom="@dimen/_8sdp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1941,7 +1942,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -2036,7 +2038,8 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

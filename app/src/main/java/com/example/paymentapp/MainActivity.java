@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,18 +25,31 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId","MissingInflatedId", "LocalSuppress"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+
         // Set up the Toolbar
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        TextView memberName = findViewById(R.id.memberName);
+        TextView userId = findViewById(R.id.memberId);
+        Intent passedIntent = getIntent();
+        if(passedIntent.hasExtra("userName") && passedIntent.hasExtra("memberId")){
+            String username = passedIntent.getStringExtra("userName");
+            String memberId = passedIntent.getStringExtra("memberId");
+            memberName.setText(username);
+            userId.setText(memberId);
+        }
+        else{
+            Toast.makeText(this, "Got Nothing!", Toast.LENGTH_SHORT).show();
         }
 
         // Initialize the DrawerLayout and NavigationView
@@ -85,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             else if (id == R.id.drawer_item10) {
                 Intent intent=new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
-
+                finish();
             }
 
             if (selectedFragment != null) {

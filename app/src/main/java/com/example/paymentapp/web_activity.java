@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,7 +21,7 @@ public class web_activity extends AppCompatActivity {
     private WebView mWebView;
     private ProgressBar mProgressBar;
     private LinearLayout linearLayout;
-    @SuppressLint({"MissingInflatedId", "LocalSuppress", "CutPasteId"})
+    @SuppressLint({"MissingInflatedId", "LocalSuppress", "CutPasteId", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +84,7 @@ public class web_activity extends AppCompatActivity {
 
         // Load URL from Intent
         String url = getIntent().getStringExtra("url");
+        assert url != null;
         mWebView.loadUrl(url);
 
         // Configure WebView settings
@@ -98,14 +98,13 @@ public class web_activity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_BACK:
-                    if (mWebView.canGoBack()) {
-                        mWebView.goBack();
-                    } else {
-                        finish();
-                    }
-                    return true;
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    finish();
+                }
+                return true;
             }
         }
         return super.onKeyDown(keyCode, event);

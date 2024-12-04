@@ -70,7 +70,7 @@
             android:background="@drawable/edittextbackground"
             android:drawableLeft="@drawable/baseline_mail_24"
             android:drawablePadding="@dimen/_8sdp"
-            android:hint="Enter Email"
+            android:hint="Enter ID, Phone or Email"
             android:inputType="text"
             android:paddingLeft="@dimen/_12sdp"
             tools:ignore="TextFields">
@@ -88,7 +88,7 @@
             android:drawableLeft="@drawable/baseline_lock_24"
             android:drawablePadding="@dimen/_8sdp"
             android:hint="Password"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:paddingLeft="@dimen/_12sdp">
 
         </EditText>

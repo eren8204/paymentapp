@@ -38,6 +38,7 @@ dependencies {
 
 
     implementation (libs.imageslideshow)
+    implementation(libs.volley)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.material.v190)

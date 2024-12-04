@@ -15,22 +15,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_margin="@dimen/_10sdp"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_23sdp"
-            android:background="@color/green"
-            >
 
-        </LinearLayout>
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/_116sdp"
-            android:layout_height="@dimen/_93sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:src="@drawable/logo" />
+            android:layout_marginTop="@dimen/_15sdp"
+            android:src="@drawable/uno" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,6 +42,83 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <EditText
+                android:id="@+id/sponserID"
+                android:layout_width="@dimen/_233sdp"
+                android:layout_height="@dimen/_31sdp"
+                android:background="@drawable/edittextbackground"
+                android:hint="Enter Sponsor ID"
+                android:maxLength="8"
+                android:drawablePadding="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_12sdp"
+                android:drawableLeft="@drawable/baseline_perm_identity_24"
+                android:paddingRight="@dimen/_8sdp"
+                android:inputType="text"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_16sdp"/>
+
+
+            <TextView
+                android:id="@+id/sponsor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sponsor Name"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_5sdp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/country_code"
+                    android:layout_width="@dimen/_75sdp"
+                    android:layout_height="@dimen/_31sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:background="@drawable/edittextbackground"
+                    android:drawableLeft="@drawable/india"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:text="+91"
+                    android:inputType="phone"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_8sdp"
+                    android:width="@dimen/_62sdp"
+                    android:focusable="false"
+                    android:clickable="false"/>
+
+
+                <EditText
+                    android:id="@+id/phonenumber"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_31sdp"
+                    android:background="@drawable/edittextbackground"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:hint="Enter Mobile Number"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_8sdp"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="@dimen/_233sdp"
+                android:layout_height="@dimen/_31sdp"
+                android:background="@drawable/edittextbackground"
+                android:hint="Enter Full Name as per Document"
+                android:drawableLeft="@drawable/baseline_perm_identity_24"
+                android:drawablePadding="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_12sdp"
+                android:inputType="text"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_16sdp" />
+
 
             <EditText
                 android:id="@+id/registeremail"
@@ -56,63 +128,12 @@
                 android:drawableLeft="@drawable/baseline_mail_24"
                 android:hint="Enter Email"
                 android:drawablePadding="@dimen/_8sdp"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:paddingLeft="@dimen/_12sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_16sdp">
 
             </EditText>
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
-                android:background="@drawable/edittextbackground"
-                android:hint="Enter Full Name as per Document"
-                android:focusable="false"
-                android:drawableLeft="@drawable/baseline_perm_identity_24"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingRight="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:inputType="text"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:orientation="horizontal">
-
-
-                <EditText
-                    android:id="@+id/country_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_31sdp"
-                    android:layout_marginRight="@dimen/_8sdp"
-                    android:background="@drawable/edittextbackground"
-                    android:drawableLeft="@drawable/baseline_outlined_flag_24"
-                    android:drawablePadding="@dimen/_8sdp"
-                    android:text="+91"
-                    android:inputType="phone"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_8sdp"
-                    android:width="@dimen/_62sdp" />
-
-
-                <EditText
-                    android:id="@+id/phonenumber"
-                    android:layout_width="@dimen/_171sdp"
-                    android:layout_height="@dimen/_31sdp"
-                    android:background="@drawable/edittextbackground"
-                    android:drawablePadding="@dimen/_8sdp"
-                    android:hint="Enter Mobile Number"
-                    android:inputType="phone"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_8sdp"
-                    android:focusable="true"/>
-            </LinearLayout>
-
             <EditText
                 android:id="@+id/password"
                 android:layout_width="@dimen/_233sdp"
@@ -123,7 +144,7 @@
                 android:paddingLeft="@dimen/_12sdp"
                 android:drawableRight="@drawable/baseline_remove_red_eye_24"
                 android:paddingRight="@dimen/_8sdp"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_16sdp">
@@ -134,12 +155,12 @@
                 android:layout_width="@dimen/_233sdp"
                 android:layout_height="@dimen/_31sdp"
                 android:background="@drawable/edittextbackground"
-                android:hint="confirm  Password"
+                android:hint="Confirm  Password"
                 android:drawablePadding="@dimen/_8sdp"
                 android:paddingLeft="@dimen/_12sdp"
                 android:drawableRight="@drawable/baseline_remove_red_eye_24"
                 android:paddingRight="@dimen/_8sdp"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_16sdp">
@@ -156,27 +177,14 @@
                 android:drawableRight="@drawable/baseline_remove_red_eye_24"
                 android:paddingRight="@dimen/_8sdp"
                 android:inputType="numberPassword"
+                android:maxLength="4"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_16sdp">
 
             </EditText>
 
-            <EditText
-                android:id="@+id/sponserID"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
-                android:background="@drawable/edittextbackground"
-                android:hint="Enter Sponser ID"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:drawableLeft="@drawable/baseline_perm_identity_24"
-                android:paddingRight="@dimen/_8sdp"
-                android:inputType="text"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp">
 
-            </EditText>
 
             <CheckBox
                 android:id="@+id/checkbox_example"
@@ -200,11 +208,12 @@
                 android:layout_width="@dimen/_233sdp"
                 android:layout_height="@dimen/_39sdp"
                 android:text="Register"
+                android:textSize="@dimen/_16sdp"
                 android:layout_margin="@dimen/_23sdp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/_39sdp"
                 android:textColor="#FAF7F7"
-                android:background="@drawable/btnbackground"
+                android:background="@drawable/loginbtnbakground"
                 android:textStyle="bold" />
 
             <ProgressBar
