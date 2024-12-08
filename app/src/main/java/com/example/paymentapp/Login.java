@@ -102,6 +102,9 @@ public class Login extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
                                 Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }

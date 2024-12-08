@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:padding="@dimen/_8sdp"
+                app:cardBackgroundColor="#99FFFFFF"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_4sdp"
                 app:cardCornerRadius="@dimen/_8sdp">
@@ -55,50 +55,97 @@
                     android:gravity="center_horizontal">
 
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="@dimen/_8sdp"
-                        app:srcCompat="@mipmap/zoom_icon"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"
-                        app:maxImageSize="@dimen/_43sdp"/>
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        app:cardCornerRadius="@dimen/_20sdp"
+                        android:padding="@dimen/_8sdp">
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="@dimen/_8sdp"
-                        app:srcCompat="@mipmap/qr_icon"
-                        app:maxImageSize="@dimen/_43sdp"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"/>
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/zoomAnimation"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            app:lottie_rawRes="@raw/zoom"
+                            app:lottie_loop="true"
+                            app:lottie_autoPlay="true"
+                            />
+                    </androidx.cardview.widget.CardView>
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="@dimen/_8sdp"
-                        app:srcCompat="@mipmap/premium_icon"
-                        app:maxImageSize="@dimen/_43sdp"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"/>
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="@dimen/_8sdp"
-                        app:srcCompat="@mipmap/scanner_icon"
-                        app:maxImageSize="@dimen/_43sdp"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"/>
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="@dimen/_8sdp"
-                        app:srcCompat="@mipmap/rupee_icon"
-                        app:maxImageSize="@dimen/_43sdp"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_4sdp"/>
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        app:cardCornerRadius="@dimen/_20sdp"
+                        android:padding="@dimen/_8sdp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/qrAnimation"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            app:lottie_rawRes="@raw/qr"
+                            app:lottie_loop="true"
+                            app:lottie_autoPlay="true"
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        app:cardCornerRadius="@dimen/_20sdp"
+                        android:padding="@dimen/_8sdp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/qrscanAnimation"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            app:lottie_rawRes="@raw/qrscan"
+                            app:lottie_loop="true"
+                            app:lottie_autoPlay="true"
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        app:cardCornerRadius="@dimen/_20sdp"
+                        android:padding="@dimen/_8sdp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/primeAnimation"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            app:lottie_rawRes="@raw/primium"
+                            app:lottie_loop="true"
+                            app:lottie_autoPlay="true"
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        app:cardCornerRadius="@dimen/_20sdp"
+                        android:padding="@dimen/_8sdp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/notificationAnimation"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            app:lottie_rawRes="@raw/notification"
+                            app:lottie_loop="true"
+                            app:lottie_autoPlay="true"
+                            />
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
                 </HorizontalScrollView>
             </androidx.cardview.widget.CardView>

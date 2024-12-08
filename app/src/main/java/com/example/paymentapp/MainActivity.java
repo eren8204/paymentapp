@@ -1,5 +1,6 @@
 package com.example.paymentapp;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,6 +34,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+
+        LottieAnimationView lottieAnimationshare = findViewById(R.id.shareAnimation);
+        lottieAnimationshare.playAnimation();
+        lottieAnimationshare.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
 
         // Set up the Toolbar
         Toolbar toolbar = findViewById(R.id.tool_bar);

@@ -37,8 +37,10 @@ android {
 dependencies {
 
 
+    implementation ("jp.wasabeef:blurry:4.0.0")
+    implementation ("com.android.volley:volley:1.2.1")
+    implementation ("com.airbnb.android:lottie:6.0.0")
     implementation (libs.imageslideshow)
-    implementation(libs.volley)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.material.v190)

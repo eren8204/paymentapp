@@ -1,5 +1,6 @@
 package com.example.paymentapp;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -96,6 +98,128 @@ public class HomeFragment extends Fragment {
         youtube = view.findViewById(R.id.youtube);
 
         horizontalScrollView = view.findViewById(R.id.horizonatalScrollView);
+
+
+        LottieAnimationView lottieAnimationzoom = view.findViewById(R.id.zoomAnimation);
+        lottieAnimationzoom.playAnimation();
+        lottieAnimationzoom.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        LottieAnimationView lottieAnimationqr = view.findViewById(R.id.qrAnimation);
+        lottieAnimationqr.playAnimation();
+        lottieAnimationqr.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+
+        LottieAnimationView lottieAnimationqrscan = view.findViewById(R.id.qrscanAnimation);
+        lottieAnimationqrscan.playAnimation();
+        lottieAnimationqrscan.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        LottieAnimationView lottieAnimationprime = view.findViewById(R.id.primeAnimation);
+        lottieAnimationprime.playAnimation();
+        lottieAnimationprime.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        LottieAnimationView lottieAnimationnoti = view.findViewById(R.id.notificationAnimation);
+        lottieAnimationnoti.playAnimation();
+        lottieAnimationnoti.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+
+
+
+
 
         marquee_text.setSelected(true);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
