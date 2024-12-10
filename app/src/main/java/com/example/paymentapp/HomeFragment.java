@@ -541,7 +541,9 @@ public class HomeFragment extends Fragment {
         dth_recharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coming_soon();
+                Intent intent = new Intent(getActivity(), recharge_plans.class);
+                startActivity(intent);
+
             }
         });
         fastag.setOnClickListener(new View.OnClickListener() {

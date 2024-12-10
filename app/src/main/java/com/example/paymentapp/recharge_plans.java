@@ -15,12 +15,7 @@ public class recharge_plans extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge_plans);
-        String jsonResponse = getIntent().getStringExtra("response");
-        TextView textView = findViewById(R.id.data);
-        if (jsonResponse != null) {
-            textView.setText(jsonResponse);
-        } else {
-            textView.setText("No response received.");
-        }
+
+
     }
 }

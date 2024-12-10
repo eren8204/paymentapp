@@ -4,7 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:titleTextColor="@color/white"
+        android:background="@color/startColor">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/startColor"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@color/startColor"
+                android:src="@drawable/arrow_back">
+
+            </ImageButton>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UNO PAY"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18sdp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#Bachat Har Bar"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="end"
+                    android:padding="@dimen/_7sdp">
+                    <TextView
+                        android:id="@+id/memberName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Hello, User!"/>
+                    <TextView
+                        android:id="@+id/memberId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/white"
+                        android:text="UP000000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/shareAnimation"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        app:lottie_rawRes="@raw/share"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -27,14 +117,14 @@
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_8sdp"
         app:cardCornerRadius="@dimen/_16sdp"
-        app:cardElevation="@dimen/_10sdp">
+
+       >
     <EditText
         android:id="@+id/mobile_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_10sdp"
-        android:background="@drawable/pre_edit_bg"
         android:hint="Enter Mobile Number"
         android:inputType="number"/>
     </androidx.cardview.widget.CardView>
@@ -88,6 +178,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
                 android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/white"
                 android:text="Browse Plans"
                 android:gravity="center"
                 android:background="@drawable/btnbackground"
@@ -101,6 +192,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_8sdp"
+        android:textColor="@color/white"
         android:text="RECHARGE"
         android:background="@drawable/btnbackground"/>
 
