@@ -16,26 +16,29 @@
         android:theme="@style/Theme.Paymentapp"
         tools:targetApi="31">
         <activity
+            android:name=".qr_forpayment"
+            android:exported="false" />
+        <activity
             android:name=".recharge_plans"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".coming_soon"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".web_activity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Register"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".prepaid_mobile"
             android:exported="false"
-            android:theme="@style/Operator"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Operator" />
         <activity
             android:name=".Login"
             android:exported="true"
@@ -49,7 +52,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

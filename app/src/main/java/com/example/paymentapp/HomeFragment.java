@@ -146,6 +146,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        lottieAnimationqr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), qr_forpayment.class); // Use getActivity() instead of HomeFragment.this
+                startActivity(intent);
+            }
+        });
+
+
+
 
         LottieAnimationView lottieAnimationqrscan = view.findViewById(R.id.qrscanAnimation);
         lottieAnimationqrscan.playAnimation();
