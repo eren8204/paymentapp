@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Paymentapp"
         tools:targetApi="31">
         <activity
-            android:name=".qr_forpayment"
+            android:name=".addfund"
             android:exported="false" />
         <activity
             android:name=".recharge_plans"

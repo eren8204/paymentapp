@@ -5,27 +5,26 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     HorizontalScrollView horizontalScrollView;
+    CardView addfund;
     LinearLayout prepaid_mobile,cibil,sbi,icici,hdfc,postpaid_mobile,dth_recharge,fastag,electricity_bill,gas_cylinder,water_bill,cable_tv,money_transfer,credit_card,
             loan_repayment,atm_locator,bike_insurance,car_insurance,family_insurance,tax_calculation,irctc,confirm_tkt,spot_train,parivahan,redbus,makemytrip,
             ola,uber,aadhar,pan_card,income_tax,ecard,voter_card,passport,post_office,rashan,amazon,flipkart,meesho,zomato,swiggy,vishal_mart,bookmyshow,tata1mg,
@@ -37,6 +36,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ImageSlider imageSlider = view.findViewById(R.id.imageSlider);
         TextView marquee_text = view.findViewById(R.id.marquee_text);
+
+        addfund=view.findViewById(R.id.addfund);
         prepaid_mobile = view.findViewById(R.id.prepaid_mobile);
         cibil = view.findViewById(R.id.cibil);
         sbi = view.findViewById(R.id.sbi);
@@ -149,7 +150,7 @@ public class HomeFragment extends Fragment {
         lottieAnimationqr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), qr_forpayment.class); // Use getActivity() instead of HomeFragment.this
+                Intent intent = new Intent(getActivity(), addfund.class); // Use getActivity() instead of HomeFragment.this
                 startActivity(intent);
             }
         });
@@ -255,6 +256,14 @@ public class HomeFragment extends Fragment {
                 }
             }
         };
+
+        addfund.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), addfund.class);
+                startActivity(intent);
+            }
+        });
 
 // Start auto-scroll
         horizontalScrollView.post(autoScroll);

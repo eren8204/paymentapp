@@ -1,0 +1,291 @@
+package com.example.paymentapp;
+
+import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+
+import android.util.Log;
+
+import java.io.OutputStream;
+
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+public class addfund extends AppCompatActivity {
+
+    private ImageView imageView;
+    private TextView upiId;
+    private CardView cardView;
+    private static final String TAG = "addfund";
+    private Bitmap qrBitmap;
+    private Uri imageUri;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_addfund);
+
+        imageView = findViewById(R.id.imageView);
+        upiId = findViewById(R.id.upiID);
+        cardView = findViewById(R.id.cardview);
+
+        Button shareButton = findViewById(R.id.shareButton);
+        Button saveButton = findViewById(R.id.saveButton);
+        Button addFundButton = findViewById(R.id.addfund);
+
+        fetchImageName();
+
+        // Share button functionality
+        shareButton.setOnClickListener(v -> shareCardView());
+
+        // Save button functionality
+        saveButton.setOnClickListener(v -> {
+            if (qrBitmap != null) {
+                saveImageToGallery(qrBitmap);
+            } else {
+                Toast.makeText(addfund.this, "QR Image not loaded yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Add Fund button functionality
+        addFundButton.setOnClickListener(v -> showAddFundDialog());
+    }
+
+    private void fetchImageName() {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getRandomQR";
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    Log.d(TAG, "Response: " + response);
+                    try {
+                        if (response.getString("status").equals("true")) {
+                            String imageName = response.getJSONObject("data").getString("qr");
+                            String upi_id = response.getJSONObject("data").getString("upi_id");
+                            upiId.setText(upi_id);
+                            sendImageName(imageName);
+                        } else {
+                            Toast.makeText(addfund.this, "Failed to get image name", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON Exception: " + e.getMessage());
+                    }
+                },
+                error -> {
+                    Log.e(TAG, "Volley Error: " + error.getMessage());
+                    Toast.makeText(addfund.this, "Network error occurred", Toast.LENGTH_SHORT).show();
+                });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void sendImageName(String imageName) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getQRimage";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("qr", imageName);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON Exception: " + e.getMessage());
+            return;
+        }
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                response -> Log.e(TAG, "Unexpected JSON response: " + response),
+                error -> Log.e(TAG, "Volley Error: " + error.getMessage())) {
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                if (response.data != null) {
+                    qrBitmap = BitmapFactory.decodeByteArray(response.data, 0, response.data.length);
+                    if (qrBitmap != null) {
+                        runOnUiThread(() -> loadImage(qrBitmap));
+                    } else {
+                        Log.e(TAG, "Failed to decode bitmap");
+                        runOnUiThread(() -> Toast.makeText(addfund.this, "Failed to load image", Toast.LENGTH_SHORT).show());
+                    }
+                }
+                return super.parseNetworkResponse(response);
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void loadImage(Bitmap bitmap) {
+        imageView.setImageBitmap(bitmap);
+       // Toast.makeText(addfund.this, "Image loaded successfully", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void showAddFundDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_add_fund);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
+
+        EditText transactionId = dialog.findViewById(R.id.transactionId);
+        EditText utrNumber = dialog.findViewById(R.id.utrNumber);
+        EditText memberId = dialog.findViewById(R.id.memberId);
+        EditText toUpiId = dialog.findViewById(R.id.toUpiId);
+        EditText amount = dialog.findViewById(R.id.amount);
+        ImageView uploadImage = dialog.findViewById(R.id.uploadImage);
+        Button submitButton = dialog.findViewById(R.id.submitButton);
+
+        uploadImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, 1);
+        });
+
+        submitButton.setOnClickListener(v -> {
+            String transactionIdText = transactionId.getText().toString().trim();
+            String utrNumberText = utrNumber.getText().toString().trim();
+            String memberIdText = memberId.getText().toString().trim();
+            String toUpiIdText = toUpiId.getText().toString().trim();
+            String amountText = amount.getText().toString().trim();
+
+            if (transactionIdText.isEmpty() || utrNumberText.isEmpty() || memberIdText.isEmpty() || toUpiIdText.isEmpty() || amountText.isEmpty() || imageUri == null) {
+                Toast.makeText(addfund.this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sendAddFundRequest(transactionIdText, utrNumberText, memberIdText, toUpiIdText, amountText);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void sendAddFundRequest(String transactionId, String utrNumber, String memberId, String toUpiId, String amount) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/userAddFundRequest";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("transaction_id", transactionId);
+            jsonBody.put("utr_number", utrNumber);
+            jsonBody.put("member_id", memberId);
+            jsonBody.put("to_upi_id", toUpiId);
+            jsonBody.put("amount", amount);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON Exception: " + e.getMessage());
+            return;
+        }
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                response -> {
+                    Log.d(TAG, "Add Fund Response: " + response);
+                    Toast.makeText(addfund.this, "Fund request submitted successfully", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    String errorMessage = "Unknown error";
+                    if (error.networkResponse != null) {
+                        errorMessage = "Status Code: " + error.networkResponse.statusCode;
+                        if (error.networkResponse.data != null) {
+                            try {
+                                String responseBody = new String(error.networkResponse.data, "utf-8");
+                                Log.e(TAG, "Error Response Body: " + responseBody);
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error parsing error response body", e);
+                            }
+                        }
+                    } else if (error.getCause() != null) {
+                        errorMessage = error.getCause().getMessage();
+                    }
+                    Log.e(TAG, "Volley Error: " + errorMessage);
+                    Toast.makeText(addfund.this, "Failed to submit fund request: " + errorMessage, Toast.LENGTH_SHORT).show();
+                });
+
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            if (imageUri != null) {
+                ImageView uploadImage = findViewById(R.id.uploadImage); // Assuming this is for the dialog
+//                uploadImage.setImageURI(imageUri);
+                Toast.makeText(this, "Image selected successfully", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void shareCardView() {
+        cardView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(cardView.getDrawingCache());
+        cardView.setDrawingCacheEnabled(false);
+
+        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "CardView", null);
+        Uri bitmapUri = Uri.parse(bitmapPath);
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/png");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+        startActivity(Intent.createChooser(shareIntent, "Share CardView"));
+    }
+
+    private void saveImageToGallery(Bitmap bitmap) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, "QR_Code_" + System.currentTimeMillis() + ".png");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+
+        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        if (uri != null) {
+            try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e(TAG, "Error saving image: " + e.getMessage());
+                Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+}
