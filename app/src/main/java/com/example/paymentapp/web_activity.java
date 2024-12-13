@@ -2,6 +2,7 @@ package com.example.paymentapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,8 +12,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,13 +34,30 @@ public class web_activity extends AppCompatActivity {
         mWebView = findViewById(R.id.web);
         mProgressBar = findViewById(R.id.progress_bar_web);
         linearLayout = findViewById(R.id.progress_bar_web_linear_layout);
+        ImageView back_button = findViewById(R.id.back_button);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
-        Toolbar toolbar = findViewById(R.id.tool_bar_web);
+        Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Hello, User!");
+        String memberId = sharedPreferences.getString("memberId", "UP000000");
+
+        TextView memberName = findViewById(R.id.memberName);
+        TextView userId = findViewById(R.id.memberId);
+        memberName.setText(username);
+        userId.setText(memberId);
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Set WebViewClient to handle URL loading
         mWebView.setWebViewClient(new WebViewClient() {

@@ -5,30 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/_5sdp"
         app:titleTextColor="@color/white"
-        android:background="@color/startColor">
-
-
+        android:background="#EE9328">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/startColor"
             android:orientation="horizontal">
 
             <ImageButton
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:background="@color/startColor"
                 android:src="@drawable/arrow_back">
 
             </ImageButton>
+        </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -93,8 +98,7 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -123,6 +127,7 @@
         android:id="@+id/mobile_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittextbackground"
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_10sdp"
         android:hint="Enter Mobile Number"
@@ -135,20 +140,35 @@
         android:layout_margin="@dimen/_8sdp"
         app:cardCornerRadius="@dimen/_16sdp"
         app:cardElevation="@dimen/_10sdp">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/operator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:padding="@dimen/_6sdp"
-        android:layout_margin="@dimen/_6sdp">
-        <AutoCompleteTextView
-            android:id="@+id/select"
+        <Spinner
+            android:id="@+id/operator_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Operator"
-            android:inputType="none"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:background="@drawable/edittextbackground"
+            android:padding="@dimen/_6sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:spinnerMode="dropdown"
+            android:prompt="@string/select_operator_prompt" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_margin="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_16sdp"
+        app:cardElevation="@dimen/_10sdp">
+        <Spinner
+            android:id="@+id/circle_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittextbackground"
+            android:padding="@dimen/_6sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:spinnerMode="dropdown"
+            android:prompt="@string/select_circle_prompt" />
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -164,25 +184,15 @@
             android:orientation="horizontal"
             android:gravity="fill_horizontal"
             android:foregroundGravity="center">
-    <EditText
-        android:id="@+id/recharge_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
-        android:layout_margin="@dimen/_8sdp"
-        android:background="@drawable/pre_edit_bg"
-        android:hint="Enter Recharge Amount"/>
-            <Button
-                android:id="@+id/browse_plans"
-                android:layout_width="wrap_content"
+
+            <EditText
+                android:id="@+id/recharge_amount"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_5sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:textColor="@color/white"
-                android:text="Browse Plans"
-                android:gravity="center"
-                android:background="@drawable/btnbackground"
-                android:inputType="number"/>
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/edittextbackground"
+                android:hint="Enter Recharge Amount"
+                android:padding="@dimen/_8sdp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

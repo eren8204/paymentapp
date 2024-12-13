@@ -7,28 +7,33 @@
     android:background="@drawable/background_gradient"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/_5sdp"
         app:titleTextColor="@color/white"
-        android:background="@color/startColor">
-
-
+        android:background="#EE9328">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/startColor"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:gravity="start">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/startColor"
-                android:src="@drawable/arrow_back">
+                android:orientation="horizontal">
 
-            </ImageButton>
+                <ImageButton
+                    android:id="@+id/back_button"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@color/startColor"
+                    android:src="@drawable/arrow_back">
+
+                </ImageButton>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -93,7 +98,7 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <androidx.cardview.widget.CardView
@@ -120,7 +125,7 @@
 
         >
         <EditText
-            android:id="@+id/mobile_no"
+            android:id="@+id/customer_id"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
             android:padding="@dimen/_10sdp"
@@ -128,7 +133,7 @@
             android:drawablePadding="@dimen/_5sdp"
             android:background="@drawable/edittextbackground"
             android:layout_margin="@dimen/_10sdp"
-            android:hint="Enter Customer ID"
+            android:hint="Enter DTH Customer ID"
             android:inputType="number"/>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
@@ -138,22 +143,16 @@
         android:layout_margin="@dimen/_8sdp"
         app:cardCornerRadius="@dimen/_16sdp"
         app:cardElevation="@dimen/_10sdp">
-
-        <AutoCompleteTextView
-            android:id="@+id/select"
+        <Spinner
+            android:id="@+id/operator_spinner"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:padding="@dimen/_6sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_margin="@dimen/_6sdp"
-            android:hint="Select Operator"
-            android:textSize="@dimen/_18sdp"
-            android:textColor="@color/black"
+            android:layout_height="wrap_content"
             android:background="@drawable/edittextbackground"
-            android:dropDownHeight="wrap_content"
-            android:dropDownWidth="match_parent"
-            android:dropDownVerticalOffset="8dp"
-            android:inputType="textAutoComplete" />
+            android:padding="@dimen/_6sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:spinnerMode="dropdown"
+            android:prompt="@string/select_operator_prompt" />
+
     </androidx.cardview.widget.CardView>
 
 
@@ -169,10 +168,10 @@
             <EditText
                 android:id="@+id/recharge_amount"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:padding="@dimen/_8sdp"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_15sdp"
                 android:layout_margin="@dimen/_8sdp"
                 android:background="@drawable/edittextbackground"
                 android:hint="Enter Recharge Amount"/>

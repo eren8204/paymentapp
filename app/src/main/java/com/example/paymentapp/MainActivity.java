@@ -3,6 +3,7 @@ package com.example.paymentapp;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
             String memberId = passedIntent.getStringExtra("memberId");
             memberName.setText(username);
             userId.setText(memberId);
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("username", username);
+            editor.putString("memberId", memberId);
+            editor.apply();
         }
         else{
             Toast.makeText(this, "Got Nothing!", Toast.LENGTH_SHORT).show();

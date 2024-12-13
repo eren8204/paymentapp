@@ -125,12 +125,18 @@
                 android:background="@drawable/loginbtnbakground"
                 android:text="LOGIN"
                 android:textColor="#FAF7F7"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="visible"/>
 
             <ProgressBar
                 android:id="@+id/progressbarlogin"
-                android:layout_width="@dimen/_27sdp"
-                android:layout_height="@dimen/_27sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_39sdp"
+                android:layout_marginLeft="@dimen/_39sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/loginbtnbakground"
                 android:layout_gravity="center"
                 android:visibility="gone"/>
         </FrameLayout>

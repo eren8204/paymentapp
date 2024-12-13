@@ -552,6 +552,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), recharge_plans.class);
+                intent.putExtra("username","");
+                intent.putExtra("memberId","");
                 startActivity(intent);
 
             }

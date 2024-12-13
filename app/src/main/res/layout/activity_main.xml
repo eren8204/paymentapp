@@ -71,8 +71,6 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center">
 
-
-
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/shareAnimation"
                             android:layout_width="@dimen/_40sdp"

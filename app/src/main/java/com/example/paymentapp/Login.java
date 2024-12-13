@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class Login extends AppCompatActivity {
         login=findViewById(R.id.login);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
+        ProgressBar progressbarlogin = findViewById(R.id.progressbarlogin);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +62,8 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                login.setVisibility(View.GONE);
+                progressbarlogin.setVisibility(View.VISIBLE);
                 RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
                 JSONObject requestBody = new JSONObject();
                 try {
@@ -90,10 +93,14 @@ public class Login extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     } else {
+                                        progressbarlogin.setVisibility(View.GONE);
+                                        login.setVisibility(View.VISIBLE);
                                         String msg = response.getString("message");
                                         Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
                                     }
                                 } catch (JSONException e) {
+                                    progressbarlogin.setVisibility(View.GONE);
+                                    login.setVisibility(View.VISIBLE);
                                     Log.d("login_error",e.toString());
                                     Toast.makeText(Login.this, "Error parsing response", Toast.LENGTH_SHORT).show();
                                 }
@@ -102,6 +109,8 @@ public class Login extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                progressbarlogin.setVisibility(View.GONE);
+                                login.setVisibility(View.VISIBLE);
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
