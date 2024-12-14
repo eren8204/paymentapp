@@ -1,5 +1,6 @@
 package com.example.paymentapp;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.provider.MediaStore;
 
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import android.view.WindowManager;
@@ -20,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -28,7 +33,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -36,11 +40,19 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class addfund extends AppCompatActivity {
 
@@ -52,6 +64,7 @@ public class addfund extends AppCompatActivity {
     private Uri imageUri;
 
     @Override
+    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addfund);
@@ -163,7 +176,7 @@ public class addfund extends AppCompatActivity {
         dialog.setCancelable(true);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(layoutParams);
@@ -173,6 +186,7 @@ public class addfund extends AppCompatActivity {
         EditText memberId = dialog.findViewById(R.id.memberId);
         EditText toUpiId = dialog.findViewById(R.id.toUpiId);
         EditText amount = dialog.findViewById(R.id.amount);
+
         ImageView uploadImage = dialog.findViewById(R.id.uploadImage);
         Button submitButton = dialog.findViewById(R.id.submitButton);
 
@@ -198,64 +212,115 @@ public class addfund extends AppCompatActivity {
         });
 
         dialog.show();
+
     }
 
     private void sendAddFundRequest(String transactionId, String utrNumber, String memberId, String toUpiId, String amount) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/userAddFundRequest";
-
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("transaction_id", transactionId);
-            jsonBody.put("utr_number", utrNumber);
-            jsonBody.put("member_id", memberId);
-            jsonBody.put("to_upi_id", toUpiId);
-            jsonBody.put("amount", amount);
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON Exception: " + e.getMessage());
+        if (imageUri == null) {
+            Toast.makeText(this, "Please select an image first", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
-                response -> {
-                    Log.d(TAG, "Add Fund Response: " + response);
-                    Toast.makeText(addfund.this, "Fund request submitted successfully", Toast.LENGTH_SHORT).show();
-                },
-                error -> {
-                    String errorMessage = "Unknown error";
-                    if (error.networkResponse != null) {
-                        errorMessage = "Status Code: " + error.networkResponse.statusCode;
-                        if (error.networkResponse.data != null) {
-                            try {
-                                String responseBody = new String(error.networkResponse.data, "utf-8");
-                                Log.e(TAG, "Error Response Body: " + responseBody);
-                            } catch (Exception e) {
-                                Log.e(TAG, "Error parsing error response body", e);
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
+
+        try {
+            // Ensure directory exists
+            File directory = new File(String.valueOf(getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
+            if (!directory.exists()) {
+                directory.mkdirs(); // Create the directory
+            }
+
+            // Get bitmap from imageUri
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+            // Create a file to save the bitmap
+            File imageFile = new File(directory, Timing.getCurrentTimeEpoch() + "_selectedImg.jpg");
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos); // Compress as JPEG
+            fos.close();
+
+            // Create Retrofit instance
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            // Create API service
+            ApiService apiService = retrofit.create(ApiService.class);
+
+            // Prepare the request body with multipart image
+            RequestBody requestBodyTransactionId = RequestBody.create(MediaType.parse("text/plain"), transactionId);
+            RequestBody requestBodyUtrNumber = RequestBody.create(MediaType.parse("text/plain"), utrNumber);
+            RequestBody requestBodyMemberId = RequestBody.create(MediaType.parse("text/plain"), memberId);
+            RequestBody requestBodyToUpiId = RequestBody.create(MediaType.parse("text/plain"), toUpiId);
+            RequestBody requestBodyAmount = RequestBody.create(MediaType.parse("text/plain"), amount);
+
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageFile);
+            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("screenshot", imageFile.getName(), requestFile);
+
+            // Make the POST request
+            Call<ResponseBody> call = apiService.sendAddFundRequest(
+                    requestBodyTransactionId,
+                    requestBodyUtrNumber,
+                    requestBodyMemberId,
+                    requestBodyToUpiId,
+                    requestBodyAmount,
+                    imagePart
+            );
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "Add Fund Response: " + response);
+                        Toast.makeText(addfund.this, "Fund request submitted successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        try {
+                            String errorMessage;
+                            if (response.errorBody() != null) {
+                                errorMessage = response.errorBody().string();
+                            } else {
+                                errorMessage = "Unknown error occurred";
                             }
+                            Log.d("response", errorMessage);
+                            Toast.makeText(addfund.this, "Failed :" + errorMessage, Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.d("response", "Error parsing error response");
+                            Toast.makeText(addfund.this, "Error parsing error response", Toast.LENGTH_SHORT).show();
                         }
-                    } else if (error.getCause() != null) {
-                        errorMessage = error.getCause().getMessage();
                     }
-                    Log.e(TAG, "Volley Error: " + errorMessage);
-                    Toast.makeText(addfund.this, "Failed to submit fund request: " + errorMessage, Toast.LENGTH_SHORT).show();
-                });
+                }
 
 
-        requestQueue.add(jsonObjectRequest);
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    Log.e(TAG, "Retrofit Error: " + t.getMessage());
+                    Toast.makeText(addfund.this, "Failed to submit fund request2", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception e) {
+            Log.d("img_error", Objects.requireNonNull(e.getMessage()));
+            Toast.makeText(this, "Error processing image", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ImageView upload = findViewById(R.id.upload);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             if (imageUri != null) {
-                ImageView uploadImage = findViewById(R.id.uploadImage); // Assuming this is for the dialog
-//                uploadImage.setImageURI(imageUri);
+                upload.setImageURI(imageUri);
                 Toast.makeText(this, "Image selected successfully", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 
     private void shareCardView() {
         cardView.setDrawingCacheEnabled(true);
@@ -280,6 +345,7 @@ public class addfund extends AppCompatActivity {
         Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         if (uri != null) {
             try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
+                assert outputStream != null;
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                 Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
@@ -288,4 +354,12 @@ public class addfund extends AppCompatActivity {
             }
         }
     }
+
+    public static class Timing {
+        public static String getCurrentTimeEpoch() {
+            long epochTime = System.currentTimeMillis() / 1000;
+            return String.valueOf(epochTime);
+        }
+    }
+
 }
