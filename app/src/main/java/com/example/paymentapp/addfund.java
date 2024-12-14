@@ -1,5 +1,6 @@
 package com.example.paymentapp;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -10,13 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
+import android.content.SharedPreferences;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,24 +24,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Type;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-
+import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -63,6 +71,11 @@ public class addfund extends AppCompatActivity {
     private Bitmap qrBitmap;
     private Uri imageUri;
 
+    private RecyclerView recyclerView;
+    private FundRequestAdapter adapter;
+    private List<FundRequest> fundRequestList = new ArrayList<>();
+
+    private ImageView back_button;
     @Override
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,26 +86,138 @@ public class addfund extends AppCompatActivity {
         upiId = findViewById(R.id.upiID);
         cardView = findViewById(R.id.cardview);
 
-        Button shareButton = findViewById(R.id.shareButton);
-        Button saveButton = findViewById(R.id.saveButton);
+//        Button shareButton = findViewById(R.id.shareButton);
+       // Button saveButton = findViewById(R.id.saveButton);
         Button addFundButton = findViewById(R.id.addfund);
 
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new FundRequestAdapter(fundRequestList);
+        recyclerView.setAdapter(adapter);
+
+        // Fetch Data
         fetchImageName();
 
-        // Share button functionality
-        shareButton.setOnClickListener(v -> shareCardView());
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Hello, !");
+        String memberId = sharedPreferences.getString("memberId", "UP000000");
+
+        TextView memberName = findViewById(R.id.memberName);
+        TextView userId = findViewById(R.id.memberId);
+        memberName.setText(username);
+        userId.setText(memberId);
+
+        fetchFundRequests(memberId);
+
+        // Add Fund button functionality
+        addFundButton.setOnClickListener(v -> showAddFundDialog(memberId));
+
+        back_button=findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+// Share button functionality
+        LottieAnimationView lottieAnimationshare = findViewById(R.id.shareButton);
+        lottieAnimationshare.playAnimation();
+        lottieAnimationshare.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        lottieAnimationshare.setOnClickListener(v -> shareCardView());
+
 
         // Save button functionality
-        saveButton.setOnClickListener(v -> {
+
+        LottieAnimationView lottieAnimationsave = findViewById(R.id.saveButton);
+        lottieAnimationsave.playAnimation();
+        lottieAnimationsave.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+
+
+        lottieAnimationsave.setOnClickListener(v -> {
             if (qrBitmap != null) {
                 saveImageToGallery(qrBitmap);
             } else {
                 Toast.makeText(addfund.this, "QR Image not loaded yet", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        // Add Fund button functionality
-        addFundButton.setOnClickListener(v -> showAddFundDialog());
+
+    private void fetchFundRequests(String memberId) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getUserAddFundRequest";
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                null,
+                new Response.Listener<org.json.JSONObject>() {
+                    @Override
+                    public void onResponse(org.json.JSONObject response) {
+                        try {
+                            String data = response.getString("data");
+                            Type listType = new TypeToken<ArrayList<FundRequest>>() {}.getType();
+                            List<FundRequest> requests = new Gson().fromJson(data, listType);
+                            fundRequestList.clear();
+                            fundRequestList.addAll(requests);
+                            adapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(addfund.this, "Error parsing data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(addfund.this, "API Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            public byte[] getBody() {
+                String json = "{\"member_id\":\"" + memberId + "\"}";
+                return json.getBytes();
+            }
+        };
+        Volley.newRequestQueue(this).add(request);
     }
 
     private void fetchImageName() {
@@ -170,7 +295,7 @@ public class addfund extends AppCompatActivity {
     }
 
 
-    private void showAddFundDialog() {
+    private void showAddFundDialog(String memberId) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_add_fund);
         dialog.setCancelable(true);
@@ -181,9 +306,11 @@ public class addfund extends AppCompatActivity {
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(layoutParams);
 
+
+
         EditText transactionId = dialog.findViewById(R.id.transactionId);
         EditText utrNumber = dialog.findViewById(R.id.utrNumber);
-        EditText memberId = dialog.findViewById(R.id.memberId);
+//        EditText memberId = dialog.findViewById(R.id.memberId);
         EditText toUpiId = dialog.findViewById(R.id.toUpiId);
         EditText amount = dialog.findViewById(R.id.amount);
 
@@ -198,7 +325,7 @@ public class addfund extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             String transactionIdText = transactionId.getText().toString().trim();
             String utrNumberText = utrNumber.getText().toString().trim();
-            String memberIdText = memberId.getText().toString().trim();
+            String memberIdText = memberId;
             String toUpiIdText = toUpiId.getText().toString().trim();
             String amountText = amount.getText().toString().trim();
 
@@ -311,11 +438,11 @@ public class addfund extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ImageView upload = findViewById(R.id.upload);
+//        ImageView upload = findViewById(R.id.upload);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             if (imageUri != null) {
-                upload.setImageURI(imageUri);
+//                upload.setImageURI(imageUri);
                 Toast.makeText(this, "Image selected successfully", Toast.LENGTH_SHORT).show();
             }
         }

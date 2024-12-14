@@ -1,0 +1,56 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_15sdp"
+    android:layout_margin="8dp">
+
+    <LinearLayout
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/statuscardred"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/toUpiIdTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="@color/startColor"
+            android:text="UPI ID"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/amountTextView"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/_13sdp"
+            android:layout_height="wrap_content"
+            android:text="Amount" />
+
+        <TextView
+            android:id="@+id/dateTimeTextView"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/_13sdp"
+            android:layout_height="wrap_content"
+            android:text="Date" />
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/_13sdp"
+            android:layout_height="wrap_content"
+            android:text="Status" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/statuscolour"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/_5sdp"
+        android:background="#FF0101"
+        android:layout_gravity="right">
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -6,4 +6,6 @@
     <color name="startColor">#EE9328</color>
     <color name="endColor">#0EA8A0</color>
     <color name="blue">#0088FF</color>
+    <color name="grey">#3C3B3B</color>
+
 </resources>
