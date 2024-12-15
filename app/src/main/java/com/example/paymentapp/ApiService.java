@@ -19,4 +19,22 @@ public interface ApiService {
             @Part("amount") RequestBody amount,
             @Part MultipartBody.Part screenshot
     );
+
+    @POST("auth/submitUserBankKycDetails/")
+    @Multipart
+    Call<ResponseBody> submitUserBankKycDetails(
+            @Part("member_id") RequestBody memberId,
+            @Part("FullName") RequestBody fullName,
+            @Part("PanCard_Number") RequestBody panNumber,
+            @Part("IFSC_Code") RequestBody ifscCode,
+            @Part("Bank_Name") RequestBody bankName,
+            @Part("Account_number") RequestBody accountNumber,
+            @Part("Aadhar_Number") RequestBody aadharNumber,
+            @Part("Nominee_name") RequestBody nomineeName,
+            @Part MultipartBody.Part pancard,
+            @Part MultipartBody.Part aadharcard,
+            @Part MultipartBody.Part passbook,
+            @Part MultipartBody.Part userImage
+    );
+
 }
