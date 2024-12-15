@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -29,7 +30,7 @@ public class HomeFragment extends Fragment {
             loan_repayment,atm_locator,bike_insurance,car_insurance,family_insurance,tax_calculation,irctc,confirm_tkt,spot_train,parivahan,redbus,makemytrip,
             ola,uber,aadhar,pan_card,income_tax,ecard,voter_card,passport,post_office,rashan,amazon,flipkart,meesho,zomato,swiggy,vishal_mart,bookmyshow,tata1mg,
             entertainment,kuku,business,money,full_plan,kyc,add_money,computer,pro_class,support,whatsapp,facebook,telegram,instagram,youtube;
-    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+    @SuppressLint({"MissingInflatedId", "LocalSuppress","ClickableViewAccessibility"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -247,16 +248,29 @@ public class HomeFragment extends Fragment {
         Runnable autoScroll = new Runnable() {
             @Override
             public void run() {
-                horizontalScrollView.smoothScrollBy(5, 0); // Adjust speed
-                horizontalScrollView.postDelayed(this, 30); // Adjust delay for smoother scrolling
+                horizontalScrollView.smoothScrollBy(5, 0);
+                horizontalScrollView.postDelayed(this, 30);
 
-                // Reset to the beginning when reaching the end
                 if (horizontalScrollView.getScrollX() >= horizontalScrollView.getChildAt(0).getWidth() - horizontalScrollView.getWidth()) {
                     horizontalScrollView.scrollTo(0, 0);
                 }
             }
         };
+        horizontalScrollView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    horizontalScrollView.removeCallbacks(autoScroll);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    horizontalScrollView.post(autoScroll);
+                    break;
+            }
+            return false;
+        });
 
+// Start the auto-scroll
+        horizontalScrollView.post(autoScroll);
         addfund.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,8 +279,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-// Start auto-scroll
-        horizontalScrollView.post(autoScroll);
 
         cibil.setOnClickListener(new View.OnClickListener() {
             @Override

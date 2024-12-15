@@ -5,15 +5,18 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import android.content.SharedPreferences;
 import android.view.View;
@@ -40,7 +43,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -50,11 +53,18 @@ import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -68,7 +78,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class addfund extends AppCompatActivity {
 
     private ImageView imageView;
-    private TextView upiId;
+    private TextView upiId,filename;
     private CardView cardView;
     private static final String TAG = "addfund";
     private Bitmap qrBitmap;
@@ -82,8 +92,10 @@ public class addfund extends AppCompatActivity {
     private ImageView back_button;
     private TextView qr_error;
     private LottieAnimationView lottieAnimationsave,lottieAnimationshare;
+    private Dialog dialog1;
+    private Dialog dialog2;
     @Override
-    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+    @SuppressLint({"MissingInflatedId", "LocalSuppress","SetTextI18n"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addfund);
@@ -96,6 +108,9 @@ public class addfund extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbar_addfund);
         qr_error = findViewById(R.id.qr_error);
 
+        dialog1 = new Dialog(this);
+        dialog2 = new Dialog(this);
+
 //        Button shareButton = findViewById(R.id.shareButton);
        // Button saveButton = findViewById(R.id.saveButton);
         Button addFundButton = findViewById(R.id.addfund);
@@ -106,7 +121,6 @@ public class addfund extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // Fetch Data
-        fetchImageName();
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
@@ -117,7 +131,8 @@ public class addfund extends AppCompatActivity {
         memberName.setText(username);
         userId.setText(memberId);
 
-        fetchFundRequests(memberId);
+        fetchDataSequentially(memberId);
+
 
         // Add Fund button functionality
         addFundButton.setOnClickListener(v -> showAddFundDialog(memberId));
@@ -195,77 +210,107 @@ public class addfund extends AppCompatActivity {
         lottieAnimationshare.setEnabled(false);
     }
 
+    private void fetchDataSequentially(String memberId) {
+        fetchFundRequests(memberId, this::fetchImageName);
+    }
 
-    private void fetchFundRequests(String memberId) {
+
+    private void fetchFundRequests(String memberId, Runnable onComplete) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getUserAddFundRequest";
-        JsonObjectRequest request = new JsonObjectRequest(
+
+        @SuppressLint("NotifyDataSetChanged") JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
                 null,
-                new Response.Listener<org.json.JSONObject>() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onResponse(org.json.JSONObject response) {
-                        try {
-                            String data = response.getString("data");
-                            Type listType = new TypeToken<ArrayList<FundRequest>>() {}.getType();
-                            List<FundRequest> requests = new Gson().fromJson(data, listType);
-                            fundRequestList.clear();
-                            fundRequestList.addAll(requests);
-                            adapter.notifyDataSetChanged();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(addfund.this, "Error parsing data", Toast.LENGTH_SHORT).show();
+                response -> {
+                    try {
+                        // Parse JSON response
+                        String data = response.getString("data");
+                        Type listType = new TypeToken<ArrayList<FundRequest>>() {}.getType();
+                        List<FundRequest> requests = new Gson().fromJson(data, listType);
+
+                        // Update UI
+                        fundRequestList.clear();
+                        fundRequestList.addAll(requests);
+
+                        // Sort the list latest to oldest
+                        fundRequestList.sort((request1, request2) -> {
+                            try {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                Date date1 = sdf.parse(request1.getTime_date());
+                                Date date2 = sdf.parse(request2.getTime_date());
+                                assert date2 != null;
+                                return date2.compareTo(date1); // Latest to oldest
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                return 0;
+                            }
+                        });
+
+                        adapter.notifyDataSetChanged();
+
+                        // Trigger next API or action
+                        if (onComplete != null) {
+                            onComplete.run();
                         }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(addfund.this, "Error parsing data", Toast.LENGTH_SHORT).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(addfund.this, "API Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                error -> {
+                    // Handle error
+                    Toast.makeText(addfund.this, "API Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }) {
             @Override
             public byte[] getBody() {
+                // Send JSON body
                 String json = "{\"member_id\":\"" + memberId + "\"}";
-                return json.getBytes();
+                return json.getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
         };
+
+        // Add request to queue
         Volley.newRequestQueue(this).add(request);
     }
+
+
 
     private void fetchImageName() {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getRandomQR";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
                 response -> {
                     Log.d(TAG, "Response: " + response);
                     try {
                         if (response.getString("status").equals("true")) {
                             String imageName = response.getJSONObject("data").getString("qr");
-                            String upi_id = response.getJSONObject("data").getString("upi_id");
-                            upiId.setText(upi_id);
+                            String upiIdText = response.getJSONObject("data").getString("upi_id");
+                            upiId.setText(upiIdText);
                             sendImageName(imageName);
                         } else {
-                            progressBar.setVisibility(View.GONE);
-                            qr_error.setVisibility(View.VISIBLE);
-                            Toast.makeText(addfund.this, "Failed to get image name", Toast.LENGTH_SHORT).show();
+                            showError("Failed to get image name");
                         }
                     } catch (JSONException e) {
-                        progressBar.setVisibility(View.GONE);
-                        qr_error.setVisibility(View.VISIBLE);
-                        Log.e(TAG, "JSON Exception: " + e.getMessage());
+                        showError("Error parsing response: " + e.getMessage());
                     }
                 },
                 error -> {
-                    progressBar.setVisibility(View.GONE);
-                    qr_error.setVisibility(View.VISIBLE);
+                    showError("Network error occurred: " + error.getMessage());
                     Log.e(TAG, "Volley Error: " + error.getMessage());
-                    Toast.makeText(addfund.this, "Network error occurred", Toast.LENGTH_SHORT).show();
                 });
 
-        requestQueue.add(jsonObjectRequest);
+        getRequestQueue().add(jsonObjectRequest);
     }
 
     private void sendImageName(String imageName) {
@@ -275,35 +320,38 @@ public class addfund extends AppCompatActivity {
         try {
             jsonBody.put("qr", imageName);
         } catch (JSONException e) {
-            progressBar.setVisibility(View.GONE);
-            qr_error.setVisibility(View.VISIBLE);
-            Log.e(TAG, "JSON Exception: " + e.getMessage());
+            showError("Error constructing request: " + e.getMessage());
             return;
         }
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
-                response -> Log.e(TAG, "Unexpected JSON response: " + response),
-                error -> Log.e(TAG, "Volley Error: " + error.getMessage())) {
+        // Use a custom request to handle binary data
+        RequestQueue requestQueue = getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonBody,
+                response -> {
+                    // This part won't be used as response isn't JSON, so leave it for debugging purposes.
+                    Log.e(TAG, "Unexpected JSON response: " + response);
+                },
+                error -> {
+                    showError("Network error occurred: " + error.getMessage());
+                    Log.e(TAG, "Volley Error: " + error.getMessage());
+                }) {
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 if (response.data != null) {
-                    qrBitmap = BitmapFactory.decodeByteArray(response.data, 0, response.data.length);
-                    if (qrBitmap != null) {
-                        runOnUiThread(() -> loadImage(qrBitmap));
-                        progress_layout.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
-                        cardView.setVisibility(View.VISIBLE);
-                        lottieAnimationsave.setEnabled(true);
-                        lottieAnimationshare.setEnabled(true);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(response.data, 0, response.data.length);
+                    if (bitmap != null) {
+                        runOnUiThread(() -> {
+                            loadImage(bitmap);
+                            showSuccess();
+                        });
                     } else {
-                        progressBar.setVisibility(View.GONE);
-                        qr_error.setVisibility(View.VISIBLE);
-                        Log.e(TAG, "Failed to decode bitmap");
-                        runOnUiThread(() -> Toast.makeText(addfund.this, "Failed to load image", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> showError("Failed to decode image"));
                     }
                 }
-                return super.parseNetworkResponse(response);
+                return Response.success(null, HttpHeaderParser.parseCacheHeaders(response));
             }
 
             @Override
@@ -320,31 +368,52 @@ public class addfund extends AppCompatActivity {
 
     private void loadImage(Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
-       // Toast.makeText(addfund.this, "Image loaded successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showError(String message) {
+        progressBar.setVisibility(View.GONE);
+        qr_error.setVisibility(View.VISIBLE);
+        Toast.makeText(addfund.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSuccess() {
+        progress_layout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        cardView.setVisibility(View.VISIBLE);
+        lottieAnimationsave.setEnabled(true);
+        lottieAnimationshare.setEnabled(true);
+    }
+
+    private RequestQueue getRequestQueue() {
+        return Volley.newRequestQueue(this);
     }
 
 
+
     private void showAddFundDialog(String memberId) {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_add_fund);
-        dialog.setCancelable(true);
+
+        dialog1.setContentView(R.layout.dialog_add_fund);
+        dialog1.setCancelable(true);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        layoutParams.copyFrom(Objects.requireNonNull(dialog1.getWindow()).getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(layoutParams);
+        dialog1.getWindow().setAttributes(layoutParams);
 
 
 
-        EditText transactionId = dialog.findViewById(R.id.transactionId);
-        EditText utrNumber = dialog.findViewById(R.id.utrNumber);
-//        EditText memberId = dialog.findViewById(R.id.memberId);
-        EditText toUpiId = dialog.findViewById(R.id.toUpiId);
-        EditText amount = dialog.findViewById(R.id.amount);
+        EditText transactionId = dialog1.findViewById(R.id.transactionId);
+        EditText utrNumber = dialog1.findViewById(R.id.utrNumber);
+        EditText toUpiId = dialog1.findViewById(R.id.toUpiId);
+        EditText amount = dialog1.findViewById(R.id.amount);
+        filename = dialog1.findViewById(R.id.filename);
 
-        ImageView uploadImage = dialog.findViewById(R.id.uploadImage);
-        Button submitButton = dialog.findViewById(R.id.submitButton);
+        filename.setEnabled(false);
+        ImageView uploadImage = dialog1.findViewById(R.id.uploadImage);
+        Button submitButton = dialog1.findViewById(R.id.submitButton);
+
+        filename.setOnClickListener(v -> dialog2.show());
 
         uploadImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -364,10 +433,10 @@ public class addfund extends AppCompatActivity {
             }
 
             sendAddFundRequest(transactionIdText, utrNumberText, memberIdText, toUpiIdText, amountText);
-            dialog.dismiss();
+            dialog1.dismiss();
         });
 
-        dialog.show();
+        dialog1.show();
 
     }
 
@@ -464,18 +533,97 @@ public class addfund extends AppCompatActivity {
 
 
 
-    @Override
+    @SuppressLint("SetTextI18n")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        ImageView upload = findViewById(R.id.upload);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             if (imageUri != null) {
-//                upload.setImageURI(imageUri);
+                // Check the file size
+                long imageSize = getFileSize(imageUri);
+                if (imageSize > 2 * 1024 * 1024) { // 2MB in bytes
+                    Toast.makeText(this, "Image size exceeds 2MB. Please select a smaller image.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Proceed with showing the dialog
+                dialog2.setContentView(R.layout.img_confirm_dialog);
+                dialog2.setCancelable(true);
+
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(Objects.requireNonNull(dialog2.getWindow()).getAttributes());
+                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                dialog2.getWindow().setAttributes(layoutParams);
+
+                ImageView img = dialog2.findViewById(R.id.confirm_img);
+                img.setImageURI(imageUri);
+
+                Button change = dialog2.findViewById(R.id.change);
+                Button ok = dialog2.findViewById(R.id.ok);
+
+                change.setOnClickListener(v -> {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 1);
+                    dialog2.dismiss();
+                });
+
+                ok.setOnClickListener(v ->{
+                    filename.setEnabled(true);
+                    filename.setText("Image Selected, Click to View");
+                    dialog2.dismiss();
+                });
+
+                dialog2.show();
                 Toast.makeText(this, "Image selected successfully", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    // Helper method to get the file size from a Uri
+    private long getFileSize(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        long size = 0;
+        if (cursor != null) {
+            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+            if (sizeIndex != -1) {
+                cursor.moveToFirst();
+                size = cursor.getLong(sizeIndex);
+            }
+            cursor.close();
+        }
+        return size;
+    }
+
+
+    // Function to scale large images
+    private Bitmap getScaledBitmap(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true; // Read dimensions only
+            BitmapFactory.decodeStream(inputStream, null, options);
+            inputStream.close();
+
+            // Scale the image to a smaller size
+            int desiredWidth = 800;  // Desired width in pixels
+            int desiredHeight = 800; // Desired height in pixels
+            int scaleFactor = Math.min(options.outWidth / desiredWidth, options.outHeight / desiredHeight);
+
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = scaleFactor;
+
+            inputStream = getContentResolver().openInputStream(imageUri);
+            Bitmap scaledBitmap = BitmapFactory.decodeStream(inputStream, null, options);
+            inputStream.close();
+
+            return scaledBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
     private void shareCardView() {

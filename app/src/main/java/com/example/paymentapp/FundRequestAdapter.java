@@ -1,23 +1,24 @@
 package com.example.paymentapp;
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.FundRequestViewHolder> {
 
@@ -34,41 +35,37 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
         return new FundRequestViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     @Override
     public void onBindViewHolder(@NonNull FundRequestViewHolder holder, int position) {
         FundRequest request = fundRequestList.get(position);
         String formattedDate = formatDate(request.getTime_date());
+        String formattedTime = formatTime(request.getTime_date());
         holder.toUpiIdTextView.setText(request.getTo_upi_id());
         holder.amountTextView.setText("Amount: " + request.getAmount());
         holder.dateTimeTextView.setText("Date: " + formattedDate);
-        holder.statusTextView.setText("Status: " + request.getStatus());
-
+        holder.timeTextView.setText("Time: "+ formattedTime);
 
         String status = request.getStatus().toLowerCase(Locale.ROOT);
         switch (status) {
             case "pending":
-                holder.statusCard.setBackgroundResource(R.drawable.statuscardgrey); // Background for Pending
+                holder.status_text.setText("Pending");
+                holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.pending));
                 holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey)); // Gray color for Pending
                 break;
             case "approved":
-                holder.statusCard.setBackgroundResource(R.drawable.statuscardgreen); // Background for Approved
-                holder.statusColour.setBackgroundColor(Color.GREEN); // Set the status color (green)
+                holder.status_text.setText("Approved");
+                holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.approved));
+                holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.accept)); // Set the status color (green)
                 break;
             default:
-                holder.statusCard.setBackgroundResource(R.drawable.statuscardred); // Default background for other statuses
-                holder.statusColour.setBackgroundColor(Color.RED); // Set the status color (red)
+                holder.status_text.setText("Rejected");
+                holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.rejected));
+                holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.reject)); // Set the status color (red)
                 break;
         }
     }
 
-    private void updateStatusCard(FundRequestViewHolder holder, int color) {
-        Drawable statusCardDrawable = holder.statusCard.getBackground();
-        if (statusCardDrawable != null) {
-            DrawableCompat.setTint(statusCardDrawable, color);
-            holder.statusCard.setBackground(statusCardDrawable);
-        }
-    }
     private String formatDate(String dateString) {
         String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         String outputFormat = "dd MMM yyyy";
@@ -83,15 +80,41 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
             return dateString; // Return the original string if parsing fails
         }
     }
+
+    private String formatTime(String utcDateString) {
+        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"; // Assuming UTC format
+        String outputFormat = "hh:mm a"; // Example format: "02:30 PM"
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
+
+        // Set UTC time zone
+        inputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata")); // IST
+
+        try {
+            Date date = inputDateFormat.parse(utcDateString);
+            if (date != null) {
+                // Format the time directly from the UTC string
+                return outputDateFormat.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return utcDateString; // Return the original string if parsing fails
+    }
+
+
+
     @Override
     public int getItemCount() {
         return fundRequestList.size();
     }
 
     public static class FundRequestViewHolder extends RecyclerView.ViewHolder {
-        TextView toUpiIdTextView, amountTextView, dateTimeTextView, statusTextView;
+        TextView toUpiIdTextView, amountTextView, dateTimeTextView, status_text, timeTextView;
         LinearLayout statusColour;
         LinearLayout statusCard;
+        ImageView status_img;
 
         public FundRequestViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,8 +122,10 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
             toUpiIdTextView = itemView.findViewById(R.id.toUpiIdTextView);
             amountTextView = itemView.findViewById(R.id.amountTextView);
             dateTimeTextView = itemView.findViewById(R.id.dateTimeTextView);
-            statusTextView = itemView.findViewById(R.id.statusTextView);
             statusCard = itemView.findViewById(R.id.cardview);
+            status_text = itemView.findViewById(R.id.status_text);
+            status_img = itemView.findViewById(R.id.status_img);
+            timeTextView = itemView.findViewById(R.id.timeTextView);
         }
     }
 }
