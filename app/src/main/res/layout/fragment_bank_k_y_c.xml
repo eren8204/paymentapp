@@ -43,20 +43,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/User_ID"
-                    android:layout_width="@dimen/_233sdp"
-                    android:layout_height="@dimen/_31sdp"
-                    android:background="@drawable/edittextbackground"
-                    android:drawableLeft="@drawable/baseline_perm_identity_24"
-                    android:hint="Z64858587"
-                    android:drawablePadding="@dimen/_8sdp"
-                    android:inputType="text"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_16sdp">
 
-                </EditText>
                 <EditText
                     android:id="@+id/User_name"
                     android:layout_width="@dimen/_233sdp"
@@ -120,19 +107,7 @@
                     android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
-                <TextView
-                    android:layout_width="@dimen/_233sdp"
-                    android:layout_height="@dimen/_31sdp"
-                    android:text="Nominee Details"
-                    android:textColor="@color/startColor"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:textSize="@dimen/_16sdp"
-                    android:gravity="left"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:textStyle="bold">
 
-                </TextView>
 
                 <EditText
                     android:id="@+id/AccountNumber"
@@ -166,6 +141,191 @@
                 </EditText>
 
                 <EditText
+                    android:id="@+id/Aadharnumber"
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
+                    android:background="@drawable/edittextbackground"
+                    android:hint=" Aadhar Number"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
+                    android:paddingRight="@dimen/_8sdp"
+                    android:inputType="text"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_16sdp">
+
+                </EditText>
+
+                <LinearLayout
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:id="@+id/uploadPancard"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_upload_file_24"
+                        android:layout_marginBottom="12dp"
+                        android:contentDescription="Upload Image" />
+
+
+                    <TextView
+                        android:id="@+id/panname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/_12sdp"
+                        android:text="upload PanCard"
+                        >
+                    </TextView>
+
+
+                    <ImageView
+                        android:id="@+id/pancardcheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:src="@drawable/baseline_check_circle_24"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_40sdp"/>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:id="@+id/uploadAadharcard"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_upload_file_24"
+                        android:layout_marginBottom="12dp"
+                        android:contentDescription="Upload Image" />
+
+
+                    <TextView
+                        android:id="@+id/Aadharname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/_12sdp"
+                        android:text="upload Aadharcard"
+                        >
+
+                    </TextView>
+                    <ImageView
+                        android:id="@+id/Aadharcardcheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:src="@drawable/baseline_check_circle_24"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_40sdp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:id="@+id/uploadPassBook"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_upload_file_24"
+                        android:layout_marginBottom="12dp"
+                        android:contentDescription="Upload Image" />
+
+
+                    <TextView
+                        android:id="@+id/passbookname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/_12sdp"
+                        android:text="upload passbook"
+                        >
+
+                    </TextView>
+                    <ImageView
+                        android:id="@+id/passbookcheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:src="@drawable/baseline_check_circle_24"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_30sdp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:id="@+id/uploadUserimage"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_upload_file_24"
+                        android:layout_marginBottom="12dp"
+                        android:contentDescription="Upload Image" />
+
+
+                    <TextView
+                        android:id="@+id/userimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/_12sdp"
+                        android:text="upload user image"
+                        >
+
+                    </TextView>
+                    <ImageView
+                        android:id="@+id/imagecheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:src="@drawable/baseline_check_circle_24"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_30sdp"/>
+                </LinearLayout>
+
+
+
+
+                <TextView
+                    android:layout_width="@dimen/_233sdp"
+                    android:layout_height="@dimen/_31sdp"
+                    android:text="Nominee Details"
+                    android:textColor="@color/startColor"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_16sdp"
+                    android:gravity="left"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <EditText
                     android:id="@+id/NomineeName"
                     android:layout_width="@dimen/_233sdp"
                     android:layout_height="@dimen/_31sdp"
@@ -180,21 +340,7 @@
                     android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
-                <EditText
-                    android:id="@+id/NomineeRelation"
-                    android:layout_width="@dimen/_233sdp"
-                    android:layout_height="@dimen/_31sdp"
-                    android:background="@drawable/edittextbackground"
-                    android:hint="Enter Nominee Relation"
-                    android:drawablePadding="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                    android:paddingRight="@dimen/_8sdp"
-                    android:inputType="text"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_16sdp">
 
-                </EditText>
 
 
             </LinearLayout>
@@ -204,7 +350,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/Update"
+                    android:id="@+id/submit"
                     android:layout_width="@dimen/_233sdp"
                     android:layout_height="@dimen/_39sdp"
                     android:text="Submit"
