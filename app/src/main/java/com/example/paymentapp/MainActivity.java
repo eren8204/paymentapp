@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 
-    @SuppressLint({"NonConstantResourceId","MissingInflatedId", "LocalSuppress"})
+    @SuppressLint({"NonConstantResourceId","MissingInflatedId", "LocalSuppress","CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +128,11 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new ChangeLoginPasswordFragment();
             }
             else if (id == R.id.drawer_item10) {
-                Intent intent=new Intent(MainActivity.this, Login.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
                 finish();
             }
@@ -185,8 +189,11 @@ public class MainActivity extends AppCompatActivity {
 
             // Set the user details (example)
             headerImageView.setImageResource(R.drawable.baseline_person_24);
-            headerUserName.setText("User Name");
-            headerUserEmail.setText("user@example.com");
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
+            String username = sharedPreferences.getString("username", "Hello, !");
+            String memberId = sharedPreferences.getString("memberId", "UP000000");
+            headerUserName.setText(username);
+            headerUserEmail.setText(memberId);
         }
     }
 

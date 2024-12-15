@@ -1,4 +1,5 @@
 package com.example.paymentapp;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import java.util.Locale;
 
 public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.FundRequestViewHolder> {
 
-    private List<FundRequest> fundRequestList;
+    private final List<FundRequest> fundRequestList;
 
     public FundRequestAdapter(List<FundRequest> fundRequestList) {
         this.fundRequestList = fundRequestList;
@@ -33,6 +34,7 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
         return new FundRequestViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull FundRequestViewHolder holder, int position) {
         FundRequest request = fundRequestList.get(position);

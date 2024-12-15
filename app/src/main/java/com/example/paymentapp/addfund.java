@@ -17,10 +17,13 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,17 +77,24 @@ public class addfund extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FundRequestAdapter adapter;
     private List<FundRequest> fundRequestList = new ArrayList<>();
-
+    private ProgressBar progressBar;
+    private LinearLayout progress_layout;
     private ImageView back_button;
+    private TextView qr_error;
+    private LottieAnimationView lottieAnimationsave,lottieAnimationshare;
     @Override
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addfund);
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         imageView = findViewById(R.id.imageView);
         upiId = findViewById(R.id.upiID);
-        cardView = findViewById(R.id.cardview);
+        cardView = findViewById(R.id.qr_cardview);
+        progress_layout = findViewById(R.id.progress_layout);
+        progressBar = findViewById(R.id.progressbar_addfund);
+        qr_error = findViewById(R.id.qr_error);
 
 //        Button shareButton = findViewById(R.id.shareButton);
        // Button saveButton = findViewById(R.id.saveButton);
@@ -120,25 +130,25 @@ public class addfund extends AppCompatActivity {
             }
         });
 // Share button functionality
-        LottieAnimationView lottieAnimationshare = findViewById(R.id.shareButton);
+        lottieAnimationshare = findViewById(R.id.shareButton);
         lottieAnimationshare.playAnimation();
         lottieAnimationshare.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(@NonNull Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationEnd(@NonNull Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
 
             }
         });
@@ -148,25 +158,25 @@ public class addfund extends AppCompatActivity {
 
         // Save button functionality
 
-        LottieAnimationView lottieAnimationsave = findViewById(R.id.saveButton);
+        lottieAnimationsave = findViewById(R.id.saveButton);
         lottieAnimationsave.playAnimation();
         lottieAnimationsave.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(@NonNull Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationEnd(@NonNull Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
 
             }
         });
@@ -180,6 +190,9 @@ public class addfund extends AppCompatActivity {
                 Toast.makeText(addfund.this, "QR Image not loaded yet", Toast.LENGTH_SHORT).show();
             }
         });
+
+        lottieAnimationsave.setEnabled(false);
+        lottieAnimationshare.setEnabled(false);
     }
 
 
@@ -190,6 +203,7 @@ public class addfund extends AppCompatActivity {
                 url,
                 null,
                 new Response.Listener<org.json.JSONObject>() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onResponse(org.json.JSONObject response) {
                         try {
@@ -234,13 +248,19 @@ public class addfund extends AppCompatActivity {
                             upiId.setText(upi_id);
                             sendImageName(imageName);
                         } else {
+                            progressBar.setVisibility(View.GONE);
+                            qr_error.setVisibility(View.VISIBLE);
                             Toast.makeText(addfund.this, "Failed to get image name", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
+                        progressBar.setVisibility(View.GONE);
+                        qr_error.setVisibility(View.VISIBLE);
                         Log.e(TAG, "JSON Exception: " + e.getMessage());
                     }
                 },
                 error -> {
+                    progressBar.setVisibility(View.GONE);
+                    qr_error.setVisibility(View.VISIBLE);
                     Log.e(TAG, "Volley Error: " + error.getMessage());
                     Toast.makeText(addfund.this, "Network error occurred", Toast.LENGTH_SHORT).show();
                 });
@@ -255,6 +275,8 @@ public class addfund extends AppCompatActivity {
         try {
             jsonBody.put("qr", imageName);
         } catch (JSONException e) {
+            progressBar.setVisibility(View.GONE);
+            qr_error.setVisibility(View.VISIBLE);
             Log.e(TAG, "JSON Exception: " + e.getMessage());
             return;
         }
@@ -269,7 +291,14 @@ public class addfund extends AppCompatActivity {
                     qrBitmap = BitmapFactory.decodeByteArray(response.data, 0, response.data.length);
                     if (qrBitmap != null) {
                         runOnUiThread(() -> loadImage(qrBitmap));
+                        progress_layout.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        cardView.setVisibility(View.VISIBLE);
+                        lottieAnimationsave.setEnabled(true);
+                        lottieAnimationshare.setEnabled(true);
                     } else {
+                        progressBar.setVisibility(View.GONE);
+                        qr_error.setVisibility(View.VISIBLE);
                         Log.e(TAG, "Failed to decode bitmap");
                         runOnUiThread(() -> Toast.makeText(addfund.this, "Failed to load image", Toast.LENGTH_SHORT).show());
                     }

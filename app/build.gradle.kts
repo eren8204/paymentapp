@@ -36,7 +36,7 @@ android {
 
 dependencies {
 
-    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation (libs.gson)
     implementation(libs.blurry)
     implementation(libs.volley)
     implementation(libs.lottie)

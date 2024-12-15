@@ -45,7 +45,7 @@
                     android:textSize="@dimen/_14sdp" />
 
                 <TextView
-                    android:id="@+id/userEmail"
+                    android:id="@+id/userId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user@example.com"

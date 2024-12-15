@@ -1,6 +1,7 @@
 package com.example.paymentapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,9 @@ public class Login extends AppCompatActivity {
     TextView signup;
     EditText email,password;
     Button login;
+    ProgressBar progressbarlogin;
+    String username="";
+    String pass="";
     String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,20 @@ public class Login extends AppCompatActivity {
         login=findViewById(R.id.login);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
-        ProgressBar progressbarlogin = findViewById(R.id.progressbarlogin);
+        progressbarlogin = findViewById(R.id.progressbarlogin);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        if(sharedPreferences.contains("memberId") && sharedPreferences.contains("password")){
+            pass = sharedPreferences.getString("password", "");
+            username = sharedPreferences.getString("memberId", "");
+            email.setText(username);
+            password.setText(pass);
+            email.setEnabled(false);
+            password.setEnabled(false);
+            login.setEnabled(false);
+            signup.setEnabled(false);
+            loginIdPass();
+        }
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,73 +71,81 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = email.getText().toString().trim();
-                String pass = password.getText().toString().trim();
-
-                if (username.isEmpty() || pass.isEmpty()) {
-                    Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                login.setVisibility(View.GONE);
-                progressbarlogin.setVisibility(View.VISIBLE);
-                RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
-                JSONObject requestBody = new JSONObject();
-                try {
-                    requestBody.put("identifier", username);
-                    requestBody.put("password", pass);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                        Request.Method.POST,
-                        url,
-                        requestBody,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    String message = response.getString("message");
-                                    String memberId = response.getString("memberid");
-                                    String userName = response.getString("username");
-
-                                    if (message.equalsIgnoreCase("User logged in successfully")) {
-                                        // Navigate to MainActivity
-                                        Intent intent = new Intent(Login.this, MainActivity.class);
-                                        intent.putExtra("memberId",memberId);
-                                        intent.putExtra("userName",userName);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        progressbarlogin.setVisibility(View.GONE);
-                                        login.setVisibility(View.VISIBLE);
-                                        String msg = response.getString("message");
-                                        Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    progressbarlogin.setVisibility(View.GONE);
-                                    login.setVisibility(View.VISIBLE);
-                                    Log.d("login_error",e.toString());
-                                    Toast.makeText(Login.this, "Error parsing response", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                progressbarlogin.setVisibility(View.GONE);
-                                login.setVisibility(View.VISIBLE);
-                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                                Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-
-                requestQueue.add(jsonObjectRequest);
+                loginIdPass();
             }
         });
 
+    }
+    public void loginIdPass(){
+        username = email.getText().toString().trim();
+        pass = password.getText().toString().trim();
+
+        if (username.isEmpty() || pass.isEmpty()) {
+            Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        login.setVisibility(View.GONE);
+        progressbarlogin.setVisibility(View.VISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("identifier", username);
+            requestBody.put("password", pass);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String message = response.getString("message");
+                            String memberId = response.getString("memberid");
+                            String userName = response.getString("username");
+
+                            if (message.equalsIgnoreCase("User logged in successfully")) {
+                                // Navigate to MainActivity
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("password", pass);
+                                editor.putString("memberId", memberId);
+                                editor.apply();
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                intent.putExtra("memberId",memberId);
+                                intent.putExtra("userName",userName);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                progressbarlogin.setVisibility(View.GONE);
+                                login.setVisibility(View.VISIBLE);
+                                String msg = response.getString("message");
+                                Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            progressbarlogin.setVisibility(View.GONE);
+                            login.setVisibility(View.VISIBLE);
+                            Log.d("login_error",e.toString());
+                            Toast.makeText(Login.this, "Error parsing response", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressbarlogin.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
     }
 }
