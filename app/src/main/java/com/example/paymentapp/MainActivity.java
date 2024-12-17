@@ -206,4 +206,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        Fragment selectedFragment = new HomeFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.nav_host_fragment, selectedFragment);
+            transaction.commit();
+            drawerLayout.closeDrawers();
+
+        super.onBackPressed();
+    }
 }
