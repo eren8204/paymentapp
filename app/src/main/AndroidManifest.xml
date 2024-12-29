@@ -25,6 +25,9 @@
         android:theme="@style/Theme.Paymentapp"
         tools:targetApi="31">
         <activity
+            android:name=".Plans_Activity"
+            android:exported="false" />
+        <activity
             android:name=".payment"
             android:exported="false" />
         <activity
