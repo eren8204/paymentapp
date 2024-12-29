@@ -32,10 +32,13 @@ public interface ApiService {
             @Part("Account_number") RequestBody accountNumber,
             @Part("Aadhar_Number") RequestBody aadharNumber,
             @Part("Nominee_name") RequestBody nomineeName,
+            @Part("Nominee_relation") RequestBody nomineeRelation,
             @Part MultipartBody.Part pancard,
             @Part MultipartBody.Part aadharcard,
-            @Part MultipartBody.Part passbook,
-            @Part MultipartBody.Part userImage
+            @Part MultipartBody.Part aadharcardback,
+            @Part MultipartBody.Part userImage,
+            @Part MultipartBody.Part passbook
+
     );
 
     @POST("auth/changeUserPassword/")

@@ -59,9 +59,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BankKYCFragment extends Fragment {
 
-    private Uri imageUripan, imageUriaadhar, imageUripassbook, imageUriimage;
-    private ImageView pancardcheck,Aadharcardcheck,passbookcheck,imagecheck,kyc_img;
-    private EditText username, Pannumber, IFSCcode, BankName, AccountNumber, ConfirmAccountNumber, Aadharnumber, nomineeName;
+    private Uri imageUripan, imageUriaadhar, imageUripassbook, imageUriimage, imageUriaadharback;
+    private ImageView pancardcheck,Aadharcardcheck,passbookcheck,imagecheck,kyc_img,Aadharcardcheckback;
+    private EditText username, Pannumber, IFSCcode, BankName, AccountNumber, ConfirmAccountNumber, Aadharnumber, nomineeName, nomineeRelation;
     private Dialog dialog2;
     private ProgressBar progressBar,progressBar2;
     private Button submitButton,fillAgain;
@@ -81,8 +81,10 @@ public class BankKYCFragment extends Fragment {
         ConfirmAccountNumber = view.findViewById(R.id.ConfirmAccountNumber);
         Aadharnumber = view.findViewById(R.id.Aadharnumber);
         nomineeName = view.findViewById(R.id.NomineeName);
+        nomineeRelation = view.findViewById(R.id.NomineeRelation);
         pancardcheck = view.findViewById(R.id.pancardcheck);
         Aadharcardcheck = view.findViewById(R.id.Aadharcardcheck);
+        Aadharcardcheckback = view.findViewById(R.id.Aadharcardbackcheck);
         passbookcheck = view.findViewById(R.id.passbookcheck);
         imagecheck = view.findViewById(R.id.imagecheck);
         progressBar = view.findViewById(R.id.progressbarUpdate);
@@ -108,6 +110,7 @@ public class BankKYCFragment extends Fragment {
         });
         pancardcheck.setEnabled(false);
         Aadharcardcheck.setEnabled(false);
+        Aadharcardcheckback.setEnabled(false);
         passbookcheck.setEnabled(false);
         imagecheck.setEnabled(false);
         // Get memberId from SharedPreferences
@@ -133,7 +136,6 @@ public class BankKYCFragment extends Fragment {
 
         // Convert the parameters to a JSONObject
         JSONObject requestBody = new JSONObject(params);
-
         // Create a Volley request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -147,43 +149,52 @@ public class BankKYCFragment extends Fragment {
                             // Parse the response
                             String status = response.getString("status");
                             if (status.equals("true")) {
-                                JSONObject data = response.getJSONObject("data");
-                                String kycStatus = data.getString("Kyc_status");
-                                String kycMessage = data.getString("Kyc_message");
+                                if(response.has("data")) {
+                                    JSONObject data = response.getJSONObject("data");
+                                    String kycStatus = data.getString("Kyc_status");
+                                    String kycMessage = data.getString("Kyc_message");
 
-                                if(kycStatus.equals("pending"))
-                                {
-                                    kyc_img.setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.pending));
-                                    statusText.setText("Pending");
-                                    form.setVisibility(View.GONE);
+
+                                    if (kycStatus.equals("pending")) {
+                                        kyc_img.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.pending));
+                                        statusText.setText("Pending");
+                                        form.setVisibility(View.GONE);
+                                        fillAgain.setVisibility(View.GONE);
+                                        responseText.setVisibility(View.GONE);
+                                        kyc_response.setVisibility(View.GONE);
+                                        progressBar2.setVisibility(View.GONE);
+
+                                    } else if (kycStatus.equals("approved")) {
+                                        kyc_img.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.kyc_accept));
+                                        statusText.setText("Approved");
+                                        responseText.setText("KYC Already Done");
+                                        form.setVisibility(View.GONE);
+                                        fillAgain.setVisibility(View.GONE);
+                                        responseText.setVisibility(View.VISIBLE);
+                                        progressBar2.setVisibility(View.GONE);
+                                    } else {
+                                        kyc_img.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.kyc_reject));
+                                        statusText.setText("Rejected");
+                                        responseText.setText(kycMessage);
+                                        form.setVisibility(View.GONE);
+                                        fillAgain.setVisibility(View.VISIBLE);
+                                        responseText.setVisibility(View.VISIBLE);
+                                        progressBar2.setVisibility(View.GONE);
+                                    }
+                                    kyc_status_layout.setVisibility(View.VISIBLE);
+                                    Toast.makeText(requireContext(),
+                                            "KYC Status: " + kycStatus + "\nMessage: " + kycMessage,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    form.setVisibility(View.VISIBLE);
                                     fillAgain.setVisibility(View.GONE);
                                     responseText.setVisibility(View.GONE);
-                                    kyc_response.setVisibility(View.GONE);
                                     progressBar2.setVisibility(View.GONE);
+                                    progressBar2.setVisibility(View.GONE);
+                                    kyc_status_layout.setVisibility(View.GONE);
+                                }
 
-                                } else if (kycStatus.equals("approved")) {
-                                    kyc_img.setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.kyc_accept));
-                                    statusText.setText("Approved");
-                                    responseText.setText("KYC Already Done");
-                                    form.setVisibility(View.GONE);
-                                    fillAgain.setVisibility(View.GONE);
-                                    responseText.setVisibility(View.VISIBLE);
-                                    progressBar2.setVisibility(View.GONE);
-                                }
-                                else
-                                {
-                                    kyc_img.setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.kyc_reject));
-                                    statusText.setText("Rejected");
-                                    responseText.setText(kycMessage);
-                                    form.setVisibility(View.GONE);
-                                    fillAgain.setVisibility(View.VISIBLE);
-                                    responseText.setVisibility(View.VISIBLE);
-                                    progressBar2.setVisibility(View.GONE);
-                                }
-                                kyc_status_layout.setVisibility(View.VISIBLE);
-                                Toast.makeText(requireContext(),
-                                        "KYC Status: " + kycStatus + "\nMessage: " + kycMessage,
-                                        Toast.LENGTH_LONG).show();
                             } else {
                                 form.setVisibility(View.VISIBLE);
                                 fillAgain.setVisibility(View.GONE);
@@ -237,8 +248,10 @@ public class BankKYCFragment extends Fragment {
     private void setUpImageUploadListeners(View view) {
         view.findViewById(R.id.uploadPancard).setOnClickListener(v -> openImagePicker(1));
         view.findViewById(R.id.uploadAadharcard).setOnClickListener(v -> openImagePicker(2));
-        view.findViewById(R.id.uploadPassBook).setOnClickListener(v -> openImagePicker(3));
+        view.findViewById(R.id.uploadAadharcardback).setOnClickListener(v -> openImagePicker(3));
         view.findViewById(R.id.uploadUserimage).setOnClickListener(v -> openImagePicker(4));
+        view.findViewById(R.id.uploadPassBook).setOnClickListener(v -> openImagePicker(5));
+
     }
 
     private void openImagePicker(int requestCode) {
@@ -258,23 +271,24 @@ public class BankKYCFragment extends Fragment {
         String confirmAccountNumber = ConfirmAccountNumber.getText().toString().trim();
         String aadharNumber = Aadharnumber.getText().toString().trim();
         String nomineeNameInput = nomineeName.getText().toString().trim();
+        String nomineeRelationInput = nomineeRelation.getText().toString().trim();
 
         Log.d("KYC", "Member ID: " + memberId);
         // Validate inputs
-        if (!validateInputs(userName, panNumber, ifscCode, bankName, accountNumber, confirmAccountNumber, aadharNumber, nomineeNameInput)) {
+        if (!validateInputs(userName, panNumber, ifscCode, bankName, accountNumber, confirmAccountNumber, aadharNumber, nomineeNameInput,nomineeRelationInput)) {
             progressBar.setVisibility(View.GONE);
             submitButton.setVisibility(View.VISIBLE);
             return;
         }
 
         // Submit data via API
-        sendKycRequest(userName, panNumber, memberId, ifscCode, bankName, accountNumber, aadharNumber, nomineeNameInput);
+        sendKycRequest(userName, panNumber, memberId, ifscCode, bankName, accountNumber, aadharNumber, nomineeNameInput, nomineeRelationInput);
     }
 
-    private boolean validateInputs(String userName, String panNumber, String ifscCode, String bankName, String accountNumber, String confirmAccountNumber, String aadharNumber, String nomineeName) {
+    private boolean validateInputs(String userName, String panNumber, String ifscCode, String bankName, String accountNumber, String confirmAccountNumber, String aadharNumber, String nomineeName, String nomineeRelation) {
         if (userName.isEmpty() || panNumber.isEmpty() || ifscCode.isEmpty() || bankName.isEmpty() ||
-                accountNumber.isEmpty() || confirmAccountNumber.isEmpty() || aadharNumber.isEmpty() || nomineeName.isEmpty() ||
-                imageUripan == null || imageUriaadhar == null || imageUripassbook == null || imageUriimage == null) {
+                accountNumber.isEmpty() || confirmAccountNumber.isEmpty() || aadharNumber.isEmpty() || nomineeName.isEmpty() || nomineeRelation.isEmpty() ||
+                imageUripan == null || imageUriaadhar == null || imageUriaadharback == null || imageUripassbook == null || imageUriimage == null) {
             Toast.makeText(getActivity(), "Please fill all fields and upload all required images", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -287,7 +301,7 @@ public class BankKYCFragment extends Fragment {
         return true;
     }
 
-    private void sendKycRequest(String userName, String panNumber, String memberId, String ifscCode, String bankName, String accountNumber, String aadharNumber, String nomineeName) {
+    private void sendKycRequest(String userName, String panNumber, String memberId, String ifscCode, String bankName, String accountNumber, String aadharNumber, String nomineeName, String nomineeRelation) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
         form.setEnabled(false);
         try {
@@ -297,8 +311,10 @@ public class BankKYCFragment extends Fragment {
             // Save images
             File imageFilePan = saveImageToFile(imageUripan, directory, "panCard.jpg");
             File imageFileAadhar = saveImageToFile(imageUriaadhar, directory, "aadharCard.jpg");
-            File imageFilePassbook = saveImageToFile(imageUripassbook, directory, "passbook.jpg");
+            File imageFileAadharback = saveImageToFile(imageUriaadharback, directory, "aadharCardback.jpg");
             File imageFileUser = saveImageToFile(imageUriimage, directory, "userImage.jpg");
+            File imageFilePassbook = saveImageToFile(imageUripassbook, directory, "passbook.jpg");
+
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(url)
@@ -308,9 +324,10 @@ public class BankKYCFragment extends Fragment {
 
             // Prepare request bodies
             MultipartBody.Part partPanCard = prepareMultipartBody(imageFilePan, "kycPancard");
-            MultipartBody.Part partAadharCard = prepareMultipartBody(imageFileAadhar, "kycAadharcard");
-            MultipartBody.Part partPassbook = prepareMultipartBody(imageFilePassbook, "kycPassbook");
+            MultipartBody.Part partAadharCard = prepareMultipartBody(imageFileAadhar, "kycAadharcardFront");
+            MultipartBody.Part partAadharCardback = prepareMultipartBody(imageFileAadharback, "kycAadharcardBack");
             MultipartBody.Part partUserImage = prepareMultipartBody(imageFileUser, "kycUserImage");
+            MultipartBody.Part partPassbook = prepareMultipartBody(imageFilePassbook, "kycPassbook");
 
             Call<ResponseBody> call = apiService.submitUserBankKycDetails(
                     RequestBody.create(MediaType.parse("text/plain"), memberId),
@@ -321,7 +338,8 @@ public class BankKYCFragment extends Fragment {
                     RequestBody.create(MediaType.parse("text/plain"), accountNumber),
                     RequestBody.create(MediaType.parse("text/plain"), aadharNumber),
                     RequestBody.create(MediaType.parse("text/plain"), nomineeName),
-                    partPanCard, partAadharCard, partPassbook, partUserImage
+                    RequestBody.create(MediaType.parse("text/plain"), nomineeRelation),
+                    partPanCard,partAadharCard,partAadharCardback,partUserImage,partPassbook
             );
 
             call.enqueue(new Callback<ResponseBody>() {
@@ -459,15 +477,22 @@ public void imagePreview(Uri selectedImageUri, ImageView btn_id, int i){
                     Aadharcardcheck.setEnabled(true);
                     imagePreview(selectedImageUri,Aadharcardcheck,2);
                     break;
-                case 3: imageUripassbook = selectedImageUri;
-                    passbookcheck.setVisibility(View.VISIBLE);
-                    passbookcheck.setEnabled(true);
-                    imagePreview(selectedImageUri,passbookcheck,3);
+                    case 3: imageUriaadharback = selectedImageUri;
+                    Aadharcardcheckback.setVisibility(View.VISIBLE);
+                    Aadharcardcheckback.setEnabled(true);
+                    imagePreview(selectedImageUri,Aadharcardcheckback,3);
                     break;
-                case 4: imageUriimage = selectedImageUri;
+                case 4:
+                    imageUriimage = selectedImageUri;
                     imagecheck.setVisibility(View.VISIBLE);
                     imagecheck.setEnabled(true);
                     imagePreview(selectedImageUri,imagecheck,4);
+                    break;
+                case 5:
+                    imageUripassbook = selectedImageUri;
+                    passbookcheck.setVisibility(View.VISIBLE);
+                    passbookcheck.setEnabled(true);
+                    imagePreview(selectedImageUri,passbookcheck,5);
                     break;
             }
         }
