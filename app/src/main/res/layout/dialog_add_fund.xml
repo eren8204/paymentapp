@@ -25,23 +25,13 @@
         </TextView>
 
         <EditText
-            android:id="@+id/transactionId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="Transaction ID"
-            android:inputType="text"
-            android:padding="12dp"
-            android:background="@drawable/edittextbackground"
-            android:layout_marginBottom="12dp"/>
-
-        <EditText
             android:id="@+id/utrNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="UTR Number"
             android:inputType="text"
-            android:padding="12dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/edittextbackground"
             android:layout_marginBottom="12dp"/>
 
@@ -104,6 +94,14 @@
             android:text="Submit"
             android:background="@drawable/btnbackground"
             android:textColor="@android:color/white"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:visibility="visible"/>
+        <ProgressBar
+            android:id="@+id/addfund_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnbackground"
+            android:visibility="gone"
+            />
     </LinearLayout>
 </ScrollView>

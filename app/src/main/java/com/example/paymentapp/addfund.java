@@ -16,7 +16,6 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import android.content.SharedPreferences;
 import android.view.View;
@@ -57,7 +56,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,13 +85,14 @@ public class addfund extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FundRequestAdapter adapter;
     private List<FundRequest> fundRequestList = new ArrayList<>();
-    private ProgressBar progressBar;
+    private ProgressBar progressBar,addfund_progress;
     private LinearLayout progress_layout;
     private ImageView back_button;
     private TextView qr_error;
     private LottieAnimationView lottieAnimationsave,lottieAnimationshare;
     private Dialog dialog1;
     private Dialog dialog2;
+    private Button submitButton;
     @Override
     @SuppressLint({"MissingInflatedId", "LocalSuppress","SetTextI18n"})
     protected void onCreate(Bundle savedInstanceState) {
@@ -402,16 +401,16 @@ public class addfund extends AppCompatActivity {
         dialog1.getWindow().setAttributes(layoutParams);
 
 
-
-        EditText transactionId = dialog1.findViewById(R.id.transactionId);
         EditText utrNumber = dialog1.findViewById(R.id.utrNumber);
         EditText toUpiId = dialog1.findViewById(R.id.toUpiId);
         EditText amount = dialog1.findViewById(R.id.amount);
+        addfund_progress = dialog1.findViewById(R.id.addfund_progress);
         filename = dialog1.findViewById(R.id.filename);
-
+        toUpiId.setEnabled(false);
+        toUpiId.setText(upiId.getText().toString().trim());
         filename.setEnabled(false);
         ImageView uploadImage = dialog1.findViewById(R.id.uploadImage);
-        Button submitButton = dialog1.findViewById(R.id.submitButton);
+        submitButton = dialog1.findViewById(R.id.submitButton);
 
         filename.setOnClickListener(v -> dialog2.show());
 
@@ -421,26 +420,25 @@ public class addfund extends AppCompatActivity {
         });
 
         submitButton.setOnClickListener(v -> {
-            String transactionIdText = transactionId.getText().toString().trim();
             String utrNumberText = utrNumber.getText().toString().trim();
             String memberIdText = memberId;
-            String toUpiIdText = toUpiId.getText().toString().trim();
+            String toUpiIdText = upiId.getText().toString().trim();
             String amountText = amount.getText().toString().trim();
 
-            if (transactionIdText.isEmpty() || utrNumberText.isEmpty() || memberIdText.isEmpty() || toUpiIdText.isEmpty() || amountText.isEmpty() || imageUri == null) {
+            if (utrNumberText.isEmpty() || memberIdText.isEmpty() || toUpiIdText.isEmpty() || amountText.isEmpty() || imageUri == null) {
                 Toast.makeText(addfund.this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            sendAddFundRequest(transactionIdText, utrNumberText, memberIdText, toUpiIdText, amountText);
-            dialog1.dismiss();
+            submitButton.setVisibility(View.GONE);
+            addfund_progress.setVisibility(View.VISIBLE);
+            sendAddFundRequest(utrNumberText, memberIdText, toUpiIdText, amountText);
         });
 
         dialog1.show();
 
     }
 
-    private void sendAddFundRequest(String transactionId, String utrNumber, String memberId, String toUpiId, String amount) {
+    private void sendAddFundRequest(String utrNumber, String memberId, String toUpiId, String amount) {
         if (imageUri == null) {
             Toast.makeText(this, "Please select an image first", Toast.LENGTH_SHORT).show();
             return;
@@ -474,7 +472,6 @@ public class addfund extends AppCompatActivity {
             ApiService apiService = retrofit.create(ApiService.class);
 
             // Prepare the request body with multipart image
-            RequestBody requestBodyTransactionId = RequestBody.create(MediaType.parse("text/plain"), transactionId);
             RequestBody requestBodyUtrNumber = RequestBody.create(MediaType.parse("text/plain"), utrNumber);
             RequestBody requestBodyMemberId = RequestBody.create(MediaType.parse("text/plain"), memberId);
             RequestBody requestBodyToUpiId = RequestBody.create(MediaType.parse("text/plain"), toUpiId);
@@ -485,7 +482,6 @@ public class addfund extends AppCompatActivity {
 
             // Make the POST request
             Call<ResponseBody> call = apiService.sendAddFundRequest(
-                    requestBodyTransactionId,
                     requestBodyUtrNumber,
                     requestBodyMemberId,
                     requestBodyToUpiId,
@@ -494,11 +490,18 @@ public class addfund extends AppCompatActivity {
             );
 
             call.enqueue(new Callback<ResponseBody>() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+                    addfund_progress.setVisibility(View.GONE);
+                    submitButton.setVisibility(View.VISIBLE);
+                    dialog1.dismiss();
                     if (response.isSuccessful()) {
                         Log.d(TAG, "Add Fund Response: " + response);
                         Toast.makeText(addfund.this, "Fund request submitted successfully", Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                        String memberId = sharedPreferences.getString("memberId", "UP000000");
+                        fetchDataSequentially(memberId);
                     } else {
                         try {
                             String errorMessage;
@@ -594,36 +597,6 @@ public class addfund extends AppCompatActivity {
         }
         return size;
     }
-
-
-    // Function to scale large images
-    private Bitmap getScaledBitmap(Uri imageUri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true; // Read dimensions only
-            BitmapFactory.decodeStream(inputStream, null, options);
-            inputStream.close();
-
-            // Scale the image to a smaller size
-            int desiredWidth = 800;  // Desired width in pixels
-            int desiredHeight = 800; // Desired height in pixels
-            int scaleFactor = Math.min(options.outWidth / desiredWidth, options.outHeight / desiredHeight);
-
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = scaleFactor;
-
-            inputStream = getContentResolver().openInputStream(imageUri);
-            Bitmap scaledBitmap = BitmapFactory.decodeStream(inputStream, null, options);
-            inputStream.close();
-
-            return scaledBitmap;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
 
     private void shareCardView() {

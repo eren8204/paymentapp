@@ -13,7 +13,6 @@ public interface ApiService {
     @POST("auth/userAddFundRequest/")
     @Multipart
     Call<ResponseBody> sendAddFundRequest(
-            @Part("transaction_id") RequestBody transactionId,
             @Part("utr_number") RequestBody utrNumber,
             @Part("member_id") RequestBody memberId,
             @Part("to_upi_id") RequestBody toUpiId,

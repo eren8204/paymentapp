@@ -50,7 +50,7 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
         switch (status) {
             case "pending":
                 holder.status_text.setText("Pending");
-                holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.pending));
+                holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.pending_small));
                 holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey)); // Gray color for Pending
                 break;
             case "approved":
