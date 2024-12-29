@@ -124,7 +124,7 @@
                 android:textSize="@dimen/_20sdp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="Select plans"/>
+                android:text="Select Package"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -230,7 +230,7 @@
                                     android:layout_height="wrap_content">
 
                                     <Button
-                                        android:id="@+id/payEbook"
+                                        android:id="@+id/payBasic"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/_39sdp"
                                         android:layout_gravity="center"
@@ -291,7 +291,7 @@
                                 android:id="@+id/header2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="BASIC PACKAGE"
+                                android:text="PREMIUM PACKAGE"
                                 android:textColor="#FFFFFF"
                                 android:background="@color/startColor"
                                 android:gravity="center"
@@ -315,8 +315,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/icon"
                                 android:layout_centerHorizontal="true"
-                                android:text="E-BOOK"
+                                android:text="E-BOOK BUNDLE"
                                 android:layout_gravity="center"
+                                android:gravity="center"
                                 android:textColor="#FFFFFF"
                                 android:textSize="@dimen/_24sdp"
                                 android:textStyle="bold" />
@@ -328,7 +329,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/title"
                                 android:layout_centerHorizontal="true"
-                                android:text="550/- + 18% GST"
+                                android:text="1100/- + 18% GST"
                                 android:textColor="@color/startColor"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_gravity="center"
@@ -343,7 +344,7 @@
                                 android:layout_below="@id/price_without_gst"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="@dimen/_8sdp"
-                                android:text="649/-"
+                                android:text="1298/-"
                                 android:layout_gravity="center"
                                 android:textColor="@color/startColor"
                                 android:textSize="@dimen/_24sdp"
@@ -354,7 +355,7 @@
                                 android:layout_height="wrap_content">
 
                                 <Button
-                                    android:id="@+id/payprime"
+                                    android:id="@+id/payPrime"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_39sdp"
                                     android:layout_gravity="center"

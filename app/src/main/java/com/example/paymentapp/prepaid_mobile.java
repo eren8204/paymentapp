@@ -138,11 +138,16 @@ public class prepaid_mobile extends AppCompatActivity {
             }
         });
 
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        back_button.setOnClickListener(v -> finish());
+
+        recharge.setOnClickListener(v -> {
+            Intent intent = new Intent(this, payment.class);
+            intent.putExtra("ptype","Recharge");
+            intent.putExtra("stype",selectedOperator);
+            intent.putExtra("stype_num",mobile_no.getText().toString().trim());
+            intent.putExtra("amount","₹"+recharge_amount.getText().toString().trim());
+            startActivity(intent);
+            finish();
         });
 
     }

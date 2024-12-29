@@ -456,6 +456,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/_8sdp"
                                 android:layout_gravity="center"
+                                android:layout_margin="@dimen/_8sdp"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:textAlignment="center"
                                 android:text="Prepaid\nMobile"

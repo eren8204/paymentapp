@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class recharge_plans extends AppCompatActivity {
         Spinner spinner = findViewById(R.id.operator_spinner);
         TextView recharge_amount = findViewById(R.id.recharge_amount);
         ImageView back_button = findViewById(R.id.back_button);
+        Button recharge = findViewById(R.id.recharge);
 
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
@@ -86,12 +88,18 @@ public class recharge_plans extends AppCompatActivity {
             }
         });
 
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        back_button.setOnClickListener(v -> finish());
+
+        recharge.setOnClickListener(v -> {
+            Intent intent = new Intent(this, payment.class);
+            intent.putExtra("ptype","Recharge");
+            intent.putExtra("stype",selectedOperator);
+            intent.putExtra("stype_num",customer_id.getText().toString().trim());
+            intent.putExtra("amount","₹"+recharge_amount.getText().toString().trim());
+            startActivity(intent);
+            finish();
         });
+
     }
     private void initializeOperatorMap(){
         operatorMap.put("Airtel DTH TV","ATV");
