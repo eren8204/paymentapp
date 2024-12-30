@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.1"
+androidPdfViewer = "3.2.0-beta.1"
 blurry = "4.0.0"
 gson = "2.10.1"
 imageslideshow = "0.1.0"
@@ -26,6 +27,7 @@ volley = "1.2.1"
 playServicesCastFramework = "22.0.0"
 
 [libraries]
+android-pdf-viewer = { module = "com.github.barteksc:android-pdf-viewer", version.ref = "androidPdfViewer" }
 blurry = { module = "jp.wasabeef:blurry", version.ref = "blurry" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

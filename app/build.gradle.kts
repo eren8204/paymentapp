@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
     implementation (libs.gson)
     implementation(libs.blurry)
     implementation(libs.volley)
