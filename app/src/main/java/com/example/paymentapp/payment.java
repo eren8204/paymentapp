@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.airbnb.lottie.LottieAnimationView;
 public class payment extends AppCompatActivity {
 
     private Button pay;
+    private ImageButton back_button;
     private TextView payment_type,subtype,subtype_num,amount,memberName,userId;
     private TextView tpin_text,ctpin_text;
     private LinearLayout pay_layout,success_layout;
@@ -33,9 +35,6 @@ public class payment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        ////Initializer
-        pre();
-        ////
         payment_type = findViewById(R.id.payment_type);
         subtype = findViewById(R.id.subtype);
         subtype_num = findViewById(R.id.subtype_num);
@@ -46,6 +45,10 @@ public class payment extends AppCompatActivity {
         pay_layout = findViewById(R.id.pay_layout);
         success_layout = findViewById(R.id.success_layout);
         progressBar = findViewById(R.id.pay_progress);
+        back_button = findViewById(R.id.back_button);
+        ////Initializer
+        pre();
+        ////
 
         Intent passed_intent = getIntent();
         if(passed_intent!=null){
@@ -117,6 +120,7 @@ public class payment extends AppCompatActivity {
         return true;
     }
     private void pre(){
+        back_button.setOnClickListener(v -> finish());
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

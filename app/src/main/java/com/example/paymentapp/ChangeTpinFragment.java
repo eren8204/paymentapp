@@ -67,8 +67,6 @@ public class ChangeTpinFragment extends Fragment {
         });
 
 
-
-
         return view;
     }
 

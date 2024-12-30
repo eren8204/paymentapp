@@ -213,7 +213,6 @@ public class addfund extends AppCompatActivity {
         fetchFundRequests(memberId, this::fetchImageName);
     }
 
-
     private void fetchFundRequests(String memberId, Runnable onComplete) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getUserAddFundRequest";
 
@@ -223,33 +222,35 @@ public class addfund extends AppCompatActivity {
                 null,
                 response -> {
                     try {
-                        // Parse JSON response
-                        String data = response.getString("data");
-                        Type listType = new TypeToken<ArrayList<FundRequest>>() {}.getType();
-                        List<FundRequest> requests = new Gson().fromJson(data, listType);
+                        if (response.has("data")) {
+                            // Parse JSON response
+                            String data = response.getString("data");
+                            Type listType = new TypeToken<ArrayList<FundRequest>>() {}.getType();
+                            List<FundRequest> requests = new Gson().fromJson(data, listType);
 
-                        // Update UI
-                        fundRequestList.clear();
-                        fundRequestList.addAll(requests);
+                            // Update UI
+                            fundRequestList.clear();
+                            fundRequestList.addAll(requests);
 
-                        // Sort the list latest to oldest
-                        fundRequestList.sort((request1, request2) -> {
-                            try {
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-                                Date date1 = sdf.parse(request1.getTime_date());
-                                Date date2 = sdf.parse(request2.getTime_date());
-                                assert date2 != null;
-                                return date2.compareTo(date1); // Latest to oldest
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                return 0;
-                            }
-                        });
+                            // Sort the list latest to oldest
+                            fundRequestList.sort((request1, request2) -> {
+                                try {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                    Date date1 = sdf.parse(request1.getTime_date());
+                                    Date date2 = sdf.parse(request2.getTime_date());
+                                    assert date2 != null;
+                                    return date2.compareTo(date1); // Latest to oldest
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    return 0;
+                                }
+                            });
 
-                        adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
+                        }
 
-                        // Trigger next API or action
+                        // Trigger next API or action regardless of "data"
                         if (onComplete != null) {
                             onComplete.run();
                         }
@@ -257,11 +258,17 @@ public class addfund extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(addfund.this, "Error parsing data", Toast.LENGTH_SHORT).show();
+                        if (onComplete != null) {
+                            onComplete.run(); // Proceed even if there's an error
+                        }
                     }
                 },
                 error -> {
                     // Handle error
                     Toast.makeText(addfund.this, "API Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (onComplete != null) {
+                        onComplete.run(); // Proceed even if there's an API error
+                    }
                 }) {
             @Override
             public byte[] getBody() {
