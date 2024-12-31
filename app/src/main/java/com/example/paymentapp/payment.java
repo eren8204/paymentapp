@@ -5,9 +5,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -21,6 +25,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 public class payment extends AppCompatActivity {
 
@@ -30,6 +44,11 @@ public class payment extends AppCompatActivity {
     private TextView tpin_text,ctpin_text;
     private LinearLayout pay_layout,success_layout;
     private ProgressBar progressBar;
+
+    private EditText tpinText, ctpinText;
+    private boolean isTpinVissible = false;
+    private boolean isCtpinVissible = false;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +65,76 @@ public class payment extends AppCompatActivity {
         success_layout = findViewById(R.id.success_layout);
         progressBar = findViewById(R.id.pay_progress);
         back_button = findViewById(R.id.back_button);
-        ////Initializer
-        pre();
-        ////
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Hello, !");
+        String memberId = sharedPreferences.getString("memberId", "UP000000");
+
+        String type;
+        pre(username,memberId);
+
+         tpinText = findViewById(R.id.tpin_text);
+         ctpinText=findViewById(R.id.ctpin_text);
+
+        ctpinText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (ctpinText.getRight() - ctpinText.getCompoundDrawables()[2].getBounds().width())) {
+                        // Toggle password visibility
+                        isCtpinVissible = !isCtpinVissible;
+                        if (isCtpinVissible) {
+                            ctpinText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        } else {
+                            ctpinText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        }
+                        // Move cursor to the end of the text
+                        ctpinText.setSelection(ctpinText.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        tpinText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (tpinText.getRight() - tpinText.getCompoundDrawables()[2].getBounds().width())) {
+                        // Toggle password visibility
+                        isTpinVissible = !isTpinVissible;
+                        if (isTpinVissible) {
+                            tpinText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        } else {
+                            tpinText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        }
+                        tpinText.setSelection(tpinText.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
 
         Intent passed_intent = getIntent();
         if(passed_intent!=null){
             if(passed_intent.hasExtra("ptype"))
                 payment_type.setText(passed_intent.getStringExtra("ptype"));
-            if(passed_intent.hasExtra("stype"))
+            if(passed_intent.hasExtra("stype")) {
                 subtype.setText(passed_intent.getStringExtra("stype"));
+                type = passed_intent.getStringExtra("stype");
+            } else {
+                type = "";
+            }
             if(passed_intent.hasExtra("stype_num")){
                 subtype_num.setVisibility(View.VISIBLE);
                 subtype_num.setText(passed_intent.getStringExtra("stype_num"));
             }
             if(passed_intent.hasExtra("amount"))
                 amount.setText(passed_intent.getStringExtra("amount"));
+        } else {
+            type = "";
         }
 
         LottieAnimationView lottieAnimationzoom = findViewById(R.id.success);
@@ -90,43 +163,180 @@ public class payment extends AppCompatActivity {
         pay.setOnClickListener(v -> {
             pay.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
+
             String tpin = tpin_text.getText().toString().trim();
             String ctpin = ctpin_text.getText().toString().trim();
-            if(checkTPin(tpin,ctpin)){
-                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-                pay.setVisibility(View.VISIBLE);
-                pay_layout.setVisibility(View.GONE);
-                success_layout.setVisibility(View.VISIBLE);
-            }
 
+            if (checkTPin(tpin, ctpin)) {
+
+                check(memberId, tpin, response -> {
+                    try {
+                        boolean isValid = response.getBoolean("isValid");
+                        if (isValid) {
+                            if(type.equals("BASIC PACKAGE")) {
+                                buyMembership(memberId, "BASIC", buyResponse -> {
+                                    try {
+                                        String status = buyResponse.getString("status");
+                                        String message = buyResponse.getString("message");
+
+                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                        if ("success".equals(status)) {
+                                            pay_layout.setVisibility(View.GONE);
+                                            success_layout.setVisibility(View.VISIBLE);
+                                        }
+                                    } catch (Exception e) {
+                                        showError("Error parsing membership response: " + e.getMessage());
+                                    } finally {
+                                        progressBar.setVisibility(View.GONE);
+                                        pay.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            }
+                            else if(type.equals("PREMIUM PACKAGE")){
+                                buyMembership(memberId, "PREMIUM", buyResponse -> {
+                                    try {
+                                        String status = buyResponse.getString("status");
+                                        String message = buyResponse.getString("message");
+
+                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                        if ("success".equals(status)) {
+                                            pay_layout.setVisibility(View.GONE);
+                                            success_layout.setVisibility(View.VISIBLE);
+                                        }
+                                    } catch (Exception e) {
+                                        showError("Error parsing membership response: " + e.getMessage());
+                                    } finally {
+                                        progressBar.setVisibility(View.GONE);
+                                        pay.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            }
+                        } else {
+                            showError("Invalid T-PIN");
+                        }
+                    } catch (Exception e) {
+                        showError("Error parsing T-PIN response: " + e.getMessage());
+                    } finally {
+                        progressBar.setVisibility(View.GONE);
+                        pay.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
         });
+
     }
+    private void check(String memberId, String tpin, Response.Listener<JSONObject> responseListener) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/checktpin";
+
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("member_id", memberId);
+            payload.put("tpin", tpin);
+        } catch (JSONException e) {
+            showError("Error creating payload: " + e.getMessage());
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
+                responseListener,
+                error -> showError("T-PIN API Error: " + error.getMessage()));
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    private void buyMembership(String memberId, String packageName, Response.Listener<JSONObject> responseListener) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/buymembership";
+
+        Log.d("arsh", "Calling buyMembership API with member_id: " + memberId + " and package_name: " + packageName);
+
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("package_name", packageName);
+            payload.put("member_id", memberId);
+        } catch (JSONException e) {
+            showError("Error creating payload: " + e.getMessage());
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
+                response -> {
+                    try {
+                        // Log the successful response
+                        Log.d("arsh", "Membership purchase response: " + response.toString());
+
+                        // Pass the response to the listener
+                        responseListener.onResponse(response);
+                    } catch (Exception e) {
+                        Log.e("arsh", "Error parsing response: " + e.getMessage());
+                        showError("Error parsing response: " + e.getMessage());
+                    }
+                },
+                error -> {
+                    if (error.networkResponse != null) {
+                        String errorMessage = "Network error: " + error.getMessage();
+                        int statusCode = error.networkResponse.statusCode;
+                        String responseBody = new String(error.networkResponse.data);
+
+                        Log.e("arsh", "Membership API Error - Status Code: " + statusCode + ", Response: " + responseBody);
+                        JSONObject errorJson = null;
+                        try {
+                            errorJson = new JSONObject(responseBody);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        String errorDetail = errorJson.optString("error", "Unknown error occurred");
+                        showError("Message: " + errorDetail);
+                    } else {
+                        Log.e("arsh", "Membership API Error: " + error.getMessage());
+                        showError("Membership API Error: " + error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    private void showError(String message) {
+        Log.e("arsh", "Error: " + message);
+        progressBar.setVisibility(View.GONE);
+        pay.setVisibility(View.VISIBLE);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
     private boolean checkTPin(String tpin, String ctpin){
+
         if(tpin.isEmpty()){
             Toast.makeText(this, "Enter T-Pin", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            pay.setVisibility(View.VISIBLE);
             return false;
         }
         if(ctpin.isEmpty()){
             Toast.makeText(this, "Enter Confirm T-Pin", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            pay.setVisibility(View.VISIBLE);
             return false;
         }
         if(!ctpin.equals(tpin)){
             Toast.makeText(this, "T-Pin and Confirm T-Pin does not match", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            pay.setVisibility(View.VISIBLE);
             return  false;
         }
 
 
         return true;
     }
-    private void pre(){
+    private void pre(String username,String memberId){
         back_button.setOnClickListener(v -> finish());
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "Hello, !");
-        String memberId = sharedPreferences.getString("memberId", "UP000000");
-
         memberName = findViewById(R.id.memberName);
         userId = findViewById(R.id.memberId);
         memberName.setText(username);
