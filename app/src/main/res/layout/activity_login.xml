@@ -86,7 +86,9 @@
             android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/edittextbackground"
             android:drawableLeft="@drawable/baseline_lock_24"
+            android:drawableRight="@drawable/baseline_remove_red_eye_24"
             android:drawablePadding="@dimen/_8sdp"
+            android:maxLength="24"
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingLeft="@dimen/_12sdp">

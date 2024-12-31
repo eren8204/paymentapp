@@ -1,9 +1,12 @@
 package com.example.paymentapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,13 +32,15 @@ import org.json.JSONObject;
 public class Login extends AppCompatActivity {
 
 
-    TextView signup;
-    EditText email,password;
-    Button login;
-    ProgressBar progressbarlogin;
-    String username="";
-    String pass="";
-    String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login";
+    private TextView signup;
+    private EditText email,password;
+    private Button login;
+    private ProgressBar progressbarlogin;
+    private String username="";
+    private String pass="";
+    private String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login";
+    private boolean passwordVisible;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,18 +65,29 @@ public class Login extends AppCompatActivity {
             signup.setEnabled(false);
             loginIdPass();
         }
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Login.this,Register.class);
-                startActivity(intent);
-                finish();
-            }
+        signup.setOnClickListener(v -> {
+            Intent intent=new Intent(Login.this,Register.class);
+            startActivity(intent);
+            finish();
         });
-        login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(v -> loginIdPass());
+
+        password.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                loginIdPass();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (password.getRight() - password.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        password.setSelection(password.getText().length());
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 
@@ -99,50 +115,44 @@ public class Login extends AppCompatActivity {
                 Request.Method.POST,
                 url,
                 requestBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String message = response.getString("message");
-                            String memberId = response.getString("memberid");
-                            String userName = response.getString("username");
+                response -> {
+                    try {
+                        String message = response.getString("message");
+                        String memberId = response.getString("memberid");
+                        String userName = response.getString("username");
+                        String membership = response.getString("membership");
 
-                            if (message.equalsIgnoreCase("User logged in successfully")) {
-                                // Navigate to MainActivity
-                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("password", pass);
-                                editor.putString("memberId", memberId);
-                                editor.apply();
-                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                intent.putExtra("memberId",memberId);
-                                intent.putExtra("userName",userName);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                progressbarlogin.setVisibility(View.GONE);
-                                login.setVisibility(View.VISIBLE);
-                                String msg = response.getString("message");
-                                Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
+                        if (message.equalsIgnoreCase("User logged in successfully")) {
+                            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("password", pass);
+                            editor.putString("username",userName);
+                            editor.putString("memberId", memberId);
+                            editor.putString("membership",membership);
+                            editor.apply();
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
                             progressbarlogin.setVisibility(View.GONE);
                             login.setVisibility(View.VISIBLE);
-                            Log.d("login_error",e.toString());
-                            Toast.makeText(Login.this, "Error parsing response", Toast.LENGTH_SHORT).show();
+                            String msg = response.getString("message");
+                            Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                    } catch (JSONException e) {
                         progressbarlogin.setVisibility(View.GONE);
                         login.setVisibility(View.VISIBLE);
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("login_error",e.toString());
+                        Toast.makeText(Login.this, "Error parsing response", Toast.LENGTH_SHORT).show();
                     }
+                },
+                error -> {
+                    progressbarlogin.setVisibility(View.GONE);
+                    login.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
         );
 

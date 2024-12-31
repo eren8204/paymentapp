@@ -6,13 +6,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +33,11 @@ import org.json.JSONObject;
 public class Register extends AppCompatActivity {
 
     private EditText countryCodeEditText, sponsorID, phoneNumberEditText, nameEditText, emailEditText, passwordEditText, confirmPasswordEditText, tPinEditText;
-    private TextView sponsor_name;
+    private TextView sponsor_name,login;
     private CheckBox termsCheckBox;
     private Button registerButton;
-    TextView login;
+    private ProgressBar progressbar_register;
+    private boolean passwordVisible,cPasswordVisible,tpinVisible;
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
@@ -56,131 +60,190 @@ public class Register extends AppCompatActivity {
         tPinEditText = findViewById(R.id.T_PIN);
         termsCheckBox = findViewById(R.id.checkbox_example);
         registerButton = findViewById(R.id.save);
+        progressbar_register = findViewById(R.id.progressbar_register);
 
         sponsor_name.setVisibility(View.GONE);
+        registerButton.setEnabled(false);
 
-        login.setOnClickListener(v -> {
-            Intent intent = new Intent(Register.this, Login.class);
-            startActivity(intent);
-            finish();
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Register.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
         });
 
+        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        passwordEditText.setSelection(passwordEditText.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
+        confirmPasswordEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (confirmPasswordEditText.getRight() - confirmPasswordEditText.getCompoundDrawables()[2].getBounds().width())) {
+                        cPasswordVisible = !cPasswordVisible;
+                        if (cPasswordVisible) {
+                            confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        confirmPasswordEditText.setSelection(confirmPasswordEditText.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
+        tPinEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (tPinEditText.getRight() - tPinEditText.getCompoundDrawables()[2].getBounds().width())) {
+                        tpinVisible = !tpinVisible;
+                        if (tpinVisible) {
+                            tPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        } else {
+                            tPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        }
+                        tPinEditText.setSelection(tPinEditText.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         sponsorID.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // This is called before the text is changed.
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // This is called during the text change.
-                if (s.length() < 8 ) {
+                if (s.length() < 8) {
                     sponsor_name.setVisibility(View.GONE);
-                    k=1;
+                    sponsorID.setError(null);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // This is called after the text has changed.
                 if (s.length() == 8) {
                     checkSponsorID(sponsorID.getText().toString().trim());
-                    k=0;
-                }
-                else   {
-                    sponsorID.setError("Id should be 8 characters in length");
+                } else if (s.length() > 0) {
+                    sponsorID.setError("ID should be 8 characters in length");
                 }
             }
         });
+        ;
 
-        registerButton.setOnClickListener(v -> {
-            if (!termsCheckBox.isChecked()) {
-                Toast.makeText(Register.this, "Please accept the Terms and Conditions", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-            String password = passwordEditText.getText().toString().trim();
-            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-            String phonenumber = phoneNumberEditText.getText().toString().trim();
-            String mail = emailEditText.getText().toString().trim();
-            String tpin = tPinEditText.getText().toString().trim();
-            String username = nameEditText.getText().toString().trim();
-            String sid = sponsorID.getText().toString().trim();
-
-
-            String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,24}$";
-
-
-
-
-            if (sid.isEmpty()) {
-                sponsorID.setError("Sponsor ID is required");
-                sponsorID.requestFocus();
-                return;
-            }
-
-            if (phonenumber.isEmpty()) {
-                if(phonenumber.length()<10)
-                {
-                    phoneNumberEditText.setError("invalid phone number");
+                if (!termsCheckBox.isChecked()) {
+                    Toast.makeText(Register.this, "Please accept the Terms and Conditions", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                phoneNumberEditText.setError("Phone number is required");
-                phoneNumberEditText.requestFocus();
-                return;
-            }
 
-            if (username.isEmpty()) {
-                nameEditText.setError("Username is required");
-                nameEditText.requestFocus();
-                return;
-            }
 
-            if (mail.isEmpty()) {
-                emailEditText.setError("Email is required");
-                emailEditText.requestFocus();
-                return;
-            }
+                String password = passwordEditText.getText().toString().trim();
+                String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+                String phonenumber = phoneNumberEditText.getText().toString().trim();
+                String mail = emailEditText.getText().toString().trim();
+                String tpin = tPinEditText.getText().toString().trim();
+                String username = nameEditText.getText().toString().trim();
+                String sid = sponsorID.getText().toString().trim();
 
-            if (tpin.isEmpty() ) {
-                if(tpin.length()!=4)
-                {
-                    tPinEditText.setError("T-pin must be of four character");
+
+                String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,24}$";
+
+
+
+
+                if (sid.isEmpty()) {
+                    sponsorID.setError("Sponsor ID is required");
+                    sponsorID.requestFocus();
+                    return;
                 }
-                tPinEditText.setError("T-PIN is required");
-                tPinEditText.requestFocus();
-                return;
+
+                if (phonenumber.isEmpty()) {
+                    if(phonenumber.length()<10)
+                    {
+                        phoneNumberEditText.setError("invalid phone number");
+                    }
+                    phoneNumberEditText.setError("Phone number is required");
+                    phoneNumberEditText.requestFocus();
+                    return;
+                }
+
+                if (username.isEmpty()) {
+                    nameEditText.setError("Username is required");
+                    nameEditText.requestFocus();
+                    return;
+                }
+
+                if (mail.isEmpty()) {
+                    emailEditText.setError("Email is required");
+                    emailEditText.requestFocus();
+                    return;
+                }
+
+                if (tpin.isEmpty() ) {
+                    if(tpin.length()!=4)
+                    {
+                        tPinEditText.setError("T-pin must be of four character");
+                    }
+                    tPinEditText.setError("T-PIN is required");
+                    tPinEditText.requestFocus();
+                    return;
+                }
+
+
+
+
+                if (!mail.endsWith("@gmail.com")) {
+                    emailEditText.setError("Only Gmail addresses are allowed");
+                    emailEditText.requestFocus();
+                    return;
+                }
+
+                if (!password.matches(passwordPattern)) {
+                    Toast.makeText(Register.this, "Password must be 12-24 characters long and include uppercase, lowercase, a number, and a special character. ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (password.isEmpty() || confirmPassword.isEmpty()) {
+                    Toast.makeText(Register.this, "Password is empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!password.equals(confirmPassword)){
+                    Toast.makeText(Register.this, "Password do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(k==0) {
+                    submitRegistration();
+                }
+
             }
-
-
-
-
-            if (!mail.endsWith("@gmail.com")) {
-                emailEditText.setError("Only Gmail addresses are allowed");
-                emailEditText.requestFocus();
-                return;
-            }
-
-            if (!password.matches(passwordPattern)) {
-                Toast.makeText(Register.this, "Password must be 12-24 characters long and include uppercase, lowercase, a number, and a special character. ", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(Register.this, "Password is empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!password.equals(confirmPassword)){
-                Toast.makeText(Register.this, "Password do not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if(k==0) {
-                submitRegistration();
-            }
-
         });
     }
 
@@ -205,18 +268,22 @@ public class Register extends AppCompatActivity {
                         boolean isValid = response.getBoolean("isValid");
                         String name = response.getString("sponserName");
                         if (isValid) {
+                            registerButton.setEnabled(true);
                             sponsor_name.setText(name);
                             sponsor_name.setVisibility(View.VISIBLE);
                         } else {
+                            registerButton.setEnabled(false);
                             sponsor_name.setText("Invalid! Try Again");
                             sponsor_name.setVisibility(View.VISIBLE);
 
                         }
                     } catch (JSONException e) {
+                        registerButton.setEnabled(false);
                         Toast.makeText(Register.this, "Error parsing response", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
+                    registerButton.setEnabled(false);
                     k=1;
                     Log.e(TAG, "An error occurred: " + error.getMessage(), error);
                     Toast.makeText(Register.this, "Network error: " + error.toString(), Toast.LENGTH_SHORT).show();
@@ -227,6 +294,8 @@ public class Register extends AppCompatActivity {
     }
 
     private void submitRegistration() {
+        registerButton.setVisibility(View.GONE);
+        progressbar_register.setVisibility(View.VISIBLE);
         String sponsorIDText = sponsorID.getText().toString().trim();
         String phoneNumber = phoneNumberEditText.getText().toString().trim();
         String username = nameEditText.getText().toString().trim();
@@ -244,6 +313,8 @@ public class Register extends AppCompatActivity {
             requestBody.put("password", password);
             requestBody.put("tpin", tPin);
         } catch (JSONException e) {
+            progressbar_register.setVisibility(View.GONE);
+            registerButton.setVisibility(View.VISIBLE);
             Toast.makeText(Register.this, "Error in request body " + e.toString(), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -254,10 +325,14 @@ public class Register extends AppCompatActivity {
                 baseUrl,
                 requestBody,
                 response -> {
+                    progressbar_register.setVisibility(View.GONE);
+                    registerButton.setVisibility(View.VISIBLE);
                     Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "Registration response: " + response.toString());
                 },
                 error -> {
+                    progressbar_register.setVisibility(View.GONE);
+                    registerButton.setVisibility(View.VISIBLE);
                     Log.e(TAG, "An error occurred: " + error.getMessage(), error);
                     Toast.makeText(Register.this, "Network error: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }

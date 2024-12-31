@@ -55,7 +55,9 @@
                 android:paddingRight="@dimen/_8sdp"
                 android:inputType="text"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp"/>
+                android:layout_marginTop="@dimen/_16sdp">
+
+            </EditText>
 
 
             <TextView
@@ -217,7 +219,7 @@
                 android:textStyle="bold" />
 
             <ProgressBar
-                android:id="@+id/progressbarlogin"
+                android:id="@+id/progressbar_register"
                 android:layout_width="@dimen/_27sdp"
                 android:layout_height="@dimen/_27sdp"
                 android:layout_gravity="center"
@@ -235,7 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="have a account? "
+                android:text="have an account? "
                 android:textColor="#050505"
                 android:textSize="@dimen/_16sdp">
 

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set up the Toolbar
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -68,34 +68,24 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView memberName = findViewById(R.id.memberName);
         TextView userId = findViewById(R.id.memberId);
-        Intent passedIntent = getIntent();
-        if(passedIntent.hasExtra("userName") && passedIntent.hasExtra("memberId")){
-            String username = passedIntent.getStringExtra("userName");
-            String memberId = passedIntent.getStringExtra("memberId");
-            memberName.setText(username);
-            userId.setText(memberId);
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username", username);
-            editor.putString("memberId", memberId);
-            editor.apply();
-        }
-        else{
-            Toast.makeText(this, "Got Nothing!", Toast.LENGTH_SHORT).show();
-        }
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Hello, !");
+        String memberId = sharedPreferences.getString("memberId", "UP000000");
 
-        // Initialize the DrawerLayout and NavigationView
+        memberName = findViewById(R.id.memberName);
+        userId = findViewById(R.id.memberId);
+        memberName.setText(username);
+        userId.setText(memberId);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Set up the ActionBarDrawerToggle
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(false);  // Disable default indicator
         toggle.setHomeAsUpIndicator(R.drawable.baseline_menu_open_24);  // Set your custom icon
         toggle.syncState();
 
-        // Handle custom icon click
         toolbar.setNavigationOnClickListener(v -> {
             if (drawerLayout.isDrawerOpen(navigationView)) {
                 drawerLayout.closeDrawer(navigationView);
@@ -104,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set up Navigation Drawer item selection
         navigationView.setNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int id = item.getItemId(); // Get the item ID
@@ -129,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new ChangeLoginPasswordFragment();
             }
             else if (id == R.id.drawer_item10) {
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
@@ -142,13 +130,11 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, selectedFragment);
                 transaction.commit();
-                drawerLayout.closeDrawers(); // Close the drawer after selection
+                drawerLayout.closeDrawers();
             }
 
-            return true; // Indicate that the event was handled
+            return true;
         });
-
-        // Initialize Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -172,35 +158,33 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
-        // Optionally load a default fragment when the app starts
         if (savedInstanceState == null) {
-            navigationView.setCheckedItem(R.id.drawer_item1); // Set a default selected item
-            Fragment defaultFragment = new HomeFragment(); // Default fragment
+            navigationView.setCheckedItem(R.id.drawer_item1);
+            Fragment defaultFragment = new HomeFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.nav_host_fragment, defaultFragment);
             transaction.commit();
         }
 
-        // Access and set up the header view
         View headerView = navigationView.getHeaderView(0);
         if (headerView != null) {
             ImageView headerImageView = headerView.findViewById(R.id.imageView);
             TextView headerUserName = headerView.findViewById(R.id.userName);
             TextView headerUserEmail = headerView.findViewById(R.id.userEmail);
+            TextView membership = headerView.findViewById(R.id.membership);
 
-            // Set the user details (example)
             headerImageView.setImageResource(R.drawable.baseline_person_24);
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
-            String username = sharedPreferences.getString("username", "Hello, !");
-            String memberId = sharedPreferences.getString("memberId", "UP000000");
-            headerUserName.setText(username);
-            headerUserEmail.setText(memberId);
+            String header_username = sharedPreferences.getString("username", "Hello, !");
+            String header_memberId = sharedPreferences.getString("memberId", "UP000000");
+            String header_membership = sharedPreferences.getString("membership","FREE");
+            headerUserName.setText(header_username);
+            headerUserEmail.setText(header_memberId);
+            membership.setText(header_membership);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -208,12 +192,20 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Fragment selectedFragment = new HomeFragment();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+
+        if (!(currentFragment instanceof HomeFragment)) {
+            Fragment selectedFragment = new HomeFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.nav_host_fragment, selectedFragment);
             transaction.commit();
-            drawerLayout.closeDrawers();
 
-        super.onBackPressed();
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawers();
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
+
 }
