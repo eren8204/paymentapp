@@ -9,5 +9,6 @@
     <color name="accept">#01D156</color>
     <color name="reject">#df0328</color>
     <color name="grey">#3C3B3B</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>

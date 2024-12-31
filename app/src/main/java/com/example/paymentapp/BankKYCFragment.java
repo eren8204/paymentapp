@@ -113,14 +113,11 @@ public class BankKYCFragment extends Fragment {
         Aadharcardcheckback.setEnabled(false);
         passbookcheck.setEnabled(false);
         imagecheck.setEnabled(false);
-        // Get memberId from SharedPreferences
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
-        // Set up ImageView click listeners
         setUpImageUploadListeners(view);
         fetchKYCStatus(memberId);
-        // Set submit button listener
         submitButton = view.findViewById(R.id.submit);
         submitButton.setOnClickListener(v -> submitFormData(memberId));
 
@@ -130,13 +127,10 @@ public class BankKYCFragment extends Fragment {
     private void fetchKYCStatus(String memberId) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/userkycstatus";
 
-        // Create a request body
         Map<String, String> params = new HashMap<>();
         params.put("member_id", memberId);
 
-        // Convert the parameters to a JSONObject
         JSONObject requestBody = new JSONObject(params);
-        // Create a Volley request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
