@@ -76,7 +76,7 @@
                 android:id="@+id/status_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/pending" />
+                android:background="@drawable/pending_small" />
 
             <TextView
                 android:id="@+id/status_text"

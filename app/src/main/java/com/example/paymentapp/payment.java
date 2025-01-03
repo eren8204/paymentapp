@@ -41,15 +41,14 @@ public class payment extends AppCompatActivity {
     private Button pay;
     private ImageButton back_button;
     private TextView payment_type,subtype,subtype_num,amount,memberName,userId;
-    private TextView tpin_text,ctpin_text;
     private LinearLayout pay_layout,success_layout;
     private ProgressBar progressBar;
 
-    private EditText tpinText, ctpinText;
+    private EditText tpin_text,ctpin_text;
     private boolean isTpinVissible = false;
     private boolean isCtpinVissible = false;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,22 +72,19 @@ public class payment extends AppCompatActivity {
         String type;
         pre(username,memberId);
 
-         tpinText = findViewById(R.id.tpin_text);
-         ctpinText=findViewById(R.id.ctpin_text);
-
-        ctpinText.setOnTouchListener(new View.OnTouchListener() {
+        ctpin_text.setOnTouchListener(new View.OnTouchListener() {
+            @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (ctpinText.getRight() - ctpinText.getCompoundDrawables()[2].getBounds().width())) {
-                        // Toggle password visibility
+                    if (event.getRawX() >= (ctpin_text.getRight() - ctpin_text.getCompoundDrawables()[2].getBounds().width())) {
                         isCtpinVissible = !isCtpinVissible;
                         if (isCtpinVissible) {
-                            ctpinText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                            ctpin_text.setInputType(InputType.TYPE_CLASS_NUMBER);
                         } else {
-                            ctpinText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                            ctpin_text.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                         }
-                        // Move cursor to the end of the text
-                        ctpinText.setSelection(ctpinText.getText().length());
+                        ctpin_text.setSelection(ctpin_text.getText().length());
                         return true;
                     }
                 }
@@ -96,25 +92,23 @@ public class payment extends AppCompatActivity {
             }
         });
 
-        tpinText.setOnTouchListener(new View.OnTouchListener() {
+        tpin_text.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (tpinText.getRight() - tpinText.getCompoundDrawables()[2].getBounds().width())) {
-                        // Toggle password visibility
+                    if (event.getRawX() >= (tpin_text.getRight() - tpin_text.getCompoundDrawables()[2].getBounds().width())) {
                         isTpinVissible = !isTpinVissible;
                         if (isTpinVissible) {
-                            tpinText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                            tpin_text.setInputType(InputType.TYPE_CLASS_NUMBER);
                         } else {
-                            tpinText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                            tpin_text.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                         }
-                        tpinText.setSelection(tpinText.getText().length());
+                        tpin_text.setSelection(tpin_text.getText().length());
                         return true;
                     }
                 }
                 return false;
             }
         });
-
 
 
         Intent passed_intent = getIntent();
@@ -262,6 +256,7 @@ public class payment extends AppCompatActivity {
                 response -> {
                     try {
                         // Log the successful response
+                        updateMembership(memberId);
                         Log.d("arsh", "Membership purchase response: " + response.toString());
 
                         // Pass the response to the listener
@@ -300,15 +295,42 @@ public class payment extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(request);
     }
+    private void updateMembership(String memberId){
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getmembershipStatus";
+        JSONObject jsonObject = new JSONObject();
+        try{
+            jsonObject.put("member_id",memberId);
+        }
+        catch (JSONException e){
+            //
+            return;
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,jsonObject,response -> {
+            if(response!=null){
+                try {
+                    if(response.getString("status").equals("true")){
+                        String membership = response.getString("membership");
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("membership",membership);
+                        editor.apply();
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
 
+            }
+        },
+                error -> {
+                    //
+                });
+    }
     private void showError(String message) {
         Log.e("arsh", "Error: " + message);
         progressBar.setVisibility(View.GONE);
         pay.setVisibility(View.VISIBLE);
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
-
     private boolean checkTPin(String tpin, String ctpin){
 
         if(tpin.isEmpty()){

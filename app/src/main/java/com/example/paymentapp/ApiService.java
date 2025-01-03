@@ -20,6 +20,9 @@ public interface ApiService {
             @Part MultipartBody.Part screenshot
     );
 
+    @POST("auth/getTeamList")
+    Call<TeamResponse> fetchTeamData(@Body MemberRequest memberRequest);
+
     @POST("auth/submitUserBankKycDetails/")
     @Multipart
     Call<ResponseBody> submitUserBankKycDetails(

@@ -25,6 +25,9 @@
         android:theme="@style/Theme.Paymentapp"
         tools:targetApi="31">
         <activity
+            android:name=".MyTeam"
+            android:exported="false" />
+        <activity
             android:name=".openPDF_activity"
             android:exported="false" />
         <activity

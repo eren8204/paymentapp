@@ -49,7 +49,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/id_card_uname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ARSH"
@@ -79,6 +79,7 @@
                                 android:textStyle="bold"/>
 
                             <TextView
+                                android:id="@+id/id_card_uid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
@@ -125,10 +126,11 @@
                                 android:textStyle="bold"/>
 
                             <TextView
+                                android:id="@+id/id_card_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
-                                android:text="Free"
+                                android:text="FREE"
                                 android:textSize="@dimen/_16sdp"
                                 android:textStyle="bold"/>
                         </LinearLayout>
@@ -161,11 +163,11 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_78sdp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/_12sdp">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_78sdp"
+                    android:layout_height="match_parent"
                     android:background="@color/endColor"
                     android:orientation="vertical">
 
@@ -196,13 +198,14 @@
                                 android:text="Membership" />
 
                             <TextView
+                                android:id="@+id/membership_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
-                                android:text="Free"
+                                android:text="FREE"
                                 android:textSize="@dimen/_16sdp"/>
                         </LinearLayout>
 
@@ -242,12 +245,12 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_78sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_12sdp">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_78sdp"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
 
@@ -322,7 +325,7 @@
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_78sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 app:cardCornerRadius="@dimen/_12sdp">
                 <LinearLayout
@@ -363,7 +366,7 @@
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:textAlignment="center"
                                 android:textColor="@color/endColor"
-                                android:text="$ 0.0"
+                                android:text="₹ 0.0"
                                 android:textSize="@dimen/_16sdp"/>
                         </LinearLayout>
 
@@ -391,7 +394,7 @@
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:textAlignment="center"
                                 android:textColor="@color/startColor"
-                                android:text="$ 0.0"
+                                android:text="₹ 0.0"
                                 android:textSize="@dimen/_16sdp"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -432,17 +435,17 @@
                 android:layout_gravity="center"
                 android:gravity="center">
                 <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/_93sdp"
-                    android:layout_height="@dimen/_78sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_8sdp">
+                    android:padding="@dimen/_20sdp"
+                    android:layout_margin="@dimen/_10sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/endColor"
+                        android:padding="@dimen/_10sdp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -454,7 +457,7 @@
                             android:layout_marginTop="@dimen/_8sdp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_16sdp"
-                            android:text="$ 0.0" />
+                            android:text="₹ 0.0" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -468,18 +471,18 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/_93sdp"
-                    android:layout_height="@dimen/_78sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/_8sdp"
                     android:background="@color/green"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_8sdp">
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_20sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/endColor"
+                        android:padding="@dimen/_10sdp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -491,7 +494,7 @@
                             android:textColor="@color/white"
                             android:layout_marginTop="@dimen/_8sdp"
                             android:textSize="@dimen/_16sdp"
-                            android:text="0" />
+                            android:text="₹ 0.0" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -514,45 +517,18 @@
                 android:layout_gravity="center"
                 android:gravity="center">
                 <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/_93sdp"
-                    android:layout_height="@dimen/_78sdp"
+                    android:id="@+id/my_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_8sdp">
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_20sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/startColor"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_16sdp"
-                            android:text="Withdrawal" />
-
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/_93sdp"
-                    android:layout_height="@dimen/_78sdp"
-                    app:cardCornerRadius="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_8sdp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/startColor"
+                        android:padding="@dimen/_20sdp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -565,6 +541,36 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_16sdp"
                             android:text="My Team" />
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_20sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/startColor"
+                        android:padding="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_16sdp"
+                            android:text="Income" />
 
 
                     </LinearLayout>
@@ -614,9 +620,5 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
-
-
     </ScrollView>
 </FrameLayout>
