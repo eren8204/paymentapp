@@ -26,7 +26,7 @@ public class Company_Document extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_company__document, container, false);
 
-        // List of images and names
+
         String[] imageNames = {
                 "company_tancard.jpg",
                 "gst_certificate.jpg",
@@ -74,13 +74,11 @@ public class Company_Document extends Fragment {
             TextView cardName = view.findViewById(cardNameIds[i]);
             CardView cardView = view.findViewById(cardViewIds[i]);
 
-            // Set the image and name
             loadImageFromAssets(cardImage,imageNames[i]);
             cardName.setText(displayNames[i]);
 
-            // Set click listener to show dialog
-            final String imageName = imageNames[i]; // Make it final to use in the listener
-            final String displayName = displayNames[i]; // Make it final to use in the listener
+            final String imageName = imageNames[i];
+            final String displayName = displayNames[i];
             cardView.setOnClickListener(v -> showImageDialog(imageName, displayName));
         }
 
@@ -89,16 +87,12 @@ public class Company_Document extends Fragment {
 
     private void loadImageFromAssets(ImageView imageView, String imagePath) {
         try {
-            // Log the image path being accessed
             Log.d("AssetsLoader", "Loading image: " + imagePath);
 
-            // Open the image file from the assets folder
             InputStream inputStream = getContext().getAssets().open(imagePath);
-            // Convert the input stream to a drawable
             Drawable drawable = Drawable.createFromStream(inputStream, null);
-            // Set the drawable to the ImageView
             imageView.setImageDrawable(drawable);
-            inputStream.close(); // Close the stream after use
+            inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("AssetsLoader", "Error loading image: " + imagePath, e);
@@ -115,10 +109,6 @@ public class Company_Document extends Fragment {
         TextView dialogImageName = dialog.findViewById(R.id.dialogImageName);
         Button closeButton = dialog.findViewById(R.id.dialogCloseButton);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
         try {
             InputStream inputStream = getContext().getAssets().open(imageName);
             Drawable drawable = Drawable.createFromStream(inputStream, null);
