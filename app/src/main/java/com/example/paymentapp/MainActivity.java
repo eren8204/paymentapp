@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
-
         LottieAnimationView lottieAnimationshare = findViewById(R.id.shareAnimation);
         lottieAnimationshare.playAnimation();
         lottieAnimationshare.addAnimatorListener(new Animator.AnimatorListener() {
@@ -136,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new ChangeTpinFragment();
             }else if (id == R.id.drawer_item9) {
                 selectedFragment = new ChangeLoginPasswordFragment();
+            }
+            else if (id == R.id.drawer_item11) {
+                selectedFragment = new Transactionfragment();
             }
             else if (id == R.id.drawer_item10) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();

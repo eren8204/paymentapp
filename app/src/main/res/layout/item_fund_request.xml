@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:gravity="start">
 
-        <!-- Text Section on the Left -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 android:text="Pending" />
         </LinearLayout>
 
-        <!-- Status Color Section on the Right-Most -->
+
         <LinearLayout
             android:id="@+id/statuscolour"
             android:layout_width="@dimen/_10sdp"

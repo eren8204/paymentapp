@@ -21,7 +21,7 @@ import java.util.Objects;
 public class MoreFragment extends Fragment {
 
 
-    private CardView companydocument;
+    private CardView companydocument,aboutus;
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +47,14 @@ public class MoreFragment extends Fragment {
             }
         });
 
+        aboutus=view.findViewById(R.id.aboutus);
+        aboutus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent intent=new Intent(getActivity(),Aboutus_Activity.class);
+              startActivity(intent);
+            }
+        });
         return view;
     }
 
