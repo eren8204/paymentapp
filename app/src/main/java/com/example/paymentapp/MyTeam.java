@@ -86,7 +86,7 @@ public class MyTeam extends AppCompatActivity {
                         Toast.makeText(MyTeam.this, "Failed to Fetch Data", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(MyTeam.this, "Server Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyTeam.this, "No Team Found", Toast.LENGTH_SHORT).show();
                 }
             }
 

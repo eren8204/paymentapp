@@ -32,6 +32,11 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Login extends AppCompatActivity {
 
 
@@ -147,6 +152,10 @@ public class Login extends AppCompatActivity {
                         String memberId = response.getString("memberid");
                         String userName = response.getString("username");
                         String membership = response.getString("membership");
+                        String mob_no = response.getString("phoneNo");
+                        String email = response.getString("email");
+                        String doj = response.getString("date_of_joining");
+                        String newDoj = formatDate(doj);
 
                         if (message.equalsIgnoreCase("User logged in successfully")) {
                             SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -155,6 +164,9 @@ public class Login extends AppCompatActivity {
                             editor.putString("username",userName);
                             editor.putString("memberId", memberId);
                             editor.putString("membership",membership);
+                            editor.putString("doj",newDoj);
+                            editor.putString("mobile",mob_no);
+                            editor.putString("email",email);
                             editor.apply();
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
@@ -183,5 +195,17 @@ public class Login extends AppCompatActivity {
         );
 
         requestQueue.add(jsonObjectRequest);
+    }
+    public static String formatDate(String dateString) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yy", Locale.getDefault());
+
+        try {
+            Date date = inputFormat.parse(dateString);
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return dateString;
+        }
     }
 }

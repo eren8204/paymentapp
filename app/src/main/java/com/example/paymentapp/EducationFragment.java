@@ -20,7 +20,6 @@ import java.util.List;
 public class EducationFragment extends Fragment {
     private RecyclerView recyclerView;
     private VideoAdapter videoAdapter;
-    private List<Video> videoList;
     @SuppressLint({"MissingInflatedId", "SetJavaScriptEnabled"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -28,6 +28,9 @@
             android:name=".Aboutus_Activity"
             android:exported="false" />
         <activity
+            android:name=".MyIncome"
+            android:exported="false" />
+        <activity
             android:name=".MyTeam"
             android:exported="false" />
         <activity

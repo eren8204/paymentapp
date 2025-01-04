@@ -1,5 +1,5 @@
 package com.example.paymentapp;
-
+import com.google.gson.annotations.SerializedName;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -48,4 +48,7 @@ public interface ApiService {
 
     @POST("auth/changeUserTpin/")
     Call<ResponseBody> submitDetails(@Body RequestBody jsonBody);
+
+
+
 }
