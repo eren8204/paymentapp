@@ -39,6 +39,8 @@ public class MoreFragment extends Fragment {
         termsandco = view.findViewById(R.id.termsandco);
         refundPolicy = view.findViewById(R.id.refundPolicy);
         companydocument=view.findViewById(R.id.companydocument);
+        account_deletion = view.findViewById(R.id.account_deletion);
+        raiseticket = view.findViewById(R.id.raiseticket);
 
         companydocument.setOnClickListener(v -> {
             assert getFragmentManager() != null;
@@ -70,13 +72,9 @@ public class MoreFragment extends Fragment {
             startActivity(intent);
         });
 
-        raiseticket=view.findViewById(R.id.raiseticket);
-        raiseticket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),RaiseTicket_Activity.class);
-                startActivity(intent);
-            }
+        raiseticket.setOnClickListener(v -> {
+            Intent intent=new Intent(getActivity(),RaiseTicket_Activity.class);
+            startActivity(intent);
         });
 
 

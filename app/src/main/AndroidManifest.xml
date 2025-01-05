@@ -27,6 +27,14 @@
         <activity
             android:name=".RaiseTicket_Activity"
             android:exported="false" />
+        <activity android:name=".Terms"
+            android:exported="false"/>
+        <activity android:name=".AccountDeletion"
+            android:exported="false"/>
+        <activity android:name=".PrivacyPolicy"
+            android:exported="false"/>
+        <activity android:name=".RefundPolicy"
+            android:exported="false"/>
         <activity
             android:name=".ForgetPassword"
             android:exported="false" />
