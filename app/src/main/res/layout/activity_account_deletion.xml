@@ -5,9 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
     android:orientation="vertical"
-    tools:context=".MyTeam">
+    tools:context=".AccountDeletion">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -19,7 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="start">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -100,43 +100,91 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/_10sdp"
-        android:padding="@dimen/_5sdp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Team"
-            android:textStyle="bold"
-            android:textSize="@dimen/_15sdp"/>
-
-        <ExpandableListView
-            android:id="@+id/expandableListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="@dimen/_5sdp"
-            android:groupIndicator="@android:color/transparent"
-            android:divider="@android:color/transparent"
-            android:scrollbars="none"
-            android:layout_margin="@dimen/_10sdp"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/progress_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="visible"
-        android:orientation="vertical">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+        android:orientation="vertical"
+        android:layout_margin="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp">
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/flag" />
 
+
+        <LinearLayout
+            android:id="@+id/delete_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sorry to see you go 😞"
+        android:layout_margin="@dimen/_10sdp"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:gravity="center"/>
+    <EditText
+        android:id="@+id/tpin_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:hint="Enter T-Pin"
+        android:maxLength="4"
+        android:inputType="number"
+        android:background="@drawable/edittextbackground"/>
+
+        <EditText
+            android:id="@+id/password_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:hint="Enter Password"
+            android:maxLength="24"
+            android:inputType="text"
+            android:background="@drawable/edittextbackground"/>
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/btnbackground"
+        android:text="Delete Acoount"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/delete_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:background="@drawable/btnbackground"
+        android:visibility="gone"
+        />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/already_sent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Deletion Request Sent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_20sdp"
+            android:visibility="gone"/>
+    </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -43,25 +44,28 @@ public class MyTeam extends AppCompatActivity {
     private TextView tb_memberid,tb_username;
     private RequestQueue requestQueue;
     private ExpandableListView expandableListView;
+    private LinearLayout progress_layout;
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_team);
         back_button = findViewById(R.id.back_button);
+        progress_layout = findViewById(R.id.progress_layout);
+        expandableListView = findViewById(R.id.expandableListView);
         requestQueue = Volley.newRequestQueue(this);
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
         pre(username,memberId);
-        expandableListView = findViewById(R.id.expandableListView);
+        expandableListView.setVisibility(View.GONE);
+        progress_layout.setVisibility(View.VISIBLE);
         fetchTeamData(memberId);
     }
 
     private void fetchTeamData(String member_id) {
         MemberRequest requestBody = new MemberRequest(member_id);
-        Log.d("aditya_kumar", member_id);
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<TeamResponse> call = apiService.fetchTeamData(requestBody);
@@ -69,7 +73,6 @@ public class MyTeam extends AppCompatActivity {
         call.enqueue(new Callback<TeamResponse>() {
             @Override
             public void onResponse(Call<TeamResponse> call, Response<TeamResponse> response) {
-                Log.d("aditya_kumar", response.toString());
                 if (response.isSuccessful() && response.body() != null) {
                     TeamResponse teamResponse = response.body();
                     if (teamResponse.isSuccess()) {
@@ -82,17 +85,19 @@ public class MyTeam extends AppCompatActivity {
                         }
 
                         setupExpandableListView(teamData);
+                        progress_layout.setVisibility(View.GONE);
+                        expandableListView.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(MyTeam.this, "Failed to Fetch Data", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(MyTeam.this, "No Team Found", Toast.LENGTH_SHORT).show();
                 }
+                progress_layout.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<TeamResponse> call, Throwable t) {
-                Log.d("aditya_kumar", t.getMessage());
                 Toast.makeText(MyTeam.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

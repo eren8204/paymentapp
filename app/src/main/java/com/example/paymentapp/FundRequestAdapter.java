@@ -77,30 +77,29 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
             return outputDateFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
-            return dateString; // Return the original string if parsing fails
+            return dateString;
         }
     }
 
     private String formatTime(String utcDateString) {
-        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"; // Assuming UTC format
-        String outputFormat = "hh:mm a"; // Example format: "02:30 PM"
+        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+        String outputFormat = "hh:mm a";
         SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
         SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
 
-        // Set UTC time zone
         inputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata")); // IST
+        outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 
         try {
             Date date = inputDateFormat.parse(utcDateString);
             if (date != null) {
-                // Format the time directly from the UTC string
+
                 return outputDateFormat.format(date);
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return utcDateString; // Return the original string if parsing fails
+        return utcDateString;
     }
 
 
