@@ -21,7 +21,7 @@ import java.util.Objects;
 public class MoreFragment extends Fragment {
 
 
-    private CardView companydocument,aboutus,privacyPolicy,termsandco,refundPolicy,account_deletion;
+    private CardView companydocument,aboutus,privacyPolicy,termsandco,refundPolicy,account_deletion,raiseticket;
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +39,6 @@ public class MoreFragment extends Fragment {
         termsandco = view.findViewById(R.id.termsandco);
         refundPolicy = view.findViewById(R.id.refundPolicy);
         companydocument=view.findViewById(R.id.companydocument);
-        account_deletion = view.findViewById(R.id.account_deletion);
 
         companydocument.setOnClickListener(v -> {
             assert getFragmentManager() != null;
@@ -70,6 +69,18 @@ public class MoreFragment extends Fragment {
             Intent intent = new Intent(getActivity(), AccountDeletion.class);
             startActivity(intent);
         });
+
+        raiseticket=view.findViewById(R.id.raiseticket);
+        raiseticket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),RaiseTicket_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         return view;
     }
 
