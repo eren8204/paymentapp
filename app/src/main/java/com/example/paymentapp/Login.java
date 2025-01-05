@@ -45,6 +45,8 @@ public class Login extends AppCompatActivity {
     private Button login;
     private ProgressBar progressbarlogin;
     private String username="";
+
+    private TextView forgetpassword;
     private String pass="";
     private String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login";
     private boolean passwordVisible;
@@ -55,6 +57,13 @@ public class Login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
+
+        forgetpassword=findViewById(R.id.forgetpassword);
+        forgetpassword.setOnClickListener(v -> {
+            Intent intent=new Intent(Login.this,ForgetPassword.class);
+            startActivity(intent);
+
+        });
         signup=findViewById(R.id.signup);
         login=findViewById(R.id.login);
         email=findViewById(R.id.email);
