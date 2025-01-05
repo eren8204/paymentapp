@@ -96,17 +96,15 @@ public class prepaid_mobile extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    // Handle the default selection
                     selectedState = "";
                     selectedCircleCode = "";
                 } else {
-                    // Handle a valid selection
                     selectedState = circleList.get(position);
                     selectedCircleCode = stateCircleMap.get(selectedState);
                 }
 
-                // Show the selected state and circle code (if valid)
-                Toast.makeText(prepaid_mobile.this,
+                if(position>0)
+                    Toast.makeText(prepaid_mobile.this,
                         "Selected State: " + selectedState + ", Circle Code: " + selectedCircleCode,
                         Toast.LENGTH_SHORT).show();
             }
@@ -125,7 +123,7 @@ public class prepaid_mobile extends AppCompatActivity {
                 }
                 else
                 {
-                    selectedOperator = operatorList.get(position); // Update global variable
+                    selectedOperator = operatorList.get(position);
                     selectedOperatorCode = operatorMap.get(selectedOperator);
                 }
                 Toast.makeText(prepaid_mobile.this, "Operator: "+selectedOperator+" Code: "+selectedOperatorCode,
@@ -142,10 +140,12 @@ public class prepaid_mobile extends AppCompatActivity {
 
         recharge.setOnClickListener(v -> {
             Intent intent = new Intent(this, payment.class);
-            intent.putExtra("ptype","Recharge");
+            intent.putExtra("ptype","Mobile Recharge");
             intent.putExtra("stype",selectedOperator);
+            intent.putExtra("circle_code",selectedCircleCode);
+            intent.putExtra("operator_code",selectedOperatorCode);
             intent.putExtra("stype_num",mobile_no.getText().toString().trim());
-            intent.putExtra("amount","₹"+recharge_amount.getText().toString().trim());
+            intent.putExtra("amount",recharge_amount.getText().toString().trim());
             startActivity(intent);
             finish();
         });
@@ -153,9 +153,8 @@ public class prepaid_mobile extends AppCompatActivity {
     }
     private void initializeOperatorMap(){
         operatorMap.put("Airtel","A");
-        operatorMap.put("Vodafone","V");
+        operatorMap.put("Vodafone Idea","VI");
         operatorMap.put("JIO","RC");
-        operatorMap.put("Idea","I");
         operatorMap.put("BSNL - TOPUP","BT");
         operatorMap.put("BSNL - STV","BS");
     }

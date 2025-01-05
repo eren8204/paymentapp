@@ -84,8 +84,6 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center">
 
-
-
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/shareAnimation"
                         android:layout_width="@dimen/_40sdp"
@@ -130,6 +128,7 @@
         android:background="@drawable/edittextbackground"
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_10sdp"
+        android:maxLength="10"
         android:hint="Enter Mobile Number"
         android:inputType="number"/>
     </androidx.cardview.widget.CardView>
@@ -192,6 +191,8 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:background="@drawable/edittextbackground"
                 android:hint="Enter Recharge Amount"
+                android:inputType="number"
+                android:maxLength="4"
                 android:padding="@dimen/_8sdp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

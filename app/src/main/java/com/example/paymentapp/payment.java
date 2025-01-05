@@ -47,7 +47,7 @@ public class payment extends AppCompatActivity {
     private EditText tpin_text,ctpin_text;
     private boolean isTpinVissible = false;
     private boolean isCtpinVissible = false;
-
+    private String operatorCode="",circleCode="",number_id="",money="";
     @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class payment extends AppCompatActivity {
         String username = sharedPreferences.getString("username", "Hello, !");
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
-        String type;
+        String type="";
         pre(username,memberId);
 
         ctpin_text.setOnTouchListener(new View.OnTouchListener() {
@@ -113,20 +113,30 @@ public class payment extends AppCompatActivity {
 
         Intent passed_intent = getIntent();
         if(passed_intent!=null){
-            if(passed_intent.hasExtra("ptype"))
+            if(passed_intent.hasExtra("ptype")){
                 payment_type.setText(passed_intent.getStringExtra("ptype"));
+                type = passed_intent.getStringExtra("ptype");
+            }
+
             if(passed_intent.hasExtra("stype")) {
                 subtype.setText(passed_intent.getStringExtra("stype"));
-                type = passed_intent.getStringExtra("stype");
             } else {
                 type = "";
             }
             if(passed_intent.hasExtra("stype_num")){
+                number_id = passed_intent.getStringExtra("stype_num");
                 subtype_num.setVisibility(View.VISIBLE);
                 subtype_num.setText(passed_intent.getStringExtra("stype_num"));
             }
-            if(passed_intent.hasExtra("amount"))
+            if(passed_intent.hasExtra("amount")){
                 amount.setText(passed_intent.getStringExtra("amount"));
+                money = passed_intent.getStringExtra("amount");
+            }
+
+            if(passed_intent.hasExtra("operator_code"))
+                operatorCode = passed_intent.getStringExtra("operator_code");
+            if(passed_intent.hasExtra("circle_code"))
+                circleCode = passed_intent.getStringExtra("circle_code");
         } else {
             type = "";
         }
@@ -154,6 +164,7 @@ public class payment extends AppCompatActivity {
             }
         });
 
+        String finalType = type;
         pay.setOnClickListener(v -> {
             pay.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
@@ -167,7 +178,8 @@ public class payment extends AppCompatActivity {
                     try {
                         boolean isValid = response.getBoolean("isValid");
                         if (isValid) {
-                            if(type.equals("BASIC PACKAGE")) {
+                            Log.d("recharge_type",finalType);
+                            if(finalType.equals("BASIC PACKAGE")) {
                                 buyMembership(memberId, "BASIC", buyResponse -> {
                                     try {
                                         String status = buyResponse.getString("status");
@@ -186,7 +198,7 @@ public class payment extends AppCompatActivity {
                                     }
                                 });
                             }
-                            else if(type.equals("PREMIUM PACKAGE")){
+                            else if(finalType.equals("PREMIUM PACKAGE")){
                                 buyMembership(memberId, "PREMIUM", buyResponse -> {
                                     try {
                                         String status = buyResponse.getString("status");
@@ -204,6 +216,10 @@ public class payment extends AppCompatActivity {
                                         pay.setVisibility(View.VISIBLE);
                                     }
                                 });
+                            }
+                            else if(finalType.equals("Mobile Recharge")){
+                                mobile_recharge(memberId,operatorCode,circleCode,number_id,money);
+
                             }
                         } else {
                             showError("Invalid T-PIN");
@@ -237,7 +253,6 @@ public class payment extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(request);
     }
-
     private void buyMembership(String memberId, String packageName, Response.Listener<JSONObject> responseListener) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/buymembership";
 
@@ -322,9 +337,64 @@ public class payment extends AppCompatActivity {
             }
         },
                 error -> {
+                    Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
                     //
                 });
     }
+    private void mobile_recharge(String memberId, String operatorCode, String circleCode, String number, String amount) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/doMobileRecharge";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("circlecode", circleCode);
+            jsonObject.put("operatorcode", operatorCode);
+            jsonObject.put("number", number);
+            jsonObject.put("amount", amount);
+            jsonObject.put("member_id", memberId);
+
+            Log.d("mobile_recharge", "Request URL: " + url);
+            Log.d("mobile_recharge", "Request Body: " + jsonObject.toString());
+
+        } catch (JSONException e) {
+            Log.e("mobile_recharge", "JSONException: " + e.getMessage());
+            Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject, response -> {
+            Log.d("mobile_recharge", "Response: " + response.toString());
+            try {
+                String message = response.getString("message");
+                Log.d("mobile_recharge", "Response Message: " + message);
+
+                String status = response.getString("status");
+                if ("true".equals(status)) {
+                    pay_layout.setVisibility(View.GONE);
+                    success_layout.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "Recharge Successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                Log.e("mobile_recharge", "Error parsing response: " + e.getMessage());
+                Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            error.printStackTrace();
+            Log.d("mobile_recharge_error", "Error: " + error.getMessage());
+            Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+
+
     private void showError(String message) {
         Log.e("arsh", "Error: " + message);
         progressBar.setVisibility(View.GONE);
