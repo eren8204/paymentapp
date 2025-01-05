@@ -13,17 +13,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Aboutus_Activity extends AppCompatActivity {
-
-
+public class Terms extends AppCompatActivity {
     private ImageView back_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aboutus);
+        setContentView(R.layout.activity_terms);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
-
         back_button=findViewById(R.id.back_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override

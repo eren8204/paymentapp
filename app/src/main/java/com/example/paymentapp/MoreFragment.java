@@ -21,7 +21,7 @@ import java.util.Objects;
 public class MoreFragment extends Fragment {
 
 
-    private CardView companydocument,aboutus;
+    private CardView companydocument,aboutus,privacyPolicy,termsandco,refundPolicy,account_deletion;
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,25 +35,40 @@ public class MoreFragment extends Fragment {
         userName.setText(username);
         userId.setText(memberId);
 
-
+        privacyPolicy = view.findViewById(R.id.privacyPolicy);
+        termsandco = view.findViewById(R.id.termsandco);
+        refundPolicy = view.findViewById(R.id.refundPolicy);
         companydocument=view.findViewById(R.id.companydocument);
+        account_deletion = view.findViewById(R.id.account_deletion);
 
-        companydocument.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, new Company_Document());
-                transaction.commit();
-            }
+        companydocument.setOnClickListener(v -> {
+            assert getFragmentManager() != null;
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.nav_host_fragment, new Company_Document());
+            transaction.commit();
         });
 
         aboutus=view.findViewById(R.id.aboutus);
-        aboutus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              Intent intent=new Intent(getActivity(),Aboutus_Activity.class);
-              startActivity(intent);
-            }
+        aboutus.setOnClickListener(v -> {
+          Intent intent=new Intent(getActivity(),Aboutus_Activity.class);
+          startActivity(intent);
+        });
+
+        privacyPolicy.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), PrivacyPolicy.class);
+            startActivity(intent);
+        });
+        termsandco.setOnClickListener(v-> {
+            Intent intent = new Intent(getActivity(), Terms.class);
+            startActivity(intent);
+        });
+        refundPolicy.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), RefundPolicy.class);
+            startActivity(intent);
+        });
+        account_deletion.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), AccountDeletion.class);
+            startActivity(intent);
         });
         return view;
     }

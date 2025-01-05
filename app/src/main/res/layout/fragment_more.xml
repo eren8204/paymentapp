@@ -175,6 +175,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/termsandco"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
@@ -202,6 +203,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/privacyPolicy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
@@ -229,6 +231,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/refundPolicy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
@@ -280,6 +283,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/account_deletion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
@@ -300,7 +304,6 @@
                             android:drawablePadding="@dimen/_12sdp"
                             android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
                             android:padding="@dimen/_8sdp">
-                            <!--                            jyy-->
                         </TextView>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

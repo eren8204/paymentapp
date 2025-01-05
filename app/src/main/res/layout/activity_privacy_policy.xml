@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".PrivacyPolicy">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        android:background="#EE9328">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="start">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/startColor"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/back_button"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@color/startColor"
+                    android:src="@drawable/arrow_back">
+
+                </ImageButton>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UNO PAY"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18sdp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#Bachat Har Bar"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="end"
+                    android:padding="@dimen/_7sdp">
+                    <TextView
+                        android:id="@+id/memberName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Hello, User!"/>
+                    <TextView
+                        android:id="@+id/memberId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/white"
+                        android:text="UP000000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/shareAnimation"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        app:lottie_rawRes="@raw/share"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_10sdp"
+        android:src="@drawable/flag" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_18sdp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/intro_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Introduction"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/intro_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uno Pay is committed to protecting the privacy of its users. This privacy policy explains how we collect, use, and safeguard user information."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Information We Collect Section -->
+            <TextView
+                android:id="@+id/info_collect_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Information We Collect"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/info_collect_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal Information: When you register an account, we may collect personal information such as name, email address, phone number, and payment details.\n\nUsage Information: We collect data on how you use Uno Pay, including transaction history, recharge, and bill payment details.\n\nDevice Information: Information about the device you use to access Uno Pay, including IP address, device type, and operating system."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Use of Information Section -->
+            <TextView
+                android:id="@+id/use_of_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use of Information"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/use_of_info_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service Provision: We use collected information to provide services such as recharge, bill payments, and customer support.\n\nImprovements: Collected data helps us improve Uno Pay's functionality, user experience, and services.\n\nMarketing: With user consent, we may use information to send promotional materials, offers, or updates about Uno Pay."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Data Security Section -->
+            <TextView
+                android:id="@+id/data_security_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data Security"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/data_security_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Security Measures: Uno Pay employs industry-standard security measures to protect user data from unauthorized access, alteration, or disclosure.\n\nData Retention: We retain user information as long as necessary to fulfill the purposes outlined in this policy or as required by law."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Information Sharing Section -->
+            <TextView
+                android:id="@+id/info_sharing_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Information Sharing"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/info_sharing_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Third-Party Providers: We may share user information with trusted third-party service providers necessary for the operation of Uno Pay, such as payment processors or customer support services.\n\nLegal Compliance: We may disclose information when required by law or to protect the rights, property, or safety of Uno Pay, its users, or others."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- User Choices and Rights Section -->
+            <TextView
+                android:id="@+id/user_choices_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Choices and Rights"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/user_choices_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account Settings: Users can manage their account settings and preferences within Uno Pay.\n\nData Access and Deletion: Users may request access to their data or request deletion by contacting Uno Pay's support."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Children's Privacy Section -->
+            <TextView
+                android:id="@+id/children_privacy_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Children's Privacy"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/children_privacy_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uno Pay is not intended for users under the age of 18. We do not knowingly collect information from children."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Changes to Privacy Policy Section -->
+            <TextView
+                android:id="@+id/changes_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Changes to this Privacy Policy"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/changes_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uno Pay reserves the right to modify this privacy policy at any time. Users will be notified of any changes."
+                android:textSize="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp" />
+
+            <!-- Contact Information Section -->
+            <TextView
+                android:id="@+id/contact_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Information"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/contact_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For any inquiries about this privacy policy or data practices, contact Uno Pay at info@Unopays.com"
+                android:textSize="@dimen/_16sdp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unotag Multi Solution Pvt. Ltd."
+                    android:gravity="center"
+                    android:textColor="@color/startColor"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/_14sdp">
+
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="#Bachat Har Baar"
+                    android:textStyle="bold"
+                    android:textColor="@color/endColor"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    </LinearLayout>
