@@ -73,7 +73,14 @@ public class RaiseTicket_Activity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
+        String username = sharedPreferences.getString("username", "Hello, !");
+
         Log.d(TAG, "onCreate: Loaded memberId = " + memberId);
+
+        TextView memberName = findViewById(R.id.memberName);
+        TextView userId = findViewById(R.id.memberId);
+        memberName.setText(username);
+        userId.setText(memberId);
 
         String ticketId = generateTicketId(memberId);
         Log.d(TAG, "onCreate: Generated ticketId = " + ticketId);

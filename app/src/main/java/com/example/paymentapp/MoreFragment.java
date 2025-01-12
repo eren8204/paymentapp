@@ -21,7 +21,7 @@ import java.util.Objects;
 public class MoreFragment extends Fragment {
 
 
-    private CardView companydocument,aboutus,privacyPolicy,termsandco,refundPolicy,account_deletion,raiseticket;
+    private CardView companydocument,aboutus,privacyPolicy,termsandco,refundPolicy,account_deletion,raiseticket,gallery,withdraw,rateus;
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +41,13 @@ public class MoreFragment extends Fragment {
         companydocument=view.findViewById(R.id.companydocument);
         account_deletion = view.findViewById(R.id.account_deletion);
         raiseticket = view.findViewById(R.id.raiseticket);
+        withdraw=view.findViewById(R.id.withdraw);
+
+        withdraw.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), Withdraw.class);
+            startActivity(intent);
+        });
+
 
         companydocument.setOnClickListener(v -> {
             assert getFragmentManager() != null;
