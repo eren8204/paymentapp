@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         String username = sharedPreferences.getString("username", "Hello, !");
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
-        fetchKYCStatus(memberId);
+        fetchDataSequentially(memberId);
 
         memberName = findViewById(R.id.memberName);
         userId = findViewById(R.id.memberId);
@@ -205,6 +205,65 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void fetchDataSequentially(String memberId) {
+        fetchWalletBalance(memberId, ()->fetchKYCStatus(memberId));
+    }
+    private void fetchWalletBalance(String memberId, Runnable onComplete){
+            String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/user-wallet-wise-balance";
+            Map<String, String> params = new HashMap<>();
+            params.put("member_id", memberId);
+
+        JSONObject requestBody = new JSONObject(params);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                requestBody,
+
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("status");
+                            if (status.equals("true")) {
+                                String flexi_wallet = response.getString("flexi_wallet");
+                                String commission_wallet = response.getString("commission_wallet");
+                                String signup_bonus = response.getString("signup_bonus");
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("flexi_wallet",flexi_wallet);
+                                editor.putString("commission_wallet",commission_wallet);
+                                editor.putString("signup_bonus",signup_bonus);
+                                editor.apply();
+
+                            }
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        finally {
+                            if (onComplete != null) {
+                                onComplete.run();
+                            }
+                        }
+                    }
+                },
+                error -> {
+                }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
+    }
     private void fetchKYCStatus(String memberId) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/userkycstatus";
 

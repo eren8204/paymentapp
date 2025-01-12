@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BusinessFragment extends Fragment {
-    private TextView uname,uid,m_status,id_status,u_number,id_doj;
+    private TextView uname,uid,m_status,id_status,u_number,id_doj,flexi_text,commission_text,bonus_text;
     private CardView my_team,income;
     @SuppressLint({"CutPasteId", "MissingInflatedId"})
     @Override
@@ -39,6 +39,9 @@ public class BusinessFragment extends Fragment {
         u_number = view.findViewById(R.id.id_card_no);
         id_doj = view.findViewById(R.id.id_card_doj);
         income = view.findViewById(R.id.income);
+        flexi_text = view.findViewById(R.id.flexi_wallet_text);
+        commission_text = view.findViewById(R.id.total_income_text);
+        bonus_text = view.findViewById(R.id.bonus_wallet_text);
 
         TextView marquee_text = view.findViewById(R.id.marquee_text);
         marquee_text.setSelected(true);
@@ -59,27 +62,28 @@ public class BusinessFragment extends Fragment {
         String status = sharedPreferences.getString("membership","FREE");
         String mno = sharedPreferences.getString("mobile","9999999999");
         String doj = sharedPreferences.getString("doj","01 Jan 25");
+        String flexi = sharedPreferences.getString("flexi_wallet","0.0");
+        String commission = sharedPreferences.getString("commission_wallet","0.0");
+        String bonus = sharedPreferences.getString("signup_bonus","0.0");
+
         uname.setText(username);
         uid.setText(memberId);
         m_status.setText(status);
         id_status.setText(status);
         u_number.setText(mno);
         id_doj.setText(doj);
+        flexi_text.setText("₹ "+flexi);
+        commission_text.setText("₹ "+commission);
+        bonus_text.setText("₹ "+bonus);
 
-        my_team.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), MyTeam.class);
-                startActivity(intent);
-            }
+        my_team.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), MyTeam.class);
+            startActivity(intent);
         });
 
-        income.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), MyIncome.class);
-                startActivity(intent);
-            }
+        income.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), MyIncome.class);
+            startActivity(intent);
         });
 
         return  view;

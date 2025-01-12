@@ -42,7 +42,7 @@ public class MyIncome extends AppCompatActivity {
     private TextView tb_memberid, tb_username;
     private RecyclerView recyclerView;
     private IncomeAdapter incomeAdapter;
-    private List<Transaction> transactionList = new ArrayList<>();
+    private final List<Transaction> transactionList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -88,6 +88,7 @@ public class MyIncome extends AppCompatActivity {
                 url,
                 requestBody,
                 new Response.Listener<JSONObject>() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
@@ -131,12 +132,7 @@ public class MyIncome extends AppCompatActivity {
                         }
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Error fetching transactions: ", error);
-                    }
-                }
+                error -> Log.e(TAG, "Error fetching transactions: ", error)
         );
 
         RequestQueue queue = Volley.newRequestQueue(this); // Use 'this' instead of getContext()
@@ -231,6 +227,7 @@ public class MyIncome extends AppCompatActivity {
             return new IncomeViewHolder(view);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull IncomeViewHolder holder, int position) {
             Transaction transaction = transactionList.get(position);
@@ -239,7 +236,7 @@ public class MyIncome extends AppCompatActivity {
             holder.type.setText(transaction.type);
             holder.subType.setText(transaction.subType);
             holder.username.setText(transaction.commissionBy);
-            holder.level.setText(transaction.level);
+            holder.level.setText("Level: "+transaction.level);
             holder.date.setText(transaction.date);
             holder.time.setText(transaction.time);
             holder.rechargeTo.setText(transaction.rechargeTo);
