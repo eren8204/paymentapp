@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,8 @@ public class RaiseTicket_Activity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<JSONObject> chatMessages = new ArrayList<>();
     private ChatAdapter chatAdapter;
+
+    private ImageView back_button;
     private static final String SEND_MESSAGE_URL = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-message";
     private static final String GET_CHAT_URL = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/get-user-admin-chat";
 
@@ -49,6 +53,15 @@ public class RaiseTicket_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_raise_ticket);
         Log.d(TAG, "onCreate: Activity started");
 
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        back_button=findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         messageEditText = findViewById(R.id.messageby);
         raiseTicketButton = findViewById(R.id.Raiseticketbtn);
         recyclerView = findViewById(R.id.recyclerView);
