@@ -38,7 +38,6 @@ public class MoreFragment extends Fragment {
         privacyPolicy = view.findViewById(R.id.privacyPolicy);
         termsandco = view.findViewById(R.id.termsandco);
         refundPolicy = view.findViewById(R.id.refundPolicy);
-        companydocument=view.findViewById(R.id.companydocument);
         account_deletion = view.findViewById(R.id.account_deletion);
         raiseticket = view.findViewById(R.id.raiseticket);
         withdraw=view.findViewById(R.id.withdraw);
@@ -49,11 +48,17 @@ public class MoreFragment extends Fragment {
         });
 
 
+//        companydocument.setOnClickListener(v -> {
+//            assert getFragmentManager() != null;
+//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//            transaction.replace(R.id.nav_host_fragment, new Company_Document());
+//            transaction.commit();
+//        });
+
+        companydocument=view.findViewById(R.id.companydocument);
         companydocument.setOnClickListener(v -> {
-            assert getFragmentManager() != null;
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.nav_host_fragment, new Company_Document());
-            transaction.commit();
+            Intent intent=new Intent(getActivity(),companydocument.class);
+            startActivity(intent);
         });
 
         aboutus=view.findViewById(R.id.aboutus);

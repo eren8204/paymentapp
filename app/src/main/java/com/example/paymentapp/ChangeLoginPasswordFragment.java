@@ -1,30 +1,26 @@
 package com.example.paymentapp;
 
 import static android.content.Context.MODE_PRIVATE;
-
 import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.os.Environment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -35,13 +31,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 public class ChangeLoginPasswordFragment extends Fragment {
 
 
 private EditText old_password,new_password,confirm_password;
 private Button update_password;
 private ProgressBar progressBar;
+
+    private boolean passwordVisible;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +61,65 @@ private ProgressBar progressBar;
                 submitFormData(memberId);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
+            }
+        });
+
+        old_password.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (old_password.getRight() - old_password.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            old_password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            old_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        old_password.setSelection(old_password.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        new_password.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (new_password.getRight() - new_password.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            new_password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            new_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        new_password.setSelection(new_password.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        confirm_password.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (confirm_password.getRight() - confirm_password.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            confirm_password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            confirm_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        confirm_password.setSelection(confirm_password.getText().length());
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 

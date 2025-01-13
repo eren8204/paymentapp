@@ -1,35 +1,51 @@
 package com.example.paymentapp;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Company_Document extends Fragment {
+public class companydocument extends AppCompatActivity {
 
-    @Nullable
+    private ImageView back_button;
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_company__document, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_companydocument);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Hello, !");
+        String memberId = sharedPreferences.getString("memberId", "UP000000");
 
+        TextView memberName = findViewById(R.id.memberName);
+        TextView userId = findViewById(R.id.memberId);
+        memberName.setText(username);
+        userId.setText(memberId);
+
+        back_button=findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         String[] imageNames = {
                 "company_tancard.jpg",
                 "gst_certificate.jpg",
@@ -73,9 +89,9 @@ public class Company_Document extends Fragment {
         };
 
         for (int i = 0; i < imageNames.length; i++) {
-            ImageView cardImage = view.findViewById(cardImageIds[i]);
-            TextView cardName = view.findViewById(cardNameIds[i]);
-            CardView cardView = view.findViewById(cardViewIds[i]);
+            ImageView cardImage = findViewById(cardImageIds[i]);
+            TextView cardName = findViewById(cardNameIds[i]);
+            CardView cardView = findViewById(cardViewIds[i]);
 
             loadImageFromAssets(cardImage,imageNames[i]);
             cardName.setText(displayNames[i]);
@@ -85,14 +101,13 @@ public class Company_Document extends Fragment {
             cardView.setOnClickListener(v -> showImageDialog(imageName, displayName));
         }
 
-        return view;
     }
 
     private void loadImageFromAssets(ImageView imageView, String imagePath) {
         try {
             Log.d("AssetsLoader", "Loading image: " + imagePath);
 
-            InputStream inputStream = getContext().getAssets().open(imagePath);
+            InputStream inputStream = getAssets().open(imagePath);
             Drawable drawable = Drawable.createFromStream(inputStream, null);
             imageView.setImageDrawable(drawable);
             inputStream.close();
@@ -105,7 +120,7 @@ public class Company_Document extends Fragment {
 
 
     private void showImageDialog(String imageName, String displayName) {
-        Dialog dialog = new Dialog(getContext());
+        Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_image);
 
         ImageView dialogImage = dialog.findViewById(R.id.dialogImage);
@@ -113,7 +128,7 @@ public class Company_Document extends Fragment {
         Button closeButton = dialog.findViewById(R.id.dialogCloseButton);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         try {
-            InputStream inputStream = getContext().getAssets().open(imageName);
+            InputStream inputStream = getAssets().open(imageName);
             Drawable drawable = Drawable.createFromStream(inputStream, null);
             dialogImage.setImageDrawable(drawable);
             inputStream.close();
@@ -127,11 +142,5 @@ public class Company_Document extends Fragment {
 
         dialog.show();
     }
-
-
-
-
-
-
 
 }

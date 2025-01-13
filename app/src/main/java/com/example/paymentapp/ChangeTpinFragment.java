@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,6 +44,7 @@ public class ChangeTpinFragment extends Fragment {
     private EditText oldTpin,newTpin,confirmTpin;
     private Button update_Tpin;
     private ProgressBar progressBar;
+    private boolean passwordVisible;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +60,64 @@ public class ChangeTpinFragment extends Fragment {
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
+
+
+        oldTpin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (oldTpin.getRight() - oldTpin.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            oldTpin.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            oldTpin.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        oldTpin.setSelection(oldTpin.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        newTpin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (newTpin.getRight() - newTpin.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            newTpin.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            newTpin.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        newTpin.setSelection(newTpin.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        confirmTpin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (confirmTpin.getRight() - confirmTpin.getCompoundDrawables()[2].getBounds().width())) {
+                        passwordVisible = !passwordVisible;
+                        if (passwordVisible) {
+                            confirmTpin.setInputType(InputType.TYPE_CLASS_TEXT);
+                        } else {
+                            confirmTpin.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        confirmTpin.setSelection(confirmTpin.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         update_Tpin.setOnClickListener(v -> {
             try {
