@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 requestBody,
 
                 new Response.Listener<JSONObject>() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
@@ -229,6 +229,11 @@ public class MainActivity extends AppCompatActivity {
                                 String flexi_wallet = response.getString("flexi_wallet");
                                 String commission_wallet = response.getString("commission_wallet");
                                 String signup_bonus = response.getString("signup_bonus");
+
+                                flexi_wallet = String.format("%.2f", Double.parseDouble(flexi_wallet));
+                                commission_wallet = String.format("%.2f", Double.parseDouble(commission_wallet));
+                                signup_bonus = String.format("%.2f", Double.parseDouble(signup_bonus));
+
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("flexi_wallet",flexi_wallet);

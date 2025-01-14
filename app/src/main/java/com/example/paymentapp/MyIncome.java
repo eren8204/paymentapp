@@ -227,11 +227,11 @@ public class MyIncome extends AppCompatActivity {
             return new IncomeViewHolder(view);
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint({"SetTextI18n", "DefaultLocale"})
         @Override
         public void onBindViewHolder(@NonNull IncomeViewHolder holder, int position) {
             Transaction transaction = transactionList.get(position);
-            Log.d(TAG, "Binding transaction at position " + position + ": " + transaction);
+            Log.d(TAG, "Binding transaction at position" + position + " : " + transaction);
 
             holder.type.setText(transaction.type);
             holder.subType.setText(transaction.subType);
@@ -241,7 +241,23 @@ public class MyIncome extends AppCompatActivity {
             holder.time.setText(transaction.time);
             holder.rechargeTo.setText(transaction.rechargeTo);
             holder.amountSpent.setText(transaction.amountSpent);
-            holder.amountGot.setText(transaction.amountGot);
+            double amount = Double.parseDouble(transaction.amountGot);
+            String formattedAmount;
+            if (amount == Math.floor(amount)) {
+                // No decimal places needed
+                formattedAmount = String.format("%.2f", amount);
+            } else if ((amount * 100) % 1 == 0) {
+                // Exactly two decimal places
+                formattedAmount = String.format("%.2f", amount);
+            } else if ((amount * 1000) % 1 == 0) {
+                // Up to three decimal places
+                formattedAmount = String.format("%.3f", amount);
+            } else {
+                // Up to four decimal places
+                formattedAmount = String.format("%.4f", amount);
+            }
+            holder.amountGot.setText(formattedAmount);
+
         }
 
         @Override

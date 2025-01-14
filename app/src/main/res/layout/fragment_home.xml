@@ -207,6 +207,7 @@
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/bonusamount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -239,6 +240,7 @@
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/fundwalletamount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -303,6 +305,7 @@
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/totalincome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -335,6 +338,7 @@
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/commisionincome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"

@@ -2,7 +2,9 @@ package com.example.paymentapp;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     HorizontalScrollView horizontalScrollView;
     CardView addfund;
+
+    TextView bonusamount, fundwalletamount, totalincome, commisionincome;
     LinearLayout prepaid_mobile,cibil,sbi,icici,hdfc,postpaid_mobile,dth_recharge,fastag,electricity_bill,gas_cylinder,water_bill,cable_tv,money_transfer,credit_card,
             loan_repayment,atm_locator,bike_insurance,car_insurance,family_insurance,tax_calculation,irctc,confirm_tkt,spot_train,parivahan,redbus,makemytrip,
             ola,uber,aadhar,pan_card,income_tax,ecard,voter_card,passport,post_office,rashan,amazon,flipkart,meesho,zomato,swiggy,vishal_mart,bookmyshow,tata1mg,
@@ -101,7 +105,20 @@ public class HomeFragment extends Fragment {
         youtube = view.findViewById(R.id.youtube);
 
         horizontalScrollView = view.findViewById(R.id.horizonatalScrollView);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String flexi = sharedPreferences.getString("flexi_wallet","0.0");
+        String commission = sharedPreferences.getString("commission_wallet","0.0");
+        String bonus = sharedPreferences.getString("signup_bonus","0.0");
 
+        bonusamount=view.findViewById(R.id.bonusamount);
+        fundwalletamount=view.findViewById(R.id.fundwalletamount);
+        totalincome=view.findViewById(R.id.totalincome);
+        commisionincome=view.findViewById(R.id.commisionincome);
+
+        bonusamount.setText("₹ "+bonus);
+        fundwalletamount.setText("₹ "+flexi);
+        totalincome.setText("₹ "+commission);
+        commisionincome.setText("₹ "+commission);
 
         LottieAnimationView lottieAnimationzoom = view.findViewById(R.id.zoomAnimation);
         lottieAnimationzoom.playAnimation();
