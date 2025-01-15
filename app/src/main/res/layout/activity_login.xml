@@ -6,7 +6,6 @@
     android:background="@drawable/background_gradient"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".Login">
@@ -14,22 +13,19 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
         app:cardCornerRadius="@dimen/_10sdp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:padding="@dimen/_5sdp"
         android:layout_margin="@dimen/_5sdp"
         android:orientation="vertical">
 
-
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/_10sdp"
             android:src="@drawable/flag" />
@@ -109,6 +105,31 @@
             android:textStyle="bold">
 
         </TextView>
+        <TextView
+            android:id="@+id/login_error_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/reject"
+            android:text="Try again"
+            android:visibility="gone"/>
+        <EditText
+            android:id="@+id/otp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittextbackground"
+            android:drawableStart="@drawable/baseline_key_24"
+            android:hint="Enter OTP"
+            android:layout_margin="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_8sdp"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_12sdp"
+            android:maxLength="6"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:ignore="RtlSymmetry">
+        </EditText>
 
 
         <FrameLayout
@@ -118,7 +139,7 @@
             <Button
                 android:id="@+id/login"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_39sdp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/_39sdp"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -133,7 +154,7 @@
             <ProgressBar
                 android:id="@+id/progressbarlogin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_39sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_39sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_40sdp"
@@ -176,7 +197,8 @@
 
         <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
             android:layout_gravity="fill_horizontal"
             android:alignmentMode="alignMargins"
             android:columnCount="5"

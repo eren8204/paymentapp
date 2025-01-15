@@ -5,10 +5,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,35 +43,38 @@ import java.util.Locale;
 public class Login extends AppCompatActivity {
 
 
-    private TextView signup;
-    private EditText email,password;
+    private TextView signup,error_msg;
+    private EditText email,password,otp_edittext;
     private Button login;
     private ProgressBar progressbarlogin;
     private String username="";
 
     private TextView forgetpassword;
-    private String pass="";
-    private String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login";
-    private boolean passwordVisible;
+    private String pass="",otp="",androidId="";
+    private String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login2";
+    private boolean passwordVisible,otpVisible=false;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        androidId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         forgetpassword=findViewById(R.id.forgetpassword);
-        forgetpassword.setOnClickListener(v -> {
-            Intent intent=new Intent(Login.this,ForgetPassword.class);
-            startActivity(intent);
-
-        });
         signup=findViewById(R.id.signup);
         login=findViewById(R.id.login);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
         progressbarlogin = findViewById(R.id.progressbarlogin);
+        error_msg = findViewById(R.id.login_error_text);
+        otp_edittext = findViewById(R.id.otp);
+
+
+        forgetpassword.setOnClickListener(v -> {
+            Intent intent=new Intent(Login.this,ForgetPassword.class);
+            startActivity(intent);
+        });
 
         LottieAnimationView lottieAnimationshare = findViewById(R.id.secureAnimation);
         lottieAnimationshare.playAnimation();
@@ -135,9 +141,13 @@ public class Login extends AppCompatActivity {
     public void loginIdPass(){
         username = email.getText().toString().trim();
         pass = password.getText().toString().trim();
-
-        if (username.isEmpty() || pass.isEmpty()) {
+        otp = otp_edittext.getText().toString().trim();
+        if (username.length()<8 || pass.length()<8) {
             Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(otpVisible && otp.length()<6){
+            Toast.makeText(Login.this, "Enter OTP", Toast.LENGTH_SHORT).show();
             return;
         }
         login.setVisibility(View.GONE);
@@ -147,6 +157,9 @@ public class Login extends AppCompatActivity {
         try {
             requestBody.put("identifier", username);
             requestBody.put("password", pass);
+            requestBody.put("device_id",androidId);
+            requestBody.put("otp",otp);
+            Log.d("login_request",requestBody.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -157,16 +170,15 @@ public class Login extends AppCompatActivity {
                 requestBody,
                 response -> {
                     try {
-                        String message = response.getString("message");
-                        String memberId = response.getString("memberid");
-                        String userName = response.getString("username");
-                        String membership = response.getString("membership");
-                        String mob_no = response.getString("phoneNo");
-                        String email = response.getString("email");
-                        String doj = response.getString("date_of_joining");
-                        String newDoj = formatDate(doj);
-
-                        if (message.equalsIgnoreCase("User logged in successfully")) {
+                        if(response.has("status") && response.getString("status").equals("true")){
+                            String message = response.getString("message");
+                            String memberId = response.getString("memberid");
+                            String userName = response.getString("username");
+                            String membership = response.getString("membership");
+                            String mob_no = response.getString("phoneNo");
+                            String email = response.getString("email");
+                            String doj = response.getString("date_of_joining");
+                            String newDoj = formatDate(doj);
                             SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("password", pass);
@@ -180,29 +192,42 @@ public class Login extends AppCompatActivity {
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                             finish();
-                        } else {
+                        }
+                        else if(response.has("status") && response.getString("status").equals("false")){
                             progressbarlogin.setVisibility(View.GONE);
                             login.setVisibility(View.VISIBLE);
                             String msg = response.getString("message");
-                            Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
+                            error_msg.setVisibility(View.VISIBLE);
+                            error_msg.setText(msg);
+                            if(!msg.equalsIgnoreCase("Wrong password") && !msg.equalsIgnoreCase("User not registered")){
+                                otp_edittext.setVisibility(View.VISIBLE);
+                                otpVisible = true;
+                            }
                         }
                     } catch (JSONException e) {
                         progressbarlogin.setVisibility(View.GONE);
                         login.setVisibility(View.VISIBLE);
+                        email.setEnabled(true);
+                        password.setEnabled(true);
+                        signup.setEnabled(true);
                         Log.d("login_error",e.toString());
-                        Toast.makeText(Login.this, "Error parsing response", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
                     progressbarlogin.setVisibility(View.GONE);
                     login.setVisibility(View.VISIBLE);
-                    Intent intent = new Intent(Login.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    email.setEnabled(true);
+                    password.setEnabled(true);
+                    signup.setEnabled(true);
                     Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
         );
-
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
         requestQueue.add(jsonObjectRequest);
     }
     public static String formatDate(String dateString) {
