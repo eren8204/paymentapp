@@ -350,6 +350,17 @@ public class Register extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String tPin = tPinEditText.getText().toString().trim();
 
+        Intent intent1 = new Intent(this, SuccessRegisterActivity.class);
+
+        intent1.putExtra("SPONSOR_ID", sponsorIDText);
+        intent1.putExtra("PHONE_NUMBER", phoneNumber);
+        intent1.putExtra("USERNAME", username);
+        intent1.putExtra("EMAIL", email);
+        intent1.putExtra("PASSWORD", password);
+        intent1.putExtra("TPIN", tPin);
+        startActivity(intent1);
+
+
         String baseUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/register";
         JSONObject requestBody = new JSONObject();
         try {
@@ -377,8 +388,16 @@ public class Register extends AppCompatActivity {
                         if(response.has("success") && response.getString("success").equals("true")) {
                             progressbar_register.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
+
+
                             Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Register.this, SuccessRegisterActivity.class);
+                            startActivity(intent);
+                            finish();
                             Log.i(TAG, "Registration response: " + response.toString());
+
+
+
                         }
                         else{
                             progressbar_register.setVisibility(View.GONE);
