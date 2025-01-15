@@ -1,5 +1,6 @@
 package com.example.paymentapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -61,23 +62,15 @@ public class ForgetPassword extends AppCompatActivity {
         updatePasswordButton.setEnabled(false);
         updatePasswordButton.setVisibility(View.VISIBLE);
         back_button=findViewById(R.id.back_button);
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back_button.setOnClickListener(v -> finish());
 
 
-        sendOtpText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String memberid = memberId.getText().toString();
-                progress.setVisibility(View.VISIBLE);
-                sendOtpText.setVisibility(View.GONE);
-                Log.d(TAG, "Send OTP clicked with member ID: " + memberid);
-                sendOtp(memberid);
-            }
+        sendOtpText.setOnClickListener(v -> {
+            String memberid = memberId.getText().toString();
+            progress.setVisibility(View.VISIBLE);
+            sendOtpText.setVisibility(View.GONE);
+            Log.d(TAG, "Send OTP clicked with member ID: " + memberid);
+            sendOtp(memberid);
         });
 
         otp.addTextChangedListener(new TextWatcher() {
@@ -93,15 +86,12 @@ public class ForgetPassword extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
         if(newPassword.getText().toString().equals(confirmPassword.getText().toString())&& newPassword!=null) {
-            updatePasswordButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String memberid = memberId.getText().toString();
-                    Log.d(TAG, "Update Password clicked with member ID: " + memberid);
-                    progressBar.setVisibility(View.VISIBLE);
-                    updatePasswordButton.setVisibility(View.GONE);
-                    updatePassword(memberid);
-                }
+            updatePasswordButton.setOnClickListener(v -> {
+                String memberid = memberId.getText().toString();
+                Log.d(TAG, "Update Password clicked with member ID: " + memberid);
+                progressBar.setVisibility(View.VISIBLE);
+                updatePasswordButton.setVisibility(View.GONE);
+                updatePassword(memberid);
             });
         }
     }
@@ -118,28 +108,22 @@ public class ForgetPassword extends AppCompatActivity {
             Log.d(TAG, "API URL: " + apiUrl);
             Log.d(TAG, "Sending OTP request data: " + jsonInput.toString());
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
                     apiUrl,
                     jsonInput,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response.toString());
-                            sendOtpText.setText("Resend OTP");
-                            progress.setVisibility(View.GONE);
-                            sendOtpText.setVisibility(View.VISIBLE);
-                            Toast.makeText(ForgetPassword.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
-                        }
+                    response -> {
+                        Log.d(TAG, "Response: " + response.toString());
+                        sendOtpText.setText("Resend OTP");
+                        progress.setVisibility(View.GONE);
+                        sendOtpText.setVisibility(View.VISIBLE);
+                        Toast.makeText(ForgetPassword.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "Error in sendOtp", error);
-                            progress.setVisibility(View.GONE);
-                            sendOtpText.setVisibility(View.VISIBLE);
-                            Toast.makeText(ForgetPassword.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
-                        }
+                    error -> {
+                        Log.e(TAG, "Error in sendOtp", error);
+                        progress.setVisibility(View.GONE);
+                        sendOtpText.setVisibility(View.VISIBLE);
+                        Toast.makeText(ForgetPassword.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
                     }
             );
 

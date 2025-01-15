@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_35sdp"
             android:src="@drawable/uno" />
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_gravity="left"
-            android:layout_marginLeft="@dimen/_27sdp"
+            android:layout_marginStart="@dimen/_27sdp"
             android:text="Register"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -44,15 +44,15 @@
             android:orientation="vertical">
             <EditText
                 android:id="@+id/sponserID"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittextbackground"
                 android:hint="Enter Sponsor ID"
                 android:maxLength="8"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:drawableLeft="@drawable/baseline_perm_identity_24"
-                android:paddingRight="@dimen/_8sdp"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:drawableStart="@drawable/baseline_perm_identity_24"
                 android:inputType="text"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_16sdp">
@@ -69,120 +69,191 @@
                 android:layout_marginTop="@dimen/_5sdp"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
 
                 <EditText
                     android:id="@+id/country_code"
-                    android:layout_width="@dimen/_75sdp"
-                    android:layout_height="@dimen/_31sdp"
-                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:background="@drawable/edittextbackground"
-                    android:drawableLeft="@drawable/india"
-                    android:drawablePadding="@dimen/_8sdp"
+                    android:drawableStart="@drawable/india"
+                    android:padding="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
                     android:text="+91"
                     android:inputType="phone"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_8sdp"
-                    android:width="@dimen/_62sdp"
                     android:focusable="false"
                     android:clickable="false"/>
 
 
                 <EditText
                     android:id="@+id/phonenumber"
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_31sdp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2.7"
+                    android:layout_height="match_parent"
                     android:background="@drawable/edittextbackground"
-                    android:drawablePadding="@dimen/_8sdp"
                     android:hint="Enter Mobile Number"
                     android:inputType="phone"
+                    android:padding="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
                     android:maxLength="10"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_8sdp"
                     android:focusable="true"/>
             </LinearLayout>
 
             <EditText
                 android:id="@+id/name"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittextbackground"
-                android:hint="Enter Full Name as per Document"
-                android:drawableLeft="@drawable/baseline_perm_identity_24"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingRight="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
+                android:hint="Full Name as per Documents"
+                android:drawableStart="@drawable/baseline_perm_identity_24"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
                 android:inputType="text"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp" />
+                android:layout_marginTop="@dimen/_15sdp" />
 
 
             <EditText
                 android:id="@+id/registeremail"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittextbackground"
-                android:drawableLeft="@drawable/baseline_mail_24"
+                android:drawableStart="@drawable/baseline_mail_24"
                 android:hint="Enter Email"
-                android:drawablePadding="@dimen/_8sdp"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
                 android:inputType="textEmailAddress"
-                android:paddingLeft="@dimen/_12sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp">
+                android:layout_marginTop="@dimen/_15sdp"
+                tools:ignore="RtlSymmetry">
 
             </EditText>
+            <TextView
+                android:id="@+id/sendotp_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Send OTP"
+                android:textStyle="bold"
+                android:textColor="@color/endColor"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:textSize="@dimen/_13sdp"/>
+            <LinearLayout
+                android:id="@+id/otp_progress_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_45sdp"
+                android:gravity="end"
+                android:visibility="gone">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+            <EditText
+                android:id="@+id/otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittextbackground"
+                android:drawableStart="@drawable/baseline_key_24"
+                android:hint="Enter OTP"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/_8sdp"
+                android:maxLength="6"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry">
+            </EditText>
+            <TextView
+                android:id="@+id/verifyotp_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Verify"
+                android:textStyle="bold"
+                android:textColor="@color/endColor"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:textSize="@dimen/_13sdp"
+                android:visibility="gone"/>
+            <LinearLayout
+                android:id="@+id/verify_progress_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:gravity="end"
+                android:visibility="gone">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
             <EditText
                 android:id="@+id/password"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittextbackground"
                 android:hint="Password"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                android:paddingRight="@dimen/_8sdp"
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
                 android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
+                android:maxLength="12"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:drawableStart="@drawable/baseline_lock_24"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp">
+                android:layout_marginTop="@dimen/_15sdp">
 
             </EditText>
             <EditText
                 android:id="@+id/coinfirmpassword"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittextbackground"
                 android:hint="Confirm  Password"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                android:paddingRight="@dimen/_8sdp"
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
                 android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
+                android:maxLength="12"
+                android:drawableStart="@drawable/baseline_lock_24"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp">
+                android:layout_marginTop="@dimen/_15sdp">
 
             </EditText>
             <EditText
                 android:id="@+id/T_PIN"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittextbackground"
                 android:hint="Enter 4 digit T-pin"
-                android:drawablePadding="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                android:paddingRight="@dimen/_8sdp"
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
                 android:inputType="numberPassword"
                 android:maxLength="4"
-                android:drawableLeft="@drawable/baseline_lock_24"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:drawableStart="@drawable/baseline_lock_24"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_16sdp">
+                android:layout_marginTop="@dimen/_15sdp"
+                tools:ignore="HardcodedText">
 
             </EditText>
 
@@ -190,11 +261,14 @@
 
             <CheckBox
                 android:id="@+id/checkbox_example"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_31sdp"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:textStyle="bold"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
                 android:textColor="#FF1A09"
                 android:textSize="@dimen/_12sdp"
                 android:text="I agree to the Terms and Condition" />
@@ -207,13 +281,13 @@
 
             <Button
                 android:id="@+id/save"
-                android:layout_width="@dimen/_233sdp"
-                android:layout_height="@dimen/_39sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Register"
                 android:textSize="@dimen/_16sdp"
                 android:layout_margin="@dimen/_23sdp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_39sdp"
+                android:layout_marginStart="@dimen/_39sdp"
                 android:textColor="#FAF7F7"
                 android:background="@drawable/loginbtnbakground"
                 android:textStyle="bold" />
