@@ -258,7 +258,7 @@
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="@dimen/_50sdp"
                             android:layout_marginLeft="@dimen/_5sdp"
-                            app:lottie_rawRes="@raw/sharecard"
+                            app:lottie_rawRes="@raw/share_black"
                             app:lottie_loop="true"
                             app:lottie_autoPlay="true"
                             />

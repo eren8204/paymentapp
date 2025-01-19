@@ -148,8 +148,11 @@
 
                     <EditText
                         android:id="@+id/User_name"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="Full name"
                         android:maxLength="25"
@@ -165,8 +168,11 @@
 
                     <EditText
                         android:id="@+id/Pan_number"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="Pan Number"
                         android:maxLength="10"
@@ -182,8 +188,11 @@
                     </EditText>
                     <EditText
                         android:id="@+id/IFSCcode"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="IFSC Code"
                         android:maxLength="11"
@@ -199,8 +208,11 @@
                     </EditText>
                     <EditText
                         android:id="@+id/BankName"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="Bank Name"
                         android:drawablePadding="@dimen/_8sdp"
@@ -213,28 +225,32 @@
 
                     </EditText>
 
-
                     <EditText
                         android:id="@+id/AccountNumber"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="Account Number"
                         android:maxLength="18"
                         android:drawablePadding="@dimen/_8sdp"
-                        android:paddingStart="@dimen/_12sdp"
-                        android:drawableStart="@drawable/baseline_account_balance_wallet_24"
-                        android:paddingEnd="@dimen/_8sdp"
-                        android:inputType="number"
+                        android:paddingLeft="@dimen/_12sdp"
+                        android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:inputType="text"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_16sdp"
-                        tools:ignore="TextFields">
+                        android:layout_marginTop="@dimen/_16sdp">
 
                     </EditText>
                     <EditText
                         android:id="@+id/ConfirmAccountNumber"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="Confirm Account Number"
                         android:maxLength="18"
@@ -250,8 +266,11 @@
 
                     <EditText
                         android:id="@+id/Aadharnumber"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:hint="Aadhar Number"
                         android:drawablePadding="@dimen/_8sdp"
@@ -274,7 +293,7 @@
                         >
                         <ImageView
                             android:id="@+id/uploadPancard"
-                            android:layout_width="@dimen/_40sdp"
+                            android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_margin="@dimen/_10sdp"
                             android:scaleType="centerCrop"
@@ -289,7 +308,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:textSize="@dimen/_12sdp"
-                            android:text="PAN Card"
+                            android:text="Upload PAN Card"
                             >
                         </TextView>
 
@@ -300,10 +319,19 @@
                             android:padding="@dimen/_10sdp"
                             android:gravity="end"
                             >
+                            <TextView
+                                android:id="@+id/panview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View"
+                                android:layout_gravity="center"
+                                android:textColor="@color/green"/>
+
                             <ImageView
                                 android:id="@+id/pancardcheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:visibility="invisible"
                                 android:layout_gravity="center"
                                 android:src="@drawable/baseline_check_circle_24"
@@ -320,7 +348,7 @@
                         >
                         <ImageView
                             android:id="@+id/uploadAadharcard"
-                            android:layout_width="@dimen/_40sdp"
+                            android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_margin="@dimen/_10sdp"
                             android:scaleType="centerCrop"
@@ -335,7 +363,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:textSize="@dimen/_12sdp"
-                            android:text="Aadhar front"
+                            android:text="Upload Aadhar front"
                             >
 
                         </TextView>
@@ -346,10 +374,19 @@
                             android:padding="@dimen/_10sdp"
                             android:gravity="end"
                             >
+
+                            <TextView
+                                android:id="@+id/Adharfrontview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View"
+                                android:layout_gravity="center"
+                                android:textColor="@color/green"/>
                             <ImageView
                                 android:id="@+id/Aadharcardcheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:visibility="invisible"
                                 android:layout_gravity="center"
                                 android:src="@drawable/baseline_check_circle_24"
@@ -365,7 +402,7 @@
                         >
                         <ImageView
                             android:id="@+id/uploadAadharcardback"
-                            android:layout_width="@dimen/_40sdp"
+                            android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_margin="@dimen/_10sdp"
                             android:scaleType="centerCrop"
@@ -380,7 +417,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:textSize="@dimen/_12sdp"
-                            android:text="Aadhar back"
+                            android:text="Upload Aadhar back"
                             >
 
                         </TextView>
@@ -391,10 +428,19 @@
                             android:padding="@dimen/_10sdp"
                             android:gravity="end"
                             >
+
+                            <TextView
+                                android:id="@+id/Adharbackview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View"
+                                android:layout_gravity="center"
+                                android:textColor="@color/green"/>
                             <ImageView
                                 android:id="@+id/Aadharcardbackcheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:visibility="invisible"
                                 android:layout_gravity="center"
                                 android:src="@drawable/baseline_check_circle_24"
@@ -411,7 +457,7 @@
                         >
                         <ImageView
                             android:id="@+id/uploadPassBook"
-                            android:layout_width="@dimen/_40sdp"
+                            android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_margin="@dimen/_10sdp"
                             android:scaleType="centerCrop"
@@ -426,7 +472,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:textSize="@dimen/_12sdp"
-                            android:text="Passbook"
+                            android:text="Upload Passbook"
                             >
 
                         </TextView>
@@ -437,10 +483,18 @@
                             android:padding="@dimen/_10sdp"
                             android:gravity="end"
                             >
+                            <TextView
+                                android:id="@+id/passbookview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View"
+                                android:layout_gravity="center"
+                                android:textColor="@color/green"/>
                             <ImageView
                                 android:id="@+id/passbookcheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:visibility="invisible"
                                 android:layout_gravity="center"
                                 android:src="@drawable/baseline_check_circle_24"
@@ -457,7 +511,7 @@
                         >
                         <ImageView
                             android:id="@+id/uploadUserimage"
-                            android:layout_width="@dimen/_40sdp"
+                            android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_margin="@dimen/_10sdp"
                             android:scaleType="centerCrop"
@@ -472,7 +526,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:textSize="@dimen/_12sdp"
-                            android:text="User Photo"
+                            android:text="Upload User Photo"
                             >
 
                         </TextView>
@@ -483,10 +537,18 @@
                             android:padding="@dimen/_10sdp"
                             android:gravity="end"
                             >
+                            <TextView
+                                android:id="@+id/imageview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View"
+                                android:layout_gravity="center"
+                                android:textColor="@color/green"/>
                             <ImageView
                                 android:id="@+id/imagecheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:visibility="invisible"
                                 android:layout_gravity="center"
                                 android:src="@drawable/baseline_check_circle_24"
@@ -513,8 +575,11 @@
 
                     <EditText
                         android:id="@+id/NomineeName"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:maxLength="20"
                         android:hint="Nominee Name"
@@ -529,8 +594,11 @@
                     </EditText>
                     <EditText
                         android:id="@+id/NomineeRelation"
-                        android:layout_width="@dimen/_233sdp"
-                        android:layout_height="@dimen/_31sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
                         android:maxLength="20"
                         android:hint="Nominee Relation"
@@ -544,13 +612,79 @@
 
                     </EditText>
 
+                    <EditText
+                        android:id="@+id/registeredemail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:background="@drawable/edittextbackground"
+                        android:drawableStart="@drawable/baseline_mail_24"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:hint="Enter Email"
+                        android:focusableInTouchMode="false"
+                        android:inputType="textEmailAddress"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        tools:ignore="RtlSymmetry">
+
+                    </EditText>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ProgressBar
+                            android:id="@+id/progress"
+                            android:layout_width="@dimen/_27sdp"
+                            android:layout_height="@dimen/_27sdp"
+                            android:layout_gravity="center"
+                            android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/sendotp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_30sdp"
+                            android:text="Send OTP"
+                            android:textColor="#EE9328"
+                            android:textSize="@dimen/_16sdp"
+                            android:textStyle="bold">
+
+                        </TextView>
+
+                        <EditText
+                            android:id="@+id/otp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_8sdp"
+                            android:layout_marginStart="@dimen/_30sdp"
+                            android:layout_marginEnd="@dimen/_30sdp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:background="@drawable/edittextbackground"
+                            android:drawableStart="@drawable/baseline_lock_24"
+                            android:drawablePadding="@dimen/_8sdp"
+                            android:hint="Enter OTP"
+                            android:inputType="textEmailAddress"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            tools:ignore="RtlSymmetry">
+
+                        </EditText>
+
+
+                    </LinearLayout>
+
+
 
 
                 </LinearLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
                     <Button
                         android:id="@+id/submit"
                         android:layout_width="match_parent"

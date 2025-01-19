@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
@@ -32,6 +33,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -62,10 +65,19 @@ public class BankKYCFragment extends Fragment {
     private Uri imageUripan, imageUriaadhar, imageUripassbook, imageUriimage, imageUriaadharback;
     private ImageView pancardcheck,Aadharcardcheck,passbookcheck,imagecheck,kyc_img,Aadharcardcheckback;
     private EditText username, Pannumber, IFSCcode, BankName, AccountNumber, ConfirmAccountNumber, Aadharnumber, nomineeName, nomineeRelation;
+
+    private EditText otpedittext;
+    private EditText registeredemail;
+
+    private CountDownTimer otpTimer;
+
+    private long timeLeftInMillis = 60000;
     private Dialog dialog2;
-    private ProgressBar progressBar,progressBar2;
+    private ProgressBar progressBar,progressBar2,otpprogress;
     private Button submitButton,fillAgain;
-    private TextView responseText,statusText,kyc_response;
+    private TextView responseText,statusText,kyc_response,sendotptext;
+
+    private TextView panview,Adharfrontview,Adharbackview,passbookview,userimageView;
     private LinearLayout form,kyc_status_layout;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -92,6 +104,22 @@ public class BankKYCFragment extends Fragment {
         kyc_img = view.findViewById(R.id.status_img);
         statusText = view.findViewById(R.id.statusText);
         kyc_response = view.findViewById(R.id.kyc_response);
+        sendotptext=view.findViewById(R.id.sendotp);
+
+        registeredemail = view.findViewById(R.id.registeredemail);
+        panview = view.findViewById(R.id.panview);
+        Adharfrontview = view.findViewById(R.id.Adharfrontview);
+        Adharbackview = view.findViewById(R.id.Adharbackview);
+        passbookview = view.findViewById(R.id.passbookview);
+        userimageView = view.findViewById(R.id.imageview);
+
+        otpprogress=view.findViewById(R.id.progress);
+
+
+        otpedittext=view.findViewById(R.id.otp);
+
+
+
 
         dialog2 = new Dialog(view.getContext());
 
@@ -99,6 +127,19 @@ public class BankKYCFragment extends Fragment {
         responseText=view.findViewById(R.id.responseText);
         fillAgain=view.findViewById(R.id.fill_again);
         form=view.findViewById(R.id.form);
+
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String mail = sharedPreferences.getString("email","mail not found");
+        registeredemail.setText(mail);
+        registeredemail.setFocusable(false);
+
+        sendotptext.setOnClickListener(v -> {
+
+                sendotptext.setVisibility(View.GONE);
+                sendOtp(mail);
+
+        });
 
 
         fillAgain.setOnClickListener(v -> {
@@ -113,7 +154,6 @@ public class BankKYCFragment extends Fragment {
         Aadharcardcheckback.setEnabled(false);
         passbookcheck.setEnabled(false);
         imagecheck.setEnabled(false);
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
         setUpImageUploadListeners(view);
@@ -122,6 +162,83 @@ public class BankKYCFragment extends Fragment {
         submitButton.setOnClickListener(v -> submitFormData(memberId));
 
         return view;
+    }
+
+    private void sendOtp(String mail) {
+        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-otp2";
+
+        try {
+            JSONObject jsonInput = new JSONObject();
+            jsonInput.put("identifier", mail);
+            jsonInput.put("type", "kyc");
+
+            Log.d("bankotp", "API URL: " + apiUrl);
+            Log.d("bankotp", "Sending OTP request data: " + jsonInput.toString());
+
+            @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    apiUrl,
+                    jsonInput,
+                    response -> {
+                        Log.d("bankotp", "Response: " + response.toString());
+                        try {
+                            if(response.has("success") && response.getString("success").equals("true")){
+                                sendotptext.setText("Resend OTP");
+                                otpprogress.setVisibility(View.GONE);
+                                sendotptext.setVisibility(View.VISIBLE);
+                                Toast.makeText(requireContext(), "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                                sendotptext.setEnabled(false);
+                                startOtpCountdown();
+                            }
+                            else{
+                                otpprogress.setVisibility(View.GONE);
+                                sendotptext.setVisibility(View.VISIBLE);
+                                Toast.makeText(requireContext(), "Unable to send OTP", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            otpprogress.setVisibility(View.GONE);
+                            sendotptext.setVisibility(View.VISIBLE);
+                            Toast.makeText(requireContext(), "Unable to send OTP", Toast.LENGTH_SHORT).show();
+                            throw new RuntimeException(e);
+                        }
+                    },
+                    error -> {
+                        Log.e("bankotp", "Error in sendOtp", error);
+                        otpprogress.setVisibility(View.GONE);
+                        sendotptext.setVisibility(View.VISIBLE);
+                        Toast.makeText(requireContext(), "Failed to send OTP", Toast.LENGTH_SHORT).show();
+                    }
+            );
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    60000,
+                    0,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            ));
+
+            // Add the request to the RequestQueue.
+            RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+            requestQueue.add(jsonObjectRequest);
+
+        } catch (Exception e) {
+
+            Log.e("bankotp", "Error in constructing the JSON request", e);
+        }
+    }
+
+
+    private void startOtpCountdown() {
+        otpTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                sendotptext.setText("Resend OTP (" + millisUntilFinished / 1000 + "s)");
+            }
+
+            @Override
+            public void onFinish() {
+                sendotptext.setText("Resend OTP");
+                sendotptext.setEnabled(true);
+            }
+        }.start();
     }
 
     private void fetchKYCStatus(String memberId) {
@@ -266,6 +383,7 @@ public class BankKYCFragment extends Fragment {
         String aadharNumber = Aadharnumber.getText().toString().trim();
         String nomineeNameInput = nomineeName.getText().toString().trim();
         String nomineeRelationInput = nomineeRelation.getText().toString().trim();
+        String otp = otpedittext.getText().toString().trim();
 
         Log.d("KYC", "Member ID: " + memberId);
         // Validate inputs
@@ -276,7 +394,7 @@ public class BankKYCFragment extends Fragment {
         }
 
         // Submit data via API
-        sendKycRequest(userName, panNumber, memberId, ifscCode, bankName, accountNumber, aadharNumber, nomineeNameInput, nomineeRelationInput);
+        sendKycRequest(userName, panNumber, memberId, ifscCode, bankName, accountNumber, aadharNumber, nomineeNameInput, nomineeRelationInput ,otp);
     }
 
     private boolean validateInputs(String userName, String panNumber, String ifscCode, String bankName, String accountNumber, String confirmAccountNumber, String aadharNumber, String nomineeName, String nomineeRelation) {
@@ -295,7 +413,7 @@ public class BankKYCFragment extends Fragment {
         return true;
     }
 
-    private void sendKycRequest(String userName, String panNumber, String memberId, String ifscCode, String bankName, String accountNumber, String aadharNumber, String nomineeName, String nomineeRelation) {
+    private void sendKycRequest(String userName, String panNumber, String memberId, String ifscCode, String bankName, String accountNumber, String aadharNumber, String nomineeName, String nomineeRelation,String otp) {
         String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
         form.setEnabled(false);
         try {
@@ -333,6 +451,7 @@ public class BankKYCFragment extends Fragment {
                     RequestBody.create(MediaType.parse("text/plain"), aadharNumber),
                     RequestBody.create(MediaType.parse("text/plain"), nomineeName),
                     RequestBody.create(MediaType.parse("text/plain"), nomineeRelation),
+                    RequestBody.create(MediaType.parse("text/plain"), otp),
                     partPanCard,partAadharCard,partAadharCardback,partUserImage,partPassbook
             );
 
@@ -390,7 +509,7 @@ public class BankKYCFragment extends Fragment {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
         return MultipartBody.Part.createFormData(formFieldName, file.getName(), requestFile);
     }
-public void imagePreview(Uri selectedImageUri, ImageView btn_id, int i){
+public void imagePreview(Uri selectedImageUri, TextView btn_id, int i){
             btn_id.setOnClickListener(v -> {
             dialog2.setContentView(R.layout.img_confirm_dialog);
             dialog2.setCancelable(true);
@@ -464,29 +583,29 @@ public void imagePreview(Uri selectedImageUri, ImageView btn_id, int i){
                 case 1: imageUripan = selectedImageUri;
                     pancardcheck.setVisibility(View.VISIBLE);
                     pancardcheck.setEnabled(true);
-                    imagePreview(selectedImageUri,pancardcheck,1);
+                    imagePreview(selectedImageUri,panview,1);
                 break;
                 case 2: imageUriaadhar = selectedImageUri;
                     Aadharcardcheck.setVisibility(View.VISIBLE);
                     Aadharcardcheck.setEnabled(true);
-                    imagePreview(selectedImageUri,Aadharcardcheck,2);
+                    imagePreview(selectedImageUri,Adharfrontview,2);
                     break;
                     case 3: imageUriaadharback = selectedImageUri;
                     Aadharcardcheckback.setVisibility(View.VISIBLE);
                     Aadharcardcheckback.setEnabled(true);
-                    imagePreview(selectedImageUri,Aadharcardcheckback,3);
+                    imagePreview(selectedImageUri,Adharbackview,3);
                     break;
                 case 4:
                     imageUriimage = selectedImageUri;
                     imagecheck.setVisibility(View.VISIBLE);
                     imagecheck.setEnabled(true);
-                    imagePreview(selectedImageUri,imagecheck,4);
+                    imagePreview(selectedImageUri,userimageView,4);
                     break;
                 case 5:
                     imageUripassbook = selectedImageUri;
                     passbookcheck.setVisibility(View.VISIBLE);
                     passbookcheck.setEnabled(true);
-                    imagePreview(selectedImageUri,passbookcheck,5);
+                    imagePreview(selectedImageUri,passbookview,5);
                     break;
             }
         }

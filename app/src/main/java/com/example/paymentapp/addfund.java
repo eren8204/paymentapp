@@ -351,6 +351,7 @@ public class addfund extends AppCompatActivity {
                     if (bitmap != null) {
                         runOnUiThread(() -> {
                             loadImage(bitmap);
+                            qrBitmap=bitmap;
                             showSuccess();
                         });
                     } else {

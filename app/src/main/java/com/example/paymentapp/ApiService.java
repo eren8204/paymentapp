@@ -35,6 +35,7 @@ public interface ApiService {
             @Part("Aadhar_Number") RequestBody aadharNumber,
             @Part("Nominee_name") RequestBody nomineeName,
             @Part("Nominee_relation") RequestBody nomineeRelation,
+            @Part("kycOtp") RequestBody otp,
             @Part MultipartBody.Part pancard,
             @Part MultipartBody.Part aadharcard,
             @Part MultipartBody.Part aadharcardback,

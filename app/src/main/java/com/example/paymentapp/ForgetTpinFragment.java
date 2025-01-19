@@ -77,11 +77,12 @@ public class ForgetTpinFragment extends Fragment {
 
 
     private void sendOtp(String memberId) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-otp";
+        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-otp2";
 
         try {
             JSONObject jsonInput = new JSONObject();
-            jsonInput.put("member_id", memberId);
+            jsonInput.put("identifier", memberId);
+            jsonInput.put("type","forget_tpin");
             Log.d(TAG, "API URL: " + apiUrl);
             Log.d(TAG, "Sending OTP request data: " + jsonInput.toString());
 
