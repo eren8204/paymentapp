@@ -428,7 +428,11 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Network error", Toast.LENGTH_SHORT).show();
                 }
         );
-
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -452,17 +456,31 @@ public class Register extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response.toString());
-
-                            sendotp.setText("Resend OTP");
-                            otp_edit.setVisibility(View.VISIBLE);
-                            otp_progress_layout.setVisibility(View.GONE);
-                            sendotp.setVisibility(View.VISIBLE);
-                            verifyotp.setVisibility(View.VISIBLE);
-                            Toast.makeText(Register.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
-                            emailEditText.setEnabled(false);
-                            sendotp.setEnabled(false); // Disable the button
-                            startOtpCountdown();
+                            try {
+                                if(response.has("success") && response.getString("success").equals("true")){
+                                    sendotp.setText("Resend OTP");
+                                    otp_edit.setVisibility(View.VISIBLE);
+                                    otp_progress_layout.setVisibility(View.GONE);
+                                    sendotp.setVisibility(View.VISIBLE);
+                                    verifyotp.setVisibility(View.VISIBLE);
+                                    Toast.makeText(Register.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                                    emailEditText.setEnabled(false);
+                                    sendotp.setEnabled(false); // Disable the button
+                                    startOtpCountdown();
+                                }
+                                else{
+                                    otp_progress_layout.setVisibility(View.GONE);
+                                    sendotp.setVisibility(View.VISIBLE);
+                                    String msg = "Unable to send OTP";
+                                    if(response.has("message")){
+                                        msg = response.getString("message");
+                                    }
+                                    Toast.makeText(Register.this, msg, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(Register.this, "Unable to send OTP", Toast.LENGTH_SHORT).show();
+                                throw new RuntimeException(e);
+                            }
                         }
                     },
                     new Response.ErrorListener() {
