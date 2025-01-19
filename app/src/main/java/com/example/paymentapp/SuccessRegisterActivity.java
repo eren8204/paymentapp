@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SuccessRegisterActivity extends AppCompatActivity {
 
+
+    Button loginbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +24,9 @@ public class SuccessRegisterActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String memberId = sharedPreferences.getString("memberId", "UP000000");
 
-        TextView memberid = findViewById(R.id.memberid);
-        memberid.setText(memberId);
+
+
 
         Intent intent = getIntent();
         String sponsorIDText = intent.getStringExtra("SPONSOR_ID");
@@ -34,7 +35,19 @@ public class SuccessRegisterActivity extends AppCompatActivity {
         String email = intent.getStringExtra("EMAIL");
         String password = intent.getStringExtra("PASSWORD");
         String tPin = intent.getStringExtra("TPIN");
+        String memberId=intent.getStringExtra("MEMBERID");
+        String date=intent.getStringExtra("DATE");
 
+
+
+
+
+        loginbtn = findViewById(R.id.login);
+        loginbtn.setOnClickListener(v -> {
+            Intent intent1 = new Intent(SuccessRegisterActivity.this, Login.class);
+            startActivity(intent1);
+            finish();
+        });
 
         TextView sponsorIDTextView = findViewById(R.id.sponserID);
         TextView phoneNumberTextView = findViewById(R.id.phone_no);
@@ -42,7 +55,11 @@ public class SuccessRegisterActivity extends AppCompatActivity {
         TextView emailTextView = findViewById(R.id.email);
         TextView passwordTextView = findViewById(R.id.password);
         TextView tPinTextView = findViewById(R.id.tpin);
+        TextView memberid = findViewById(R.id.memberid);
+        TextView doj = findViewById(R.id.doj);
 
+        memberid.setText(memberId);
+        doj.setText(date);
         sponsorIDTextView.setText(sponsorIDText);
         phoneNumberTextView.setText(phoneNumber);
         usernameTextView.setText(username);

@@ -349,16 +349,9 @@ public class Register extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String tPin = tPinEditText.getText().toString().trim();
+        String otp=otp_edit.getText().toString().trim();
 
-        Intent intent1 = new Intent(this, SuccessRegisterActivity.class);
 
-        intent1.putExtra("SPONSOR_ID", sponsorIDText);
-        intent1.putExtra("PHONE_NUMBER", phoneNumber);
-        intent1.putExtra("USERNAME", username);
-        intent1.putExtra("EMAIL", email);
-        intent1.putExtra("PASSWORD", password);
-        intent1.putExtra("TPIN", tPin);
-        startActivity(intent1);
 
 
         String baseUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/register";
@@ -370,6 +363,7 @@ public class Register extends AppCompatActivity {
             requestBody.put("email", email);
             requestBody.put("password", password);
             requestBody.put("tpin", tPin);
+            requestBody.put("emailOtp",otp);
         } catch (JSONException e) {
             progressbar_register.setVisibility(View.GONE);
             registerButton.setVisibility(View.VISIBLE);
@@ -388,9 +382,19 @@ public class Register extends AppCompatActivity {
                         if(response.has("success") && response.getString("success").equals("true")) {
                             progressbar_register.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
-
-
                             Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                            Intent intent1 = new Intent(this, SuccessRegisterActivity.class);
+
+                            intent1.putExtra("SPONSOR_ID", sponsorIDText);
+                            intent1.putExtra("PHONE_NUMBER", phoneNumber);
+                            intent1.putExtra("USERNAME", username);
+                            intent1.putExtra("EMAIL", email);
+                            intent1.putExtra("PASSWORD", password);
+                            intent1.putExtra("TPIN", tPin);
+                            intent1.putExtra("MEMBER_ID", response.getString("memberId"));
+                            intent1.putExtra("DATE",response.getString("dateOfJoining"));
+                            startActivity(intent1);
+
                             Intent intent = new Intent(Register.this, SuccessRegisterActivity.class);
                             startActivity(intent);
                             finish();
@@ -450,7 +454,6 @@ public class Register extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             Log.d(TAG, "Response: " + response.toString());
 
-                            // Successfully sent OTP
                             sendotp.setText("Resend OTP");
                             otp_edit.setVisibility(View.VISIBLE);
                             otp_progress_layout.setVisibility(View.GONE);
