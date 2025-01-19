@@ -50,7 +50,7 @@ public class ForgetPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forget_password);
 
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
 
         newPassword = findViewById(R.id.new_password);
         confirmPassword = findViewById(R.id.coin_password);

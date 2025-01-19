@@ -43,7 +43,7 @@ import java.util.Locale;
 public class Login extends AppCompatActivity {
 
 
-    private TextView signup,error_msg;
+    private TextView signup,error_msg,help;
     private EditText email,password,otp_edittext;
     private Button login;
     private ProgressBar progressbarlogin;
@@ -69,10 +69,16 @@ public class Login extends AppCompatActivity {
         progressbarlogin = findViewById(R.id.progressbarlogin);
         error_msg = findViewById(R.id.login_error_text);
         otp_edittext = findViewById(R.id.otp);
+        help = findViewById(R.id.help);
 
 
         forgetpassword.setOnClickListener(v -> {
             Intent intent=new Intent(Login.this,ForgetPassword.class);
+            startActivity(intent);
+        });
+
+        help.setOnClickListener(v->{
+            Intent intent=new Intent(Login.this,LoginHelp.class);
             startActivity(intent);
         });
 

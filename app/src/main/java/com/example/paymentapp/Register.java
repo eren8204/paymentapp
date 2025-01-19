@@ -446,9 +446,6 @@ public class Register extends AppCompatActivity {
             JSONObject jsonInput = new JSONObject();
             jsonInput.put("identifier", memberId);
 
-            Log.d(TAG, "API URL: " + apiUrl);
-            Log.d(TAG, "Sending OTP request data: " + jsonInput.toString());
-
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
                     apiUrl,
@@ -505,6 +502,7 @@ public class Register extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(TAG, "Error in constructing the JSON request", e);
+            Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
         }
     }
 
