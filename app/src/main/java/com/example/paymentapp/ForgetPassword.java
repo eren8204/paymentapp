@@ -3,6 +3,7 @@ package com.example.paymentapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.OutputStream;
@@ -39,6 +41,8 @@ public class ForgetPassword extends AppCompatActivity {
     private ImageView back_button;
     private ProgressBar progressBar,progress;
     private TextView sendOtpText;
+    private CountDownTimer otpTimer;
+    private long timeLeftInMillis = 60000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +71,13 @@ public class ForgetPassword extends AppCompatActivity {
 
         sendOtpText.setOnClickListener(v -> {
             String memberid = memberId.getText().toString();
-            progress.setVisibility(View.VISIBLE);
-            sendOtpText.setVisibility(View.GONE);
-            Log.d(TAG, "Send OTP clicked with member ID: " + memberid);
-            sendOtp(memberid);
+            if(memberid.length()<8)
+                memberId.setError("Enter Valid ID");
+            else {
+                progress.setVisibility(View.VISIBLE);
+                sendOtpText.setVisibility(View.GONE);
+                sendOtp(memberid);
+            }
         });
 
         otp.addTextChangedListener(new TextWatcher() {
@@ -114,10 +121,26 @@ public class ForgetPassword extends AppCompatActivity {
                     jsonInput,
                     response -> {
                         Log.d(TAG, "Response: " + response.toString());
-                        sendOtpText.setText("Resend OTP");
-                        progress.setVisibility(View.GONE);
-                        sendOtpText.setVisibility(View.VISIBLE);
-                        Toast.makeText(ForgetPassword.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                        try {
+                            if(response.has("success") && response.getString("success").equals("true")){
+                                sendOtpText.setText("Resend OTP");
+                                progress.setVisibility(View.GONE);
+                                sendOtpText.setVisibility(View.VISIBLE);
+                                Toast.makeText(ForgetPassword.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                                sendOtpText.setEnabled(false);
+                                startOtpCountdown();
+                            }
+                            else{
+                                progress.setVisibility(View.GONE);
+                                sendOtpText.setVisibility(View.VISIBLE);
+                                Toast.makeText(this, "Unable to send OTP", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            progress.setVisibility(View.GONE);
+                            sendOtpText.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, "Unable to send OTP", Toast.LENGTH_SHORT).show();
+                            throw new RuntimeException(e);
+                        }
                     },
                     error -> {
                         Log.e(TAG, "Error in sendOtp", error);
@@ -126,12 +149,10 @@ public class ForgetPassword extends AppCompatActivity {
                         Toast.makeText(ForgetPassword.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
                     }
             );
-
-            // Set a custom RetryPolicy for 1 minute timeout with no retries
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    60000, // 60 seconds timeout
-                    0, // No retries
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT // Backoff multiplier
+                    60000,
+                    0,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             ));
 
             // Add the request to the RequestQueue.
@@ -214,6 +235,27 @@ public class ForgetPassword extends AppCompatActivity {
             Toast.makeText(this, "Password do not match", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
             updatePasswordButton.setVisibility(View.VISIBLE);
+        }
+    }
+    private void startOtpCountdown() {
+        otpTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                sendOtpText.setText("Resend OTP (" + millisUntilFinished / 1000 + "s)");
+            }
+
+            @Override
+            public void onFinish() {
+                sendOtpText.setText("Resend OTP");
+                sendOtpText.setEnabled(true);
+            }
+        }.start();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (otpTimer != null) {
+            otpTimer.cancel();
         }
     }
 }
