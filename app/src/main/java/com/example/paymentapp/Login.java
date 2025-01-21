@@ -213,11 +213,12 @@ public class Login extends AppCompatActivity {
                     } catch (JSONException e) {
                         progressbarlogin.setVisibility(View.GONE);
                         login.setVisibility(View.VISIBLE);
+                        login.setEnabled(true);
                         email.setEnabled(true);
                         password.setEnabled(true);
                         signup.setEnabled(true);
                         Log.d("login_error",e.toString());
-                        Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Wrong password", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {

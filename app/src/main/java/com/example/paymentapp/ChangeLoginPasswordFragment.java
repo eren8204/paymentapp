@@ -1,6 +1,8 @@
 package com.example.paymentapp;
 
 import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -16,21 +18,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.File;
-import java.io.IOException;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 public class ChangeLoginPasswordFragment extends Fragment {
 
 
@@ -38,7 +37,7 @@ private EditText old_password,new_password,confirm_password;
 private Button update_password;
 private ProgressBar progressBar;
 
-    private boolean passwordVisible;
+private boolean passwordVisible;
 
 
     @Override
@@ -56,8 +55,15 @@ private ProgressBar progressBar;
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
+        TextView name=view.findViewById(R.id.textView2);
+        name.setText(memberId);
+
+        progressBar.setVisibility(View.GONE);
+        update_password.setVisibility(View.VISIBLE);
         update_password.setOnClickListener(v -> {
             try {
+                progressBar.setVisibility(View.VISIBLE);
+                update_password.setVisibility(View.GONE);
                 submitFormData(memberId);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -151,78 +157,109 @@ private ProgressBar progressBar;
     private boolean validateInputs(String oldPass, String newPass,String confirmPass) {
         if (oldPass.isEmpty() || newPass.isEmpty() || confirmPass.isEmpty()) {
             Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            update_password.setVisibility(View.VISIBLE);
+            return false;
+        }
+        if (oldPass.length() < 8 || newPass.length() < 8) {
+            Toast.makeText(getActivity(), "Password must be at least 8 characters long", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            update_password.setVisibility(View.VISIBLE);
             return false;
         }
 
         if (!newPass.equals(confirmPass) ) {
             Toast.makeText(getActivity(), "Confirm Password and New Password do not match", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            update_password.setVisibility(View.VISIBLE);
             return false;
         } else if (oldPass.equals(newPass)) {
             Toast.makeText(getActivity(), "Old Password and New Password can not be same", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            update_password.setVisibility(View.VISIBLE);
             return false;
         }
 
         return true;
     }
 
-    private void sendRequest(String oldPass, String newPass, String memberId) throws JSONException {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
-
-        // Set up logging interceptor
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        // Create OkHttpClient and attach the interceptor
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build();
-
-        // Create Retrofit instance with the custom OkHttpClient
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .client(client) // Attach OkHttpClient
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // Initialize API service
-        ApiService apiService = retrofit.create(ApiService.class);
+    private void sendRequest(String oldPass, String newPass, String memberId) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/changeUserPassword";
 
         // Create JSON body
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("member_id", memberId);
-        jsonObject.put("oldPassword", oldPass);
-        jsonObject.put("newPassword", newPass);
+        try {
+            jsonObject.put("member_id", memberId);
+            jsonObject.put("oldPassword", oldPass);
+            jsonObject.put("newPassword", newPass);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Error creating request body", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         System.out.println("JSON Body: " + jsonObject);
-        // Convert JSON object to RequestBody
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
 
-        // Make the API call
-        Call<ResponseBody> call = apiService.submitDetailsJson(requestBody);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e("API", "Submission failed: " + response.message());
-                    try {
-                        String errorBody = response.errorBody().string();
-                        Log.e("API", "Error body: " + errorBody);
-                    } catch (IOException e) {
-                        Log.e("API", "Error reading error body", e);
+        // Create a request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getString("status").equals("true")) {
+                                progressBar.setVisibility(View.GONE);
+                                update_password.setVisibility(View.VISIBLE);
+                                Intent intent=new Intent(requireContext(),Login.class);
+                                startActivity(intent);
+                                requireActivity().finish();
+                                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                Toast.makeText(getActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                                update_password.setVisibility(View.VISIBLE);
+                                String errorMessage = response.optString("error", "Server error");
+                                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progressBar.setVisibility(View.GONE);
+                            update_password.setVisibility(View.VISIBLE);
+                            Toast.makeText(getActivity(), "Error processing response", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    Toast.makeText(getActivity(), "Submission failed", Toast.LENGTH_SHORT).show();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            try {
+                                String errorBody = new String(error.networkResponse.data, "UTF-8");
+                                JSONObject errorResponse = new JSONObject(errorBody);
+                                errorMessage = errorResponse.optString("error", "Submission failed");
+                            } catch (Exception e) {
+                                errorMessage = "Error processing error response";
+                            }
+                        } else {
+                            errorMessage = "Submission failed";
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        update_password.setVisibility(View.VISIBLE);
+                        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Log.e("API", "Error: " + error.getMessage(), error);
+                    }
                 }
-            }
+        );
 
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e("API", "Error: " + t.getMessage(), t);
-                Toast.makeText(getActivity(), "Error submitting request", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Add the request to the RequestQueue
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(jsonObjectRequest);
     }
 
 
