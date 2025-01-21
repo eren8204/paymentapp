@@ -2,6 +2,7 @@ package com.example.paymentapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -19,7 +20,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,7 +69,8 @@ public class ChangeTpinFragment extends Fragment {
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
-
+        TextView name=view.findViewById(R.id.textView2);
+        name.setText(memberId);
 
         oldTpin.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -119,8 +129,12 @@ public class ChangeTpinFragment extends Fragment {
             }
         });
 
+        progressBar.setVisibility(View.GONE);
+        update_Tpin.setVisibility(View.VISIBLE);
         update_Tpin.setOnClickListener(v -> {
             try {
+                progressBar.setVisibility(View.VISIBLE);
+                update_Tpin.setVisibility(View.GONE);
                 submitFormData(memberId);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -149,14 +163,26 @@ public class ChangeTpinFragment extends Fragment {
 
     private boolean validateInputs(String old_Tpin,String new_Tpin,String confirm_Pass) {
         if (old_Tpin.isEmpty() || new_Tpin.isEmpty() || confirm_Pass.isEmpty()) {
+            progressBar.setVisibility(View.GONE);
+            update_Tpin.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (old_Tpin.length() < 4 || new_Tpin.length() < 4) {
+            Toast.makeText(getActivity(), "Pin must be at least 4 characters long", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            update_Tpin.setVisibility(View.VISIBLE);
             return false;
         }
 
         if (!new_Tpin.equals(confirm_Pass) ) {
+            progressBar.setVisibility(View.GONE);
+            update_Tpin.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), "Confirm Tpin and New Tpin do not match", Toast.LENGTH_SHORT).show();
             return false;
         } else if (old_Tpin.equals(new_Tpin)) {
+            progressBar.setVisibility(View.GONE);
+            update_Tpin.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), "Old Pin and New Pin can not be same", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -164,72 +190,82 @@ public class ChangeTpinFragment extends Fragment {
         return true;
     }
 
-    private void sendRequest(String old_Tpin, String new_Tpin, String memberId) throws JSONException {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
-
-        // Set up logging interceptor
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        // Create OkHttpClient and attach the interceptor
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build();
-
-        // Create Retrofit instance with the custom OkHttpClient
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .client(client) // Attach OkHttpClient
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // Initialize API service
-        ApiService apiService = retrofit.create(ApiService.class);
+    private void sendRequest(String old_Tpin, String new_Tpin, String memberId) {
+        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/changeUserTpin";
 
         // Create JSON body
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("member_id", memberId);
-        jsonObject.put("oldtpin", old_Tpin);
-        jsonObject.put("newtpin", new_Tpin);
+        try {
+            jsonObject.put("member_id", memberId);
+            jsonObject.put("oldtpin", old_Tpin);
+            jsonObject.put("newtpin", new_Tpin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Error creating request body", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         System.out.println("JSON Body: " + jsonObject);
-        // Convert JSON object to RequestBody
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
 
-        // Make the API call
-        Call<ResponseBody> call = apiService.submitDetails(requestBody);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Tpin updated successfully", Toast.LENGTH_SHORT).show();
-
-                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.nav_host_fragment, new HomeFragment());
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                } else {
-                    Log.e("API", "Submission failed: " + response.message());
-                    try {
-                        String errorBody = response.errorBody().string();
-                        Log.e("API", "Error body: " + errorBody);
-                    } catch (IOException e) {
-                        Log.e("API", "Error reading error body", e);
+        // Create a request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getString("status").equals("true")) {
+                                progressBar.setVisibility(View.GONE);
+                                update_Tpin.setVisibility(View.VISIBLE);
+                                Toast.makeText(getActivity(), "Tpin updated successfully", Toast.LENGTH_SHORT).show();
+                                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.nav_host_fragment, new HomeFragment());
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                                update_Tpin.setVisibility(View.VISIBLE);
+                                String errorMessage = response.optString("error", "Server error");
+                                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progressBar.setVisibility(View.GONE);
+                            update_Tpin.setVisibility(View.VISIBLE);
+                            Toast.makeText(getActivity(), "Error processing response", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    Toast.makeText(getActivity(), "Submission failed", Toast.LENGTH_SHORT).show();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            try {
+                                String errorBody = new String(error.networkResponse.data, "UTF-8");
+                                JSONObject errorResponse = new JSONObject(errorBody);
+                                errorMessage = errorResponse.optString("error", "Submission failed");
+                            } catch (Exception e) {
+                                errorMessage = "Error processing error response";
+                            }
+                        } else {
+                            errorMessage = "Submission failed";
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        update_Tpin.setVisibility(View.VISIBLE);
+                        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Log.e("API", "Error: " + error.getMessage(), error);
+                    }
                 }
-            }
+        );
 
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e("API", "Error: " + t.getMessage(), t);
-
-                Toast.makeText(getActivity(), "Error submitting request", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        // Add the request to the RequestQueue
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(jsonObjectRequest);
     }
+
 
 }

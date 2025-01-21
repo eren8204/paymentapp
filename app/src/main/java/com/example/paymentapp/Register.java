@@ -333,7 +333,7 @@ public class Register extends AppCompatActivity {
                 error -> {
                     registerButton.setEnabled(false);
                     k=1;
-                    Log.e(TAG, "An error occurred: " + error.getMessage(), error);
+                    Log.e("Bhenkeloada", "An error occurred: " + error.getMessage(), error);
                 }
         );
 
@@ -379,26 +379,26 @@ public class Register extends AppCompatActivity {
                 requestBody,
                 response -> {
                     try{
-                        if(response.has("success") && response.getString("success").equals("true")) {
+                        if(response.has("status") && response.getString("status").equals("true")) {
                             progressbar_register.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
                             Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                            Intent intent1 = new Intent(this, SuccessRegisterActivity.class);
 
-                            intent1.putExtra("SPONSOR_ID", sponsorIDText);
-                            intent1.putExtra("PHONE_NUMBER", phoneNumber);
-                            intent1.putExtra("USERNAME", username);
-                            intent1.putExtra("EMAIL", email);
-                            intent1.putExtra("PASSWORD", password);
-                            intent1.putExtra("TPIN", tPin);
-                            intent1.putExtra("MEMBER_ID", response.getString("memberId"));
-                            intent1.putExtra("DATE",response.getString("dateOfJoining"));
-                            startActivity(intent1);
+                            Intent intent = new Intent(this, SuccessRegisterActivity.class);
+                            intent.putExtra("SPONSOR_ID", sponsorIDText);
+                            intent.putExtra("PHONE_NUMBER", phoneNumber);
+                            intent.putExtra("USERNAME", username);
+                            intent.putExtra("EMAIL", email);
+                            intent.putExtra("PASSWORD", password);
+                            intent.putExtra("TPIN", tPin);
+                            intent.putExtra("MEMBER_ID", response.getString("memberId"));
+                            intent.putExtra("DATE",response.getString("dateOfJoining"));
+                            startActivity(intent);
 
-                            Intent intent = new Intent(Register.this, SuccessRegisterActivity.class);
+                            Intent intent1 = new Intent(Register.this, SuccessRegisterActivity.class);
                             startActivity(intent);
                             finish();
-                            Log.i(TAG, "Registration response: " + response.toString());
+                            Log.d("Bhenkeloada", "Registration response: " + response.toString());
 
 
 
@@ -406,9 +406,12 @@ public class Register extends AppCompatActivity {
                         else{
                             progressbar_register.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
-                            if(response.has("error"))
+                            if(response.has("error")) {
+                                Log.d("Bhenkeloada", "error " + response.getString("error"));
                                 Toast.makeText(this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                            }
                             else{
+                                Log.d("Bhenkeloada", "errorrefw " + response.getString("error"));
                                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                             }
 
@@ -416,7 +419,7 @@ public class Register extends AppCompatActivity {
                     }
                     catch (Exception e){
                         Log.d("Submit Error",e.getMessage());
-                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "submit Error", Toast.LENGTH_SHORT).show();
                         progressbar_register.setVisibility(View.GONE);
                         registerButton.setVisibility(View.VISIBLE);
                     }
@@ -424,7 +427,7 @@ public class Register extends AppCompatActivity {
                 error -> {
                     progressbar_register.setVisibility(View.GONE);
                     registerButton.setVisibility(View.VISIBLE);
-                    Log.e(TAG, "An error occurred: " + error.getMessage(), error);
+                    Log.e("Bhenkeloada", "An error occurred: " + error.getMessage(), error);
                     Toast.makeText(Register.this, "Network error", Toast.LENGTH_SHORT).show();
                 }
         );
@@ -483,7 +486,7 @@ public class Register extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "Error in sendOtp", error);
+                            Log.e("Bhenkeloada", "Error in sendOtp", error);
                             otp_progress_layout.setVisibility(View.GONE);
                             sendotp.setVisibility(View.VISIBLE);
                             Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
@@ -501,7 +504,7 @@ public class Register extends AppCompatActivity {
             requestQueue.add(jsonObjectRequest);
 
         } catch (Exception e) {
-            Log.e(TAG, "Error in constructing the JSON request", e);
+            Log.e("Bhenkeloada", "Error in constructing the JSON request", e);
             Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
         }
     }
@@ -536,7 +539,7 @@ public class Register extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response.toString());
+                            Log.d("Bhenkeloada", "Response: " + response.toString());
                             try {
                                 if (response.has("success") && response.getString("success").equals("true")) {
                                     // OTP verified successfully
@@ -563,7 +566,7 @@ public class Register extends AppCompatActivity {
                                 // Handle JSONException
                                 registerButton.setEnabled(false);
                                 Toast.makeText(Register.this, "Error Verifying OTP", Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "Error in verifying OTP", e);
+                                Log.e("Bhenkeloada", "Error in verifying OTP", e);
                             }
                         }
                     },
@@ -576,7 +579,7 @@ public class Register extends AppCompatActivity {
                             verify_progress_layout.setVisibility(View.GONE);
                             verifyotp.setVisibility(View.VISIBLE);
                             Toast.makeText(Register.this, "Failed to verify OTP. Please try again.", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Error in OTP verification", error);
+                            Log.e("Bhenkeloada", "Error in OTP verification", error);
                         }
                     }
             );
@@ -593,7 +596,7 @@ public class Register extends AppCompatActivity {
         } catch (Exception e) {
             x=1;
             registerButton.setEnabled(false);
-            Log.e(TAG, "Error in constructing the JSON request", e);
+            Log.e("Bhenkeloada", "Error in constructing the JSON request", e);
             Toast.makeText(Register.this, "Error in OTP request", Toast.LENGTH_SHORT).show();
         }
     }

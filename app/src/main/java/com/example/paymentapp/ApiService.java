@@ -43,8 +43,6 @@ public interface ApiService {
             @Part MultipartBody.Part passbook
 
     );
-    @POST("auth/changeUserTpin/")
-    Call<ResponseBody> submitDetails(@Body RequestBody jsonBody);
 
 
 
