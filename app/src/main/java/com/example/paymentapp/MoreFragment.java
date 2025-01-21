@@ -41,6 +41,7 @@ public class MoreFragment extends Fragment {
         account_deletion = view.findViewById(R.id.account_deletion);
         raiseticket = view.findViewById(R.id.raiseticket);
         withdraw=view.findViewById(R.id.withdraw);
+        gallery = view.findViewById(R.id.gallery);
 
         withdraw.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), Withdraw.class);
@@ -89,7 +90,10 @@ public class MoreFragment extends Fragment {
             startActivity(intent);
         });
 
-
+        gallery.setOnClickListener(v->{
+            Intent intent=new Intent(getActivity(),Gallery.class);
+            startActivity(intent);
+        });
 
         return view;
     }

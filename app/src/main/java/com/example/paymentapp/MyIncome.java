@@ -50,8 +50,6 @@ public class MyIncome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_income);
 
-        Log.d(TAG, "onCreate: Activity started.");
-
         back_button = findViewById(R.id.back_button);
         recyclerView = findViewById(R.id.recyclerView);
         tb_username = findViewById(R.id.memberName);
@@ -96,11 +94,7 @@ public class MyIncome extends AppCompatActivity {
 
                             boolean success = response.getBoolean("success");
                             if (success) {
-                                Log.d(TAG, "Transaction data successfully fetched.");
-
                                 JSONArray transactions = response.getJSONObject("transactions").getJSONArray("data");
-                                Log.d(TAG, "Transactions: " + transactions.toString());
-
                                 // Clear the existing data
                                 transactionList.clear();
 
@@ -231,7 +225,6 @@ public class MyIncome extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull IncomeViewHolder holder, int position) {
             Transaction transaction = transactionList.get(position);
-            Log.d(TAG, "Binding transaction at position" + position + " : " + transaction);
 
             holder.type.setText(transaction.type);
             holder.subType.setText(transaction.subType);

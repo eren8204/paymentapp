@@ -4,7 +4,7 @@ plugins {
 }
 android {
     namespace = "com.example.paymentapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.paymentapp"
@@ -36,8 +36,10 @@ android {
 
 dependencies {
 
-    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-    implementation (libs.gson)
+    implementation (libs.android.pdf.viewer)
+    implementation(libs.recyclerview)
+    implementation(libs.glide)
+    implementation(libs.gson)
     implementation(libs.blurry)
     implementation(libs.volley)
     implementation(libs.lottie)
