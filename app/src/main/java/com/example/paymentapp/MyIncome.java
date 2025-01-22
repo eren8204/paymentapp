@@ -56,29 +56,24 @@ public class MyIncome extends AppCompatActivity {
         tb_memberid = findViewById(R.id.memberId);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "Hello, !"); // Default value
-        String memberId = sharedPreferences.getString("memberId", "UP000000"); // Default value
-        Log.d(TAG, "SharedPreferences - Username: " + username + ", MemberId: " + memberId);
-        fetchTransactions(memberId); // Fetch transactions for the member ID
+        String username = sharedPreferences.getString("username", "Hello, !");
+        String memberId = sharedPreferences.getString("memberId", "UP000000");
+        fetchTransactions(memberId);
 
-        pre(username, memberId); // Set the username and member ID in the UI
-
-        // Set up the RecyclerView
+        pre(username, memberId);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         incomeAdapter = new IncomeAdapter(transactionList);
         recyclerView.setAdapter(incomeAdapter);
     }
 
     private void fetchTransactions(String memberId) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/incomeTransactions";
+        String url = BuildConfig.api_url+"incomeTransactions";
 
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("member_id", memberId);
-            Log.d(TAG, "Request body: " + requestBody.toString());
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "Error creating request body: ", e);
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -95,10 +90,8 @@ public class MyIncome extends AppCompatActivity {
                             boolean success = response.getBoolean("success");
                             if (success) {
                                 JSONArray transactions = response.getJSONObject("transactions").getJSONArray("data");
-                                // Clear the existing data
                                 transactionList.clear();
 
-                                // Add new data to the list
                                 for (int i = 0; i < transactions.length(); i++) {
                                     JSONObject transaction = transactions.getJSONObject(i);
                                     transactionList.add(new Transaction(
@@ -114,7 +107,6 @@ public class MyIncome extends AppCompatActivity {
                                     ));
                                 }
 
-                                // Notify the adapter of the data change
                                 incomeAdapter.notifyDataSetChanged();
                             } else {
                                 Log.d(TAG, "Transaction fetch failed.");
@@ -178,7 +170,7 @@ public class MyIncome extends AppCompatActivity {
         Log.d(TAG, "Setting username: " + username + " and member ID: " + memberId);
         back_button.setOnClickListener(v -> {
             Log.d(TAG, "Back button clicked.");
-            finish(); // Close the activity on back button click
+            finish();
         });
 
         Window window = this.getWindow();
@@ -205,7 +197,6 @@ public class MyIncome extends AppCompatActivity {
         }
     }
 
-    // Adapter class
     class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeViewHolder> {
         private final List<Transaction> transactionList;
 

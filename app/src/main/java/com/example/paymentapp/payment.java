@@ -237,7 +237,7 @@ public class payment extends AppCompatActivity {
 
     }
     private void check(String memberId, String tpin, Response.Listener<JSONObject> responseListener) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/checktpin";
+        String url = BuildConfig.api_url+"checktpin";
 
         JSONObject payload = new JSONObject();
         try {
@@ -255,7 +255,7 @@ public class payment extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
     private void buyMembership(String memberId, String packageName, Response.Listener<JSONObject> responseListener) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/buymembership";
+        String url = BuildConfig.api_url+"buymembership";
 
         Log.d("arsh", "Calling buyMembership API with member_id: " + memberId + " and package_name: " + packageName);
 
@@ -271,11 +271,9 @@ public class payment extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
                 response -> {
                     try {
-                        // Log the successful response
                         updateMembership(memberId);
                         Log.d("arsh", "Membership purchase response: " + response.toString());
 
-                        // Pass the response to the listener
                         responseListener.onResponse(response);
                     } catch (Exception e) {
                         Log.e("arsh", "Error parsing response: " + e.getMessage());
@@ -312,13 +310,12 @@ public class payment extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
     private void updateMembership(String memberId){
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getmembershipStatus";
+        String url = BuildConfig.api_url+"getmembershipStatus";
         JSONObject jsonObject = new JSONObject();
         try{
             jsonObject.put("member_id",memberId);
         }
         catch (JSONException e){
-            //
             return;
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,jsonObject,response -> {
@@ -339,11 +336,10 @@ public class payment extends AppCompatActivity {
         },
                 error -> {
                     Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
-                    //
                 });
     }
     private void mobile_recharge(String memberId, String operatorCode, String circleCode, String number, String amount) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/doMobileRecharge";
+        String url = BuildConfig.api_url+"doMobileRecharge";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("circlecode", circleCode);
@@ -352,8 +348,6 @@ public class payment extends AppCompatActivity {
             jsonObject.put("amount", amount);
             jsonObject.put("member_id", memberId);
 
-            Log.d("mobile_recharge", "Request URL: " + url);
-            Log.d("mobile_recharge", "Request Body: " + jsonObject.toString());
 
         } catch (JSONException e) {
             Log.e("mobile_recharge", "JSONException: " + e.getMessage());
@@ -362,7 +356,6 @@ public class payment extends AppCompatActivity {
         }
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject, response -> {
-            Log.d("mobile_recharge", "Response: " + response.toString());
             try {
                 String message = response.getString("message");
                 Log.d("mobile_recharge", "Response Message: " + message);

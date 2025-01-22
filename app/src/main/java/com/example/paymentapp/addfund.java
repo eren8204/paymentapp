@@ -214,7 +214,7 @@ public class addfund extends AppCompatActivity {
     }
 
     private void fetchFundRequests(String memberId, Runnable onComplete) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getUserAddFundRequest";
+        String url = BuildConfig.api_url+"getUserAddFundRequest";
 
         @SuppressLint("NotifyDataSetChanged") JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
@@ -290,7 +290,7 @@ public class addfund extends AppCompatActivity {
 
 
     private void fetchImageName() {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getRandomQR";
+        String url = BuildConfig.api_url+"getRandomQR";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -320,7 +320,7 @@ public class addfund extends AppCompatActivity {
     }
 
     private void sendImageName(String imageName) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/getQRimage";
+        String url = BuildConfig.api_url+"getQRimage";
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -395,8 +395,6 @@ public class addfund extends AppCompatActivity {
         return Volley.newRequestQueue(this);
     }
 
-
-
     private void showAddFundDialog(String memberId) {
 
         dialog1.setContentView(R.layout.dialog_add_fund);
@@ -452,34 +450,28 @@ public class addfund extends AppCompatActivity {
             return;
         }
 
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
+        String url = BuildConfig.api_url;
 
         try {
-            // Ensure directory exists
             File directory = new File(String.valueOf(getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
             if (!directory.exists()) {
-                directory.mkdirs(); // Create the directory
+                directory.mkdirs();
             }
 
-            // Get bitmap from imageUri
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
-            // Create a file to save the bitmap
             File imageFile = new File(directory, Timing.getCurrentTimeEpoch() + "_selectedImg.jpg");
             FileOutputStream fos = new FileOutputStream(imageFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos); // Compress as JPEG
             fos.close();
 
-            // Create Retrofit instance
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(url)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            // Create API service
             ApiService apiService = retrofit.create(ApiService.class);
 
-            // Prepare the request body with multipart image
             RequestBody requestBodyUtrNumber = RequestBody.create(MediaType.parse("text/plain"), utrNumber);
             RequestBody requestBodyMemberId = RequestBody.create(MediaType.parse("text/plain"), memberId);
             RequestBody requestBodyToUpiId = RequestBody.create(MediaType.parse("text/plain"), toUpiId);
@@ -488,7 +480,6 @@ public class addfund extends AppCompatActivity {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageFile);
             MultipartBody.Part imagePart = MultipartBody.Part.createFormData("screenshot", imageFile.getName(), requestFile);
 
-            // Make the POST request
             Call<ResponseBody> call = apiService.sendAddFundRequest(
                     requestBodyUtrNumber,
                     requestBodyMemberId,

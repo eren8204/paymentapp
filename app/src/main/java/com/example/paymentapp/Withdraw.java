@@ -1,6 +1,7 @@
 package com.example.paymentapp;
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +47,7 @@ public class Withdraw extends AppCompatActivity {
     private List<WithdrawItem> withdrawList;
 
     private EditText messageEditText;
-    private static final String SEND_MESSAGE_URL = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/user-withdraw-request";
+    private static final String SEND_MESSAGE_URL = BuildConfig.api_url+"user-withdraw-request";
 
 
     private Button withdrawbtn;
@@ -75,12 +76,7 @@ public class Withdraw extends AppCompatActivity {
         });
 
         back_button=findViewById(R.id.back_button);
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back_button.setOnClickListener(v -> finish());
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -102,22 +98,11 @@ public class Withdraw extends AppCompatActivity {
                     Request.Method.POST,
                     SEND_MESSAGE_URL,
                     requestBody,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-                            Log.d("jskbf", "sendMessageAndFetchChat: Message sent successfully");
-                            Log.d("jskbf", "sendMessageAndFetchChat: Response = " + response.toString());
-                            Log.d("jskbf", "sendMessageAndFetchChat: Message sent successfully");
-                            Toast.makeText(Withdraw.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                    response -> {
+                        Toast.makeText(Withdraw.this, response.toString(), Toast.LENGTH_SHORT).show();
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("jskbf", "sendMessageAndFetchChat: Failed to send message", error);
-                            Toast.makeText(Withdraw.this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                        }
+                    error -> {
+                        Toast.makeText(Withdraw.this, "Failed to send message", Toast.LENGTH_SHORT).show();
                     }
             );
 
@@ -179,51 +164,43 @@ public class Withdraw extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        @SuppressLint("NotifyDataSetChanged") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
                 postData,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (response.getString("status").equals("true")) {
-                                JSONArray dataArray = response.getJSONArray("data");
-                                for (int i = 0; i < dataArray.length(); i++) {
-                                    JSONObject item = dataArray.getJSONObject(i);
-                                    WithdrawItem withdrawItem = new WithdrawItem(
-                                            formatAmount(item.getString("amount")),
-                                            item.getString("date_time"),
-                                            item.getString("status")
-                                    );
-                                    withdrawList.add(withdrawItem);
-                                }
-                                withdrawList.sort((request1, request2) -> {
-                                    try {
-                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-                                        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-                                        Date date1 = sdf.parse(request1.dateTime);
-                                        Date date2 = sdf.parse(request2.dateTime);
-                                        assert date2 != null;
-                                        return date2.compareTo(date1); // Latest to oldest
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                        return 0;
-                                    }
-                                });
-                                adapter.notifyDataSetChanged();
+                response -> {
+                    try {
+                        if (response.getString("status").equals("true")) {
+                            JSONArray dataArray = response.getJSONArray("data");
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject item = dataArray.getJSONObject(i);
+                                WithdrawItem withdrawItem = new WithdrawItem(
+                                        formatAmount(item.getString("amount")),
+                                        item.getString("date_time"),
+                                        item.getString("status")
+                                );
+                                withdrawList.add(withdrawItem);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            withdrawList.sort((request1, request2) -> {
+                                try {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                    Date date1 = sdf.parse(request1.dateTime);
+                                    Date date2 = sdf.parse(request2.dateTime);
+                                    assert date2 != null;
+                                    return date2.compareTo(date1); // Latest to oldest
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    return 0;
+                                }
+                            });
+                            adapter.notifyDataSetChanged();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }
+                error -> error.printStackTrace()
         );
 
         requestQueue.add(jsonObjectRequest);

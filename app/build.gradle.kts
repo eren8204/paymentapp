@@ -1,7 +1,15 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
 
 }
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+val api_url: String = localProperties.getProperty("unopay_api_url")
 android {
     namespace = "com.example.paymentapp"
     compileSdk = 35
@@ -12,10 +20,12 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String","api_url","\"$api_url\"")
     }
-
+    buildFeatures{
+        buildConfig = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -28,9 +38,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    buildFeatures {
-        viewBinding = true
     }
 }
 

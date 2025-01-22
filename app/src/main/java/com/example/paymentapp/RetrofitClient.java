@@ -9,7 +9,7 @@ public class RetrofitClient {
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://gk4rbn12-3000.inc1.devtunnels.ms/api/") // Base URL
+                    .baseUrl(BuildConfig.api_url) // Base URL
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

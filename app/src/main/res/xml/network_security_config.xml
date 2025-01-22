@@ -3,6 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">52.66.75.230</domain>
         <domain includeSubdomains="true">122.161.75.52</domain>
-        <domain includeSubdomains="true">www.gotarpay.in</domain>
+        <domain includeSubdomains="true">157.119.41.139</domain>
     </domain-config>
 </network-security-config>

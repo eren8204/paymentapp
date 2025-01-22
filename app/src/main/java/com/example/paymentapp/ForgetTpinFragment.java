@@ -77,7 +77,7 @@ public class ForgetTpinFragment extends Fragment {
 
 
     private void sendOtp(String memberId) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-otp2";
+        String apiUrl = BuildConfig.api_url+"send-otp2";
 
         try {
             JSONObject jsonInput = new JSONObject();
@@ -90,20 +90,14 @@ public class ForgetTpinFragment extends Fragment {
                     Request.Method.POST,
                     apiUrl,
                     jsonInput,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(TAG, "Response: " + response.toString());
-                            sendOtpText.setText("Resend OTP");
-                            Toast.makeText(getContext(), "OTP sent successfully", Toast.LENGTH_SHORT).show();
-                        }
+                    response -> {
+                        Log.d(TAG, "Response: " + response.toString());
+                        sendOtpText.setText("Resend OTP");
+                        Toast.makeText(getContext(), "OTP sent successfully", Toast.LENGTH_SHORT).show();
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "Error in sendOtp", error);
-                            Toast.makeText(getContext(), "Failed to send OTP", Toast.LENGTH_SHORT).show();
-                        }
+                    error -> {
+                        Log.e(TAG, "Error in sendOtp", error);
+                        Toast.makeText(getContext(), "Failed to send OTP", Toast.LENGTH_SHORT).show();
                     }
             );
 
@@ -122,58 +116,45 @@ public class ForgetTpinFragment extends Fragment {
     }
 
     private void updatePin(String memberId) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/forgetTpin";
+        String apiUrl = BuildConfig.api_url+"forgetTpin";
         String newpin = newPin.getText().toString();
         String otpText = otp.getText().toString();
         String coinPinText = coinPin.getText().toString();
         progressBar.setVisibility(View.VISIBLE);
         updatePinButton.setVisibility(View.GONE);
         if(newpin.equals(coinPinText)) {
-            Log.d(TAG, "Updating PIN with coinPin: " + coinPinText + ", otp: " + otpText);
-
             try {
                 JSONObject jsonInput = new JSONObject();
                 jsonInput.put("member_id", memberId);
                 jsonInput.put("newTpin", coinPinText);
                 jsonInput.put("otp", otpText);
 
-                Log.d(TAG, "API URL: " + apiUrl);
-                Log.d(TAG, "Sending update PIN request data: " + jsonInput.toString());
-
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                         Request.Method.POST,
                         apiUrl,
                         jsonInput,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d(TAG, "Response: " + response.toString());
-                                progressBar.setVisibility(View.GONE);
-                                updatePinButton.setVisibility(View.VISIBLE);
-                                card.setVisibility(View.GONE);
-                                success_layout.setVisibility(View.VISIBLE);
-                                Toast.makeText(getContext(), "PIN changed successfully", Toast.LENGTH_SHORT).show();
-                            }
+                        response -> {
+                            Log.d(TAG, "Response: " + response.toString());
+                            progressBar.setVisibility(View.GONE);
+                            updatePinButton.setVisibility(View.VISIBLE);
+                            card.setVisibility(View.GONE);
+                            success_layout.setVisibility(View.VISIBLE);
+                            Toast.makeText(getContext(), "PIN changed successfully", Toast.LENGTH_SHORT).show();
                         },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e(TAG, "Error in updatePin", error);
-                                progressBar.setVisibility(View.GONE);
-                                updatePinButton.setVisibility(View.VISIBLE);
-                                Toast.makeText(getContext(), "Failed to change PIN", Toast.LENGTH_SHORT).show();
-                            }
+                        error -> {
+                            Log.e(TAG, "Error in updatePin", error);
+                            progressBar.setVisibility(View.GONE);
+                            updatePinButton.setVisibility(View.VISIBLE);
+                            Toast.makeText(getContext(), "Failed to change PIN", Toast.LENGTH_SHORT).show();
                         }
                 );
 
-                // Set a custom RetryPolicy for 1 minute timeout with no retries
                 jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                         250000,
-                        0, // No retries
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT // Backoff multiplier
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 ));
 
-                // Add the request to the RequestQueue.
                 RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                 requestQueue.add(jsonObjectRequest);
 

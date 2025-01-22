@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         fetchWalletBalance(memberId, ()->fetchKYCStatus(memberId));
     }
     private void fetchWalletBalance(String memberId, Runnable onComplete){
-            String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/user-wallet-wise-balance";
+            String url = BuildConfig.api_url+"user-wallet-wise-balance";
             Map<String, String> params = new HashMap<>();
             params.put("member_id", memberId);
 
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
     private void fetchKYCStatus(String memberId) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/userkycstatus";
+        String url = BuildConfig.api_url+"userkycstatus";
 
         Map<String, String> params = new HashMap<>();
         params.put("member_id", memberId);

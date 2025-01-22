@@ -44,8 +44,8 @@ public class RaiseTicket_Activity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
 
     private ImageView back_button;
-    private static final String SEND_MESSAGE_URL = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-message";
-    private static final String GET_CHAT_URL = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/get-user-admin-chat";
+    private static final String SEND_MESSAGE_URL = BuildConfig.api_url+"send-message";
+    private static final String GET_CHAT_URL = BuildConfig.api_url+"get-user-admin-chat";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +56,7 @@ public class RaiseTicket_Activity extends AppCompatActivity {
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         back_button=findViewById(R.id.back_button);
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back_button.setOnClickListener(v -> finish());
         messageEditText = findViewById(R.id.messageby);
         raiseTicketButton = findViewById(R.id.Raiseticketbtn);
         recyclerView = findViewById(R.id.recyclerView);
@@ -113,19 +108,13 @@ public class RaiseTicket_Activity extends AppCompatActivity {
                     Request.Method.POST,
                     SEND_MESSAGE_URL,
                     requestBody,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(TAG, "sendMessageAndFetchChat: Message sent successfully");
-                            Toast.makeText(RaiseTicket_Activity.this, "Message sent", Toast.LENGTH_SHORT).show();
-                        }
+                    response -> {
+                        Log.d(TAG, "sendMessageAndFetchChat: Message sent successfully");
+                        Toast.makeText(RaiseTicket_Activity.this, "Message sent", Toast.LENGTH_SHORT).show();
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "sendMessageAndFetchChat: Failed to send message", error);
-                            Toast.makeText(RaiseTicket_Activity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                        }
+                    error -> {
+                        Log.e(TAG, "sendMessageAndFetchChat: Failed to send message", error);
+                        Toast.makeText(RaiseTicket_Activity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
                     }
             );
 
@@ -151,28 +140,22 @@ public class RaiseTicket_Activity extends AppCompatActivity {
                     Request.Method.POST,
                     GET_CHAT_URL,
                     requestBody.names(),
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            Log.d(TAG, "fetchChatMessages: Chat messages fetched successfully");
-                            chatMessages.clear();
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    chatMessages.add(response.getJSONObject(i));
-                                } catch (JSONException e) {
-                                    Log.e(TAG, "fetchChatMessages: JSON exception during parsing", e);
-                                }
+                    response -> {
+                        Log.d(TAG, "fetchChatMessages: Chat messages fetched successfully");
+                        chatMessages.clear();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                chatMessages.add(response.getJSONObject(i));
+                            } catch (JSONException e) {
+                                Log.e(TAG, "fetchChatMessages: JSON exception during parsing", e);
                             }
-                            chatAdapter.notifyDataSetChanged();
-                            Log.d(TAG, "fetchChatMessages: Updated chat messages in adapter");
                         }
+                        chatAdapter.notifyDataSetChanged();
+                        Log.d(TAG, "fetchChatMessages: Updated chat messages in adapter");
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "fetchChatMessages: Failed to fetch messages", error);
-                            Toast.makeText(RaiseTicket_Activity.this, "Failed to fetch messages", Toast.LENGTH_SHORT).show();
-                        }
+                    error -> {
+                        Log.e(TAG, "fetchChatMessages: Failed to fetch messages", error);
+                        Toast.makeText(RaiseTicket_Activity.this, "Failed to fetch messages", Toast.LENGTH_SHORT).show();
                     }
             ) {
                 @Override

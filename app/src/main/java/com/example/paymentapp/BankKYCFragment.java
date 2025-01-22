@@ -165,15 +165,12 @@ public class BankKYCFragment extends Fragment {
     }
 
     private void sendOtp(String mail) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-otp2";
+        String apiUrl = BuildConfig.api_url+"send-otp2";
 
         try {
             JSONObject jsonInput = new JSONObject();
             jsonInput.put("identifier", mail);
             jsonInput.put("type", "kyc");
-
-            Log.d("bankotp", "API URL: " + apiUrl);
-            Log.d("bankotp", "Sending OTP request data: " + jsonInput.toString());
 
             @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
@@ -242,7 +239,7 @@ public class BankKYCFragment extends Fragment {
     }
 
     private void fetchKYCStatus(String memberId) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/userkycstatus";
+        String url = BuildConfig.api_url+"userkycstatus";
 
         Map<String, String> params = new HashMap<>();
         params.put("member_id", memberId);
@@ -414,7 +411,7 @@ public class BankKYCFragment extends Fragment {
     }
 
     private void sendKycRequest(String userName, String panNumber, String memberId, String ifscCode, String bankName, String accountNumber, String aadharNumber, String nomineeName, String nomineeRelation,String otp) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/";
+        String url = BuildConfig.api_url;
         form.setEnabled(false);
         try {
             File directory = new File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "BankKYC");

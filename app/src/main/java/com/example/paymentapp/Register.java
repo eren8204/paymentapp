@@ -292,7 +292,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void checkSponsorID(String sponsorID) {
-        String baseUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/checkSponserId";
+        String baseUrl = BuildConfig.api_url+"checkSponserId";
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("sponser_id", sponsorID);
@@ -354,7 +354,7 @@ public class Register extends AppCompatActivity {
 
 
 
-        String baseUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/register";
+        String baseUrl = BuildConfig.api_url+"register";
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("sponser_id", sponsorIDText);
@@ -443,7 +443,7 @@ public class Register extends AppCompatActivity {
     private long timeLeftInMillis = 60000;
 
     private void sendOtp(String memberId) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-register-otp";
+        String apiUrl = BuildConfig.api_url+"send-register-otp";
 
         try {
             JSONObject jsonInput = new JSONObject();
@@ -525,7 +525,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void verifyOtp(String memberId, String otp) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/verify-register-otp";
+        String apiUrl = BuildConfig.api_url+"verify-register-otp";
 
         try {
             JSONObject jsonInput = new JSONObject();

@@ -106,15 +106,12 @@ public class ForgetPassword extends AppCompatActivity {
 
 
     private void sendOtp(String memberId) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/send-otp2";
+        String apiUrl = BuildConfig.api_url+"send-otp2";
 
         try {
             JSONObject jsonInput = new JSONObject();
             jsonInput.put("identifier", memberId);
             jsonInput.put("type","forget_password");
-
-            Log.d(TAG, "API URL: " + apiUrl);
-            Log.d(TAG, "Sending OTP request data: " + jsonInput.toString());
 
             @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
@@ -166,7 +163,7 @@ public class ForgetPassword extends AppCompatActivity {
         }
     }
     private void updatePassword(String memberId) {
-        String apiUrl = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/forgetPassword";
+        String apiUrl = BuildConfig.api_url+"forgetPassword";
         String newPasswordText = newPassword.getText().toString();
         String otpText = otp.getText().toString();
 
@@ -182,9 +179,6 @@ public class ForgetPassword extends AppCompatActivity {
                 jsonInput.put("identifier", memberId);
                 jsonInput.put("newPassword", newPasswordText);
                 jsonInput.put("otp", otpText);
-
-                Log.d(TAG, "API URL: " + apiUrl);
-                Log.d(TAG, "Sending update password request data: " + jsonInput.toString());
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                         Request.Method.POST,

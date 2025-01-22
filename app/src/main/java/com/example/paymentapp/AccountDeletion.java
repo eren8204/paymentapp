@@ -93,7 +93,7 @@ public class AccountDeletion extends AppCompatActivity {
 
     }
     private void check(String memberId, String tpin, String password, Response.Listener<JSONObject> responseListener) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/deleteRequest";
+        String url = BuildConfig.api_url+"deleteRequest";
 
         JSONObject payload = new JSONObject();
         try {

@@ -25,12 +25,7 @@ public class Aboutus_Activity extends AppCompatActivity {
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
 
         back_button=findViewById(R.id.back_button);
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back_button.setOnClickListener(v -> finish());
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");

@@ -66,7 +66,7 @@ public class Transactionfragment extends Fragment {
     }
 
     private void fetchTransactions(String memberId) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/selfTransactions";
+        String url = BuildConfig.api_url+"selfTransactions";
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -79,99 +79,91 @@ public class Transactionfragment extends Fragment {
                 Request.Method.POST,
                 url,
                 requestBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            progressBar.setVisibility(View.GONE);
-                            boolean success = response.getBoolean("success");
-                            if (success) {
-                                recyclerView.setVisibility(View.VISIBLE);
-                                errorTextView.setVisibility(View.GONE);
+                response -> {
+                    try {
+                        progressBar.setVisibility(View.GONE);
+                        boolean success = response.getBoolean("success");
+                        if (success) {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            errorTextView.setVisibility(View.GONE);
 
-                                JSONArray transactions = response.getJSONObject("transactions").getJSONArray("data");
-                                recyclerView.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-                                    @NonNull
-                                    @Override
-                                    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction, parent, false);
-                                        return new RecyclerView.ViewHolder(view) {};
-                                    }
+                            JSONArray transactions = response.getJSONObject("transactions").getJSONArray("data");
+                            recyclerView.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                @NonNull
+                                @Override
+                                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction, parent, false);
+                                    return new RecyclerView.ViewHolder(view) {};
+                                }
 
-                                    @Override
-                                    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                                        try {
-                                            JSONObject transaction = transactions.getJSONObject(position);
-                                            TextView type = holder.itemView.findViewById(R.id.type);
-                                            TextView date = holder.itemView.findViewById(R.id.date);
-                                            TextView amount = holder.itemView.findViewById(R.id.amount);
-                                            TextView subtype = holder.itemView.findViewById(R.id.subtype);
-                                            TextView rechargeto = holder.itemView.findViewById(R.id.rechargeto);
-                                            type.setText(transaction.getString("type"));
+                                @Override
+                                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                                    try {
+                                        JSONObject transaction = transactions.getJSONObject(position);
+                                        TextView type = holder.itemView.findViewById(R.id.type);
+                                        TextView date = holder.itemView.findViewById(R.id.date);
+                                        TextView amount = holder.itemView.findViewById(R.id.amount);
+                                        TextView subtype = holder.itemView.findViewById(R.id.subtype);
+                                        TextView rechargeto = holder.itemView.findViewById(R.id.rechargeto);
+                                        type.setText(transaction.getString("type"));
 
-                                            if(transaction.getString("type").equals("Add Fund Request"))
-                                            {
-                                                type.setText("Fund Request");
+                                        if(transaction.getString("type").equals("Add Fund Request"))
+                                        {
+                                            type.setText("Fund Request");
 
-                                            }
-                                            date.setText(formatDate(transaction.getString("created_at")));
-
-                                            if(transaction.getString("credit").equals("0"))
-                                            {
-                                                amount.setText(transaction.getString("debit"));
-                                            }
-                                            else {
-                                                amount.setText(transaction.getString("credit"));
-                                            }
-                                            if(!transaction.getString("subType").equals("null"))
-                                            {
-                                                subtype.setText(transaction.getString("subType"));
-                                                subtype.setVisibility(View.VISIBLE);
-                                            }
-                                            else
-                                            {
-                                                subtype.setVisibility(View.GONE);
-                                            }
-                                            if(!transaction.getString("recharge_to").equals("null"))
-                                            {
-                                                rechargeto.setText(transaction.getString("recharge_to"));
-                                                rechargeto.setVisibility(View.VISIBLE);
-                                                LinearLayout linearLayout = holder.itemView.findViewById(R.id.statuscolour);
-                                                linearLayout.setBackgroundColor(getResources().getColor(R.color.reject));
-                                            }
-                                            else
-                                            {
-                                                rechargeto.setVisibility(View.GONE);
-                                            }
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
                                         }
-                                    }
+                                        date.setText(formatDate(transaction.getString("created_at")));
 
-                                    @Override
-                                    public int getItemCount() {
-                                        return transactions.length();
+                                        if(transaction.getString("credit").equals("0"))
+                                        {
+                                            amount.setText(transaction.getString("debit"));
+                                        }
+                                        else {
+                                            amount.setText(transaction.getString("credit"));
+                                        }
+                                        if(!transaction.getString("subType").equals("null"))
+                                        {
+                                            subtype.setText(transaction.getString("subType"));
+                                            subtype.setVisibility(View.VISIBLE);
+                                        }
+                                        else
+                                        {
+                                            subtype.setVisibility(View.GONE);
+                                        }
+                                        if(!transaction.getString("recharge_to").equals("null"))
+                                        {
+                                            rechargeto.setText(transaction.getString("recharge_to"));
+                                            rechargeto.setVisibility(View.VISIBLE);
+                                            LinearLayout linearLayout = holder.itemView.findViewById(R.id.statuscolour);
+                                            linearLayout.setBackgroundColor(getResources().getColor(R.color.reject));
+                                        }
+                                        else
+                                        {
+                                            rechargeto.setVisibility(View.GONE);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                });
-                            } else {
-                                recyclerView.setVisibility(View.GONE);
-                                errorTextView.setVisibility(View.VISIBLE);
-                                errorTextView.setText("No transaction found.");
-                            }
-                        } catch (JSONException e) {
-                            progressBar.setVisibility(View.GONE);
-                            e.printStackTrace();
-                            showError("Error parsing response.");
+                                }
+
+                                @Override
+                                public int getItemCount() {
+                                    return transactions.length();
+                                }
+                            });
+                        } else {
+                            recyclerView.setVisibility(View.GONE);
+                            errorTextView.setVisibility(View.VISIBLE);
+                            errorTextView.setText("No transaction found.");
                         }
+                    } catch (JSONException e) {
+                        progressBar.setVisibility(View.GONE);
+                        e.printStackTrace();
+                        showError("Error parsing response.");
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        showError("Error: " + error.getMessage());
-                    }
-                }
+                error -> showError("Error: " + error.getMessage())
         );
 
         RequestQueue queue = Volley.newRequestQueue(getContext());

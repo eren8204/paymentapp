@@ -78,7 +78,7 @@ public class LoginHelp extends AppCompatActivity {
         });
     }
     public void sendIssue(String email, String member_id, String message){
-        String url ="https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login-issue";
+        String url =BuildConfig.api_url+"login-issue";
         try{
             JSONObject jsonInput = new JSONObject();
             jsonInput.put("email", email);

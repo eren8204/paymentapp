@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface ApiService {
-    @POST("auth/userAddFundRequest/")
+    @POST("userAddFundRequest/")
     @Multipart
     Call<ResponseBody> sendAddFundRequest(
             @Part("utr_number") RequestBody utrNumber,
@@ -20,10 +20,10 @@ public interface ApiService {
             @Part MultipartBody.Part screenshot
     );
 
-    @POST("auth/getTeamList")
+    @POST("getTeamList")
     Call<TeamResponse> fetchTeamData(@Body MemberRequest memberRequest);
 
-    @POST("auth/submitUserBankKycDetails/")
+    @POST("submitUserBankKycDetails/")
     @Multipart
     Call<ResponseBody> submitUserBankKycDetails(
             @Part("member_id") RequestBody memberId,

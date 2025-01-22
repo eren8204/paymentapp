@@ -184,9 +184,8 @@ private boolean passwordVisible;
     }
 
     private void sendRequest(String oldPass, String newPass, String memberId) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/changeUserPassword";
+        String url = BuildConfig.api_url+"changeUserPassword";
 
-        // Create JSON body
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("member_id", memberId);
@@ -198,66 +197,56 @@ private boolean passwordVisible;
             return;
         }
 
-        System.out.println("JSON Body: " + jsonObject);
-
-        // Create a request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
                 jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (response.getString("status").equals("true")) {
-                                progressBar.setVisibility(View.GONE);
-                                update_password.setVisibility(View.VISIBLE);
-                                Intent intent=new Intent(requireContext(),Login.class);
-                                startActivity(intent);
-                                requireActivity().finish();
-                                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.clear();
-                                editor.apply();
-                                Toast.makeText(getActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                progressBar.setVisibility(View.GONE);
-                                update_password.setVisibility(View.VISIBLE);
-                                String errorMessage = response.optString("error", "Server error");
-                                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                response -> {
+                    try {
+                        if (response.getString("status").equals("true")) {
                             progressBar.setVisibility(View.GONE);
                             update_password.setVisibility(View.VISIBLE);
-                            Toast.makeText(getActivity(), "Error processing response", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMessage;
-                        if (error.networkResponse != null && error.networkResponse.data != null) {
-                            try {
-                                String errorBody = new String(error.networkResponse.data, "UTF-8");
-                                JSONObject errorResponse = new JSONObject(errorBody);
-                                errorMessage = errorResponse.optString("error", "Submission failed");
-                            } catch (Exception e) {
-                                errorMessage = "Error processing error response";
-                            }
+                            Intent intent=new Intent(requireContext(),Login.class);
+                            startActivity(intent);
+                            requireActivity().finish();
+                            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
+                            Toast.makeText(getActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show();
                         } else {
-                            errorMessage = "Submission failed";
+                            progressBar.setVisibility(View.GONE);
+                            update_password.setVisibility(View.VISIBLE);
+                            String errorMessage = response.optString("error", "Server error");
+                            Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                         progressBar.setVisibility(View.GONE);
                         update_password.setVisibility(View.VISIBLE);
-                        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-                        Log.e("API", "Error: " + error.getMessage(), error);
+                        Toast.makeText(getActivity(), "Error processing response", Toast.LENGTH_SHORT).show();
                     }
+                },
+                error -> {
+                    String errorMessage;
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String errorBody = new String(error.networkResponse.data, "UTF-8");
+                            JSONObject errorResponse = new JSONObject(errorBody);
+                            errorMessage = errorResponse.optString("error", "Submission failed");
+                        } catch (Exception e) {
+                            errorMessage = "Error processing error response";
+                        }
+                    } else {
+                        errorMessage = "Submission failed";
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    update_password.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    Log.e("API", "Error: " + error.getMessage(), error);
                 }
         );
 
-        // Add the request to the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonObjectRequest);
     }

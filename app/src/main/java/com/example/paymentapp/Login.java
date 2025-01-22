@@ -1,5 +1,6 @@
 package com.example.paymentapp;
 
+import com.example.paymentapp.BuildConfig;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -51,7 +52,7 @@ public class Login extends AppCompatActivity {
 
     private TextView forgetpassword;
     private String pass="",otp="",androidId="";
-    private String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/login2";
+    private String url = BuildConfig.api_url+"login2";
     private boolean passwordVisible,otpVisible=false;
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -227,6 +228,7 @@ public class Login extends AppCompatActivity {
                     email.setEnabled(true);
                     password.setEnabled(true);
                     signup.setEnabled(true);
+                    Log.d("loginkierror",error.getMessage());
                     Toast.makeText(Login.this, "Login failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
         );
