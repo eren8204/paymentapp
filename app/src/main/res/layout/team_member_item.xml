@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/member_item_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/_10sdp"
     app:cardCornerRadius="@dimen/_15sdp"
-    android:padding="@dimen/_10sdp">
+    android:padding="@dimen/_10sdp"
+    app:cardBackgroundColor="@color/start_bg"
+    tools:ignore="HardcodedText">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
 
             <TextView

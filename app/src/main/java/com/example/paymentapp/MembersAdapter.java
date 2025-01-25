@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.annotations.SerializedName;
@@ -43,6 +45,12 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
         holder.useridText.setText(member.getMember());
         holder.usernameTextView.setText(member.getUsername());
         holder.membershipTextView.setText(member.getMembership());
+        if (member.getMembership().trim().equalsIgnoreCase("BASIC") ||
+                member.getMembership().trim().equalsIgnoreCase("PREMIUM")) {
+            holder.member_card.setBackgroundColor(context.getResources().getColor(R.color.end_bg));
+        } else {
+            holder.member_card.setBackgroundColor(context.getResources().getColor(R.color.start_bg));
+        }
     }
     public static String formatDate(String dateString) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
@@ -63,9 +71,11 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
 
     public static class MemberViewHolder extends RecyclerView.ViewHolder {
         TextView usernameTextView, membershipTextView,useridText,dateText;
+        CardView member_card;
 
         public MemberViewHolder(@NonNull View itemView) {
             super(itemView);
+            member_card = itemView.findViewById(R.id.member_item_card);
             useridText = itemView.findViewById(R.id.userid);
             dateText = itemView.findViewById(R.id.date);
             usernameTextView = itemView.findViewById(R.id.username);

@@ -44,12 +44,13 @@ public class MyTeam extends AppCompatActivity {
     private TextView tb_memberid,tb_username;
     private RequestQueue requestQueue;
     private ExpandableListView expandableListView;
-    private LinearLayout progress_layout;
+    private LinearLayout progress_layout,oops_layout;
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_team);
+        oops_layout = findViewById(R.id.oops_layout);
         back_button = findViewById(R.id.back_button);
         progress_layout = findViewById(R.id.progress_layout);
         expandableListView = findViewById(R.id.expandableListView);
@@ -88,9 +89,13 @@ public class MyTeam extends AppCompatActivity {
                         progress_layout.setVisibility(View.GONE);
                         expandableListView.setVisibility(View.VISIBLE);
                     } else {
+                        progress_layout.setVisibility(View.GONE);
+                        oops_layout.setVisibility(View.VISIBLE);
                         Toast.makeText(MyTeam.this, "Failed to Fetch Data", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    progress_layout.setVisibility(View.GONE);
+                    oops_layout.setVisibility(View.VISIBLE);
                     Toast.makeText(MyTeam.this, "No Team Found", Toast.LENGTH_SHORT).show();
                 }
                 progress_layout.setVisibility(View.GONE);
@@ -98,7 +103,9 @@ public class MyTeam extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TeamResponse> call, Throwable t) {
-                Toast.makeText(MyTeam.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyTeam.this, "Network Error", Toast.LENGTH_SHORT).show();
+                progress_layout.setVisibility(View.GONE);
+                oops_layout.setVisibility(View.VISIBLE);
             }
         });
     }

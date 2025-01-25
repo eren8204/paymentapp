@@ -11,5 +11,7 @@
     <color name="grey">#3C3B3B</color>
     <color name="msg_grey">#A6A5A5</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="start_bg">#F4E9DB</color>
+    <color name="end_bg">#B4F2EA</color>
 
 </resources>

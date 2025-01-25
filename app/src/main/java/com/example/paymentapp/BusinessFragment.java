@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BusinessFragment extends Fragment {
+    private LinearLayout rank_layout;
     private TextView uname,uid,m_status,id_status,u_number,id_doj,flexi_text,commission_text,bonus_text;
     private CardView my_team,income;
     @SuppressLint({"CutPasteId", "MissingInflatedId"})
@@ -39,6 +41,7 @@ public class BusinessFragment extends Fragment {
         u_number = view.findViewById(R.id.id_card_no);
         id_doj = view.findViewById(R.id.id_card_doj);
         income = view.findViewById(R.id.income);
+        rank_layout = view.findViewById(R.id.rank_layout);
         flexi_text = view.findViewById(R.id.flexi_wallet_text);
         commission_text = view.findViewById(R.id.total_income_text);
         bonus_text = view.findViewById(R.id.bonus_wallet_text);
@@ -83,6 +86,11 @@ public class BusinessFragment extends Fragment {
 
         income.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), MyIncome.class);
+            startActivity(intent);
+        });
+
+        rank_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), Rank.class);
             startActivity(intent);
         });
 
