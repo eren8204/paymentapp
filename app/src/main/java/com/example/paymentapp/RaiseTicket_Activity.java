@@ -3,16 +3,21 @@ package com.example.paymentapp;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
@@ -38,11 +43,10 @@ public class RaiseTicket_Activity extends AppCompatActivity {
 
     private static final String TAG = "arsh";
     private EditText messageEditText;
-    private Button raiseTicketButton;
+    private ImageButton raiseTicketButton;
     private RecyclerView recyclerView;
     private List<JSONObject> chatMessages = new ArrayList<>();
     private ChatAdapter chatAdapter;
-
     private ImageView back_button;
     private static final String SEND_MESSAGE_URL = BuildConfig.api_url+"send-message";
     private static final String GET_CHAT_URL = BuildConfig.api_url+"get-user-admin-chat";
@@ -54,7 +58,7 @@ public class RaiseTicket_Activity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Activity started");
 
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
         back_button=findViewById(R.id.back_button);
         back_button.setOnClickListener(v -> finish());
         messageEditText = findViewById(R.id.messageby);
@@ -64,7 +68,6 @@ public class RaiseTicket_Activity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatAdapter = new ChatAdapter();
         recyclerView.setAdapter(chatAdapter);
-
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
@@ -78,20 +81,17 @@ public class RaiseTicket_Activity extends AppCompatActivity {
         userId.setText(memberId);
 
         String ticketId = generateTicketId(memberId);
-        Log.d(TAG, "onCreate: Generated ticketId = " + ticketId);
 
         fetchChatMessages(memberId, ticketId);
 
         raiseTicketButton.setOnClickListener(v -> {
             String message = messageEditText.getText().toString();
-            Log.d(TAG, "raiseTicketButton: Sending message: " + message);
             sendMessageAndFetchChat(memberId, ticketId, message);
         });
     }
 
     private String generateTicketId(String memberId) {
         String ticketId = "TX" + memberId.substring(2);
-        Log.d(TAG, "generateTicketId: " + ticketId);
         return ticketId;
     }
 
@@ -109,11 +109,10 @@ public class RaiseTicket_Activity extends AppCompatActivity {
                     SEND_MESSAGE_URL,
                     requestBody,
                     response -> {
-                        Log.d(TAG, "sendMessageAndFetchChat: Message sent successfully");
-                        Toast.makeText(RaiseTicket_Activity.this, "Message sent", Toast.LENGTH_SHORT).show();
+                        messageEditText.setText("");
+                        fetchChatMessages(memberId, ticketId);
                     },
                     error -> {
-                        Log.e(TAG, "sendMessageAndFetchChat: Failed to send message", error);
                         Toast.makeText(RaiseTicket_Activity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
                     }
             );
@@ -127,21 +126,17 @@ public class RaiseTicket_Activity extends AppCompatActivity {
     }
 
 
-
-
     private void fetchChatMessages(String memberId, String ticketId) {
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("member_id", memberId);
             requestBody.put("ticket_id", ticketId);
-            Log.d(TAG, "fetchChatMessages: Request body = " + requestBody.toString());
 
             JsonArrayRequest fetchRequest = new JsonArrayRequest(
                     Request.Method.POST,
                     GET_CHAT_URL,
                     requestBody.names(),
                     response -> {
-                        Log.d(TAG, "fetchChatMessages: Chat messages fetched successfully");
                         chatMessages.clear();
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -151,6 +146,7 @@ public class RaiseTicket_Activity extends AppCompatActivity {
                             }
                         }
                         chatAdapter.notifyDataSetChanged();
+                        recyclerView.post(() -> recyclerView.scrollToPosition(chatMessages.size() - 1));
                         Log.d(TAG, "fetchChatMessages: Updated chat messages in adapter");
                     },
                     error -> {
@@ -189,12 +185,22 @@ public class RaiseTicket_Activity extends AppCompatActivity {
         public void onBindViewHolder(ChatViewHolder holder, int position) {
             try {
                 JSONObject chatMessage = chatMessages.get(position);
+                Log.d("yehmsg",chatMessage.toString());
+
                 holder.messageTextView.setText(chatMessage.getString("message"));
                 holder.messageByTextView.setText(chatMessage.getString("message_by"));
                 holder.createdAtTextView.setText(formatDate(chatMessage.getString("created_at")));
                 holder.timeTextView.setText(formatTime(chatMessage.getString("created_at")));
 
-                Log.d(TAG, "onBindViewHolder: Message displayed at position " + position);
+                LinearLayout chat_layout = holder.itemView.findViewById(R.id.chat_layout); // LinearLayout containing the CardView
+
+                if (chatMessage.getString("message_by").equals("admin")) {
+                    chat_layout.setGravity(Gravity.START);
+                    holder.cardView.setBackgroundColor(ContextCompat.getColor(RaiseTicket_Activity.this, R.color.msg_grey));
+                } else {
+                    chat_layout.setGravity(Gravity.END);
+                    holder.cardView.setBackgroundColor(ContextCompat.getColor(RaiseTicket_Activity.this, R.color.endColor));
+                }
             } catch (JSONException e) {
                 Log.e(TAG, "onBindViewHolder: JSON exception", e);
             }
@@ -243,10 +249,12 @@ public class RaiseTicket_Activity extends AppCompatActivity {
 
         public class ChatViewHolder extends RecyclerView.ViewHolder {
             TextView messageTextView, messageByTextView, createdAtTextView, timeTextView;
+            LinearLayout chat_layout,cardView;
 
             public ChatViewHolder(View itemView) {
                 super(itemView);
-
+                cardView = itemView.findViewById(R.id.cardview);
+                chat_layout = itemView.findViewById(R.id.chat_layout);
                 messageTextView = itemView.findViewById(R.id.message);
                 messageByTextView = itemView.findViewById(R.id.messageby);
                 createdAtTextView = itemView.findViewById(R.id.dateTimeText);

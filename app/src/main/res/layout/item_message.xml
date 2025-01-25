@@ -3,22 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:cardCornerRadius="@dimen/_5sdp"
-    android:background="@android:color/white"
-    android:elevation="@dimen/_5sdp"
-    android:padding="@dimen/_8sdp"
-    android:layout_margin="@dimen/_8sdp">
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/chat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/message_card"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:elevation="@dimen/_5sdp"
+        android:layout_margin="@dimen/_8sdp">
 
     <LinearLayout
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/_10sdp"
-        android:background="@android:color/white"
         android:elevation="@dimen/_5sdp"
-        android:backgroundTint="@android:color/background_light">
+        android:background="@color/endColor">
 
         <TextView
             android:id="@+id/messageby"
@@ -26,57 +34,57 @@
             android:layout_height="wrap_content"
             android:text="USER"
             android:textSize="@dimen/_15sdp"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             android:textStyle="bold"
+            android:visibility="gone"
             android:paddingBottom="@dimen/_8sdp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/_8sdp"
-            android:background="@android:color/white"
+            android:padding="@dimen/_5sdp"
             android:backgroundTint="@android:color/background_light"
-            android:elevation="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_8sdp">
+            android:layout_margin="@dimen/_1sdp">
 
             <TextView
                 android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Message : "
-                android:textSize="@dimen/_14sdp"
-                android:textColor="@android:color/black"
-                android:textStyle="normal"
-                android:paddingBottom="@dimen/_8sdp" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="normal" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/_8sdp">
+            android:layout_margin="@dimen/_5sdp">
 
             <TextView
                 android:id="@+id/dateTimeText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:text="Date"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/timeText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:textSize="@dimen/_7sdp"
                 android:text="Time"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
     </LinearLayout>
-
+    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
