@@ -76,6 +76,7 @@ public class Login extends AppCompatActivity {
         forgetpassword.setOnClickListener(v -> {
             Intent intent=new Intent(Login.this,ForgetPassword.class);
             startActivity(intent);
+            finish();
         });
 
         help.setOnClickListener(v->{

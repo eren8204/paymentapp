@@ -66,5 +66,7 @@ dependencies {
     implementation(libs.imageslideshow)
     implementation(libs.sdp.android)
     implementation(libs.kotlin.script.runtime)
+    implementation (libs.collection)
+
 
 }
