@@ -351,23 +351,8 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:listitem="@layout/item_fund_request"/>
-                <LinearLayout
-                    android:id="@+id/oops_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:visibility="visible"
-                    android:orientation="vertical">
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        app:lottie_rawRes="@raw/oops"
-                        app:lottie_loop="true"
-                        app:lottie_autoPlay="true"/>
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
