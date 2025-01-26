@@ -98,17 +98,47 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <TextView
+        android:id="@+id/progress_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"
         android:padding="@dimen/_10sdp"
-        android:text="My Rank"/>
-    <SeekBar
+        android:textStyle="bold"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/endColor"
+        android:text="My Rank Progress"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
-        android:padding="@dimen/_5sdp"/>
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp">
+
+        <ProgressBar
+            android:id="@+id/journey"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/custom_seekbar_progress"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:max="100"
+            android:progress="10" />
+        <TextView
+            android:id="@+id/percentage_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10%"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,28 +149,107 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ToggleButton
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:checkedButton="@id/toggleAll">
+
+                <RadioButton
+                    android:id="@+id/toggleAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/toggleOpal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Opal"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/toggleTopaz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Topaz"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/toggleJasper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jasper"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/toggleAlexander"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alexander"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/toggleDiamond"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diamond"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+                <RadioButton
+                    android:id="@+id/toggleBlueDiamond"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blue Diamond"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+                <RadioButton
+                    android:id="@+id/toggleCrownDiamond"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crown Diamond"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_toggle_button"/>
+            </RadioGroup>
+
 
         </LinearLayout>
     </HorizontalScrollView>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/_10sdp"
