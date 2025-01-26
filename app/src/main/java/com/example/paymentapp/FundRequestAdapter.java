@@ -22,7 +22,7 @@ import java.util.TimeZone;
 
 public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.FundRequestViewHolder> {
 
-    private final List<FundRequest> fundRequestList;
+    private List<FundRequest> fundRequestList;
 
     public FundRequestAdapter(List<FundRequest> fundRequestList) {
         this.fundRequestList = fundRequestList;
@@ -102,7 +102,10 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
         return utcDateString;
     }
 
-
+    public void updateList(List<FundRequest> newList) {
+        this.fundRequestList = newList;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {

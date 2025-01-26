@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:text="Withdrawal "
                     android:textSize="@dimen/_13sdp"
-                    android:textColor="@color/startColor"
+                    android:textColor="@color/endColor"
                     android:textStyle="bold" />
 
 
@@ -80,7 +80,7 @@
             android:layout_width="@dimen/_10sdp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="#FF0101">
+            android:background="@color/accept">
         </LinearLayout>
 
     </LinearLayout>

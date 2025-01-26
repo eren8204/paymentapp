@@ -1,5 +1,8 @@
 package com.example.paymentapp;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,6 +54,7 @@ public class Rank extends AppCompatActivity {
     private int progress=0;
     private ProgressBar journey;
     private TextView progress_text;
+    private LinearLayout progress_layout,oops_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,10 @@ public class Rank extends AppCompatActivity {
 
         journey = findViewById(R.id.journey);
         progress_text = findViewById(R.id.progress_text);
+        progress_layout = findViewById(R.id.progress_layout);
+        oops_layout = findViewById(R.id.oops_layout);
+
+        progress_layout.setVisibility(VISIBLE);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
@@ -118,6 +126,7 @@ public class Rank extends AppCompatActivity {
     }
 
     private void filterDataByRank() {
+        recyclerView.setVisibility(VISIBLE);
         if (filteredList != null) {
             filteredList.clear();
         } else {
@@ -131,6 +140,10 @@ public class Rank extends AppCompatActivity {
                     filteredList.add(activeDirect);
                 }
             }
+        }
+        if(filteredList.size()==0){
+            recyclerView.setVisibility(GONE);
+            oops_layout.setVisibility(VISIBLE);
         }
         adapter.updateList(filteredList);
     }
@@ -153,14 +166,17 @@ public class Rank extends AppCompatActivity {
                     Log.d("Response", response.toString());
 
                     try {
+                        progress_layout.setVisibility(GONE);
                         if(response.has("rank_no")){
                             int n = response.getInt("rank_no");
-                            progress = (int) (n*14.2);
+                            progress = (int) Math.ceil(n*14.2);
                             TextView percentage_text = findViewById(R.id.percentage_text);
                             percentage_text.setText(progress+"%");
                             journey.setProgress(progress);
                             if(n==0)
                                 progress_text.setTextColor(ContextCompat.getColor(this, R.color.msg_grey));
+                            else
+                                progress_text.setTextColor(ContextCompat.getColor(this, R.color.endColor));
                             progress_text.setText(ranks[n]);
                         }
                         if (response.has("active_directs_list")) {
@@ -172,21 +188,26 @@ public class Rank extends AppCompatActivity {
                                 String activeMemberId = activeDirectObject.getString("member_id");
                                 String membership = activeDirectObject.getString("membership");
                                 activeDirectList.add(new ActiveDirect(rank, activeMemberId, membership));
+                                recyclerView.setVisibility(VISIBLE);
                             }
                             Log.d("ActiveDirectListSize", "Size: " + activeDirectList.size());
                             if (activeDirectList.isEmpty()) {
+                                oops_layout.setVisibility(VISIBLE);
                                 Toast.makeText(this, "No data to display", Toast.LENGTH_SHORT).show();
                             }
                             adapter.notifyDataSetChanged();
                         } else {
+                            oops_layout.setVisibility(VISIBLE);
                             Toast.makeText(this, "No Active Directs Found", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
+                        oops_layout.setVisibility(VISIBLE);
                         Log.e("rank_err", "JSON Parsing Error: " + e);
                         Toast.makeText(this, "Parsing Error", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
+                    oops_layout.setVisibility(VISIBLE);
                     Log.e("rank_err1", "Volley Error: " + error.toString());
                     if (error.networkResponse != null) {
                         Log.e("rank_err1", "Status Code: " + error.networkResponse.statusCode);
@@ -200,7 +221,7 @@ public class Rank extends AppCompatActivity {
         );
         request.setRetryPolicy(new DefaultRetryPolicy(
                 60000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
         RequestQueue queue = Volley.newRequestQueue(this);

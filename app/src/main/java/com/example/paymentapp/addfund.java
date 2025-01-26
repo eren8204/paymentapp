@@ -1,5 +1,8 @@
 package com.example.paymentapp;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -26,6 +29,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +90,7 @@ public class addfund extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FundRequestAdapter adapter;
     private List<FundRequest> fundRequestList = new ArrayList<>();
+    private List<FundRequest> filteredList = new ArrayList<>();
     private ProgressBar progressBar,addfund_progress;
     private LinearLayout progress_layout;
     private ImageView back_button;
@@ -93,13 +99,14 @@ public class addfund extends AppCompatActivity {
     private Dialog dialog1;
     private Dialog dialog2;
     private Button submitButton;
+    private int seeSelect = 1;
     @Override
     @SuppressLint({"MissingInflatedId", "LocalSuppress","SetTextI18n"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addfund);
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
         imageView = findViewById(R.id.imageView);
         upiId = findViewById(R.id.upiID);
         cardView = findViewById(R.id.qr_cardview);
@@ -132,8 +139,6 @@ public class addfund extends AppCompatActivity {
 
         fetchDataSequentially(memberId);
 
-
-        // Add Fund button functionality
         addFundButton.setOnClickListener(v -> showAddFundDialog(memberId));
 
         back_button=findViewById(R.id.back_button);
@@ -143,7 +148,6 @@ public class addfund extends AppCompatActivity {
                 finish();
             }
         });
-// Share button functionality
         lottieAnimationshare = findViewById(R.id.shareButton);
         lottieAnimationshare.playAnimation();
         lottieAnimationshare.addAnimatorListener(new Animator.AnimatorListener() {
@@ -169,8 +173,6 @@ public class addfund extends AppCompatActivity {
 
         lottieAnimationshare.setOnClickListener(v -> shareCardView());
 
-
-        // Save button functionality
 
         lottieAnimationsave = findViewById(R.id.saveButton);
         lottieAnimationsave.playAnimation();
@@ -207,6 +209,67 @@ public class addfund extends AppCompatActivity {
 
         lottieAnimationsave.setEnabled(false);
         lottieAnimationshare.setEnabled(false);
+
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+
+        RadioButton seeAll = findViewById(R.id.seeAll);
+        RadioButton seeApproved = findViewById(R.id.seeApproved);
+        RadioButton seePending = findViewById(R.id.seePending);
+        RadioButton seeRejected = findViewById(R.id.seeRejected);
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId==R.id.seeAll){
+                seeSelect = 1;
+            }
+            else if(checkedId==R.id.seeApproved){
+                seeSelect = 2;
+            }
+            else if(checkedId==R.id.seePending) {
+                seeSelect = 3;
+            }
+            else if(checkedId==R.id.seeRejected){
+                seeSelect = 4;
+            }
+            else {
+                seeSelect = 1;
+            }
+                filterDataByType();
+        });
+
+    }
+
+    private void filterDataByType() {
+        recyclerView.setVisibility(VISIBLE);
+        if (filteredList != null) {
+            filteredList.clear();
+        } else {
+            filteredList = new ArrayList<>();
+        }
+        if (seeSelect == 1) {
+            filteredList.addAll(fundRequestList);
+        } else if(seeSelect == 2){
+            for (FundRequest fundRequest : fundRequestList) {
+                if (fundRequest.getStatus().trim().equalsIgnoreCase("approved")) {
+                    filteredList.add(fundRequest);
+                }
+            }
+        }
+        else if(seeSelect == 3){
+            for (FundRequest fundRequest : fundRequestList) {
+                if (fundRequest.getStatus().trim().equalsIgnoreCase("pending")) {
+                    filteredList.add(fundRequest);
+                }
+            }
+        }
+        else if(seeSelect == 4){
+            for (FundRequest fundRequest : fundRequestList) {
+                if (fundRequest.getStatus().trim().equalsIgnoreCase("rejected")) {
+                    filteredList.add(fundRequest);
+                }
+            }
+        }
+        adapter.updateList(filteredList);
+
     }
 
     private void fetchDataSequentially(String memberId) {

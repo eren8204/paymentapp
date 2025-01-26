@@ -1,5 +1,7 @@
 package com.example.paymentapp;
 import static android.content.ContentValues.TAG;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -13,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,20 +50,24 @@ public class Withdraw extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private WithdrawAdapter adapter;
-    private List<WithdrawItem> withdrawList;
+    private List<WithdrawItem> withdrawList,filteredList;
 
-    private EditText messageEditText;
-    private static final String SEND_MESSAGE_URL = BuildConfig.api_url+"user-withdraw-request";
+    private EditText messageEditText,toMember;
+    private static String SEND_MESSAGE_URL = BuildConfig.api_url+"user-withdraw-request";
 
+    private int transferSelect = 1;
+    private int seeSelect = 1;
 
     private Button withdrawbtn;
     private ImageView back_button;
+
+    private LinearLayout progressLayout,oopsLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdraw);
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
         String username = sharedPreferences.getString("username", "Hello, !");
@@ -66,13 +76,22 @@ public class Withdraw extends AppCompatActivity {
         memberName.setText(username);
         userId.setText(memberId);
 
+        progressLayout = findViewById(R.id.progress_layout);
+        oopsLayout = findViewById(R.id.oops_layout);
         withdrawbtn=findViewById(R.id.withdrawbtn);
 
+        toMember = findViewById(R.id.toMember);
+        toMember.setVisibility(GONE);
         messageEditText = findViewById(R.id.withdraw_amount);
         withdrawbtn.setOnClickListener(v -> {
             String message = messageEditText.getText().toString();
             Log.d(TAG, "raiseTicketButton: Sending message: " + message);
-            sendMessageAndFetchChat(memberId,message);
+            try {
+                sendMessageAndFetchChat(memberId,message);
+            } catch (JSONException e) {
+                Toast.makeText(this, "Try again later", Toast.LENGTH_SHORT).show();
+                throw new RuntimeException(e);
+            }
         });
 
         back_button=findViewById(R.id.back_button);
@@ -81,37 +100,111 @@ public class Withdraw extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         withdrawList = new ArrayList<>();
+        filteredList = new ArrayList<>();
         adapter = new WithdrawAdapter(withdrawList);
         recyclerView.setAdapter(adapter);
+
+        RadioGroup radioGroup1 = findViewById(R.id.radioGroup1);
+
+        RadioButton togglePerson = findViewById(R.id.togglePerson);
+        RadioButton toggleBank = findViewById(R.id.toggleBank);
+        RadioButton toggleFundWallet = findViewById(R.id.toggleFundWallet);
+
+        radioGroup1.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId==R.id.toggleFundWallet){
+                transferSelect = 1;
+                toMember.setVisibility(GONE);
+            }
+            else if(checkedId==R.id.togglePerson){
+                transferSelect = 2;
+                toMember.setVisibility(VISIBLE);
+            }
+            else if(checkedId==R.id.toggleBank){
+                transferSelect = 3;
+                toMember.setVisibility(GONE);
+            }
+            else{
+                transferSelect = 1;
+                toMember.setVisibility(GONE);
+            }
+        });
+
+        RadioGroup radioGroup2 = findViewById(R.id.radioGroup2);
+
+        RadioButton seeAll = findViewById(R.id.seeAll);
+        RadioButton seeBank = findViewById(R.id.seeBank);
+        RadioButton seeFundWallet = findViewById(R.id.seeFundWallet);
+        RadioButton seePerson = findViewById(R.id.seePerson);
+
+        radioGroup2.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId==R.id.seeAll){
+                seeSelect = 1;
+            }
+            else if(checkedId==R.id.seeFundWallet){
+                seeSelect = 2;
+            }
+            else if(checkedId==R.id.seePerson) {
+                seeSelect = 3;
+            }
+            else if(checkedId==R.id.seeBank){
+                seeSelect = 4;
+            }
+            else {
+                seeSelect = 1;
+            }
+            //filterDataByType();
+        });
 
         fetchData(memberId);
     }
 
-    private void sendMessageAndFetchChat(final String memberId,String message) {
-        try {
-            JSONObject requestBody = new JSONObject();
+    private void sendMessageAndFetchChat(final String memberId,String message) throws JSONException {
+        JSONObject requestBody = new JSONObject();
+        if(transferSelect==1){
+            SEND_MESSAGE_URL = BuildConfig.api_url+"commissin-wallet-to-flexi-wallet";
+            requestBody.put("member_id", memberId);
+            requestBody.put("commission_amount", message);
+        }
+        else{
             requestBody.put("member_id", memberId);
             requestBody.put("amount", message);
-            Log.d("jskbf", "sendMessageAndFetchChat: Request body = " + requestBody.toString());
-
-            JsonObjectRequest sendRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    SEND_MESSAGE_URL,
-                    requestBody,
-                    response -> {
-                        Toast.makeText(Withdraw.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    },
-                    error -> {
-                        Toast.makeText(Withdraw.this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                    }
-            );
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(sendRequest);
-
-        } catch (JSONException e) {
-            Log.e("jskbf", "sendMessageAndFetchChat: JSON exception", e);
         }
+        Log.d("commission_request",requestBody.toString());
+        JsonObjectRequest sendRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                SEND_MESSAGE_URL,
+                requestBody,
+                response -> {
+                    try {
+                        if(response.has("status") && response.getString("status").equals("true")){
+                            String msg = "Done";
+                            if(response.has("message"))
+                                msg = response.getString("message");
+                            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            String msg = "Error";
+                            if(response.has("message"))
+                                msg = response.getString("message");
+                            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                        throw new RuntimeException(e);
+                    }
+                },
+                error -> {
+                    Toast.makeText(Withdraw.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+        );
+        sendRequest.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(sendRequest);
+
     }
 
 
@@ -153,7 +246,7 @@ public class Withdraw extends AppCompatActivity {
 
 
     private void fetchData(String memberId) {
-        String url = "https://gk4rbn12-3000.inc1.devtunnels.ms/api/auth/get-user-withdraw-request";
+        String url = BuildConfig.api_url+"get-user-withdraw-request";
 
         JSONObject postData = new JSONObject();
         try {
@@ -169,6 +262,7 @@ public class Withdraw extends AppCompatActivity {
                 url,
                 postData,
                 response -> {
+                    progressLayout.setVisibility(GONE);
                     try {
                         if (response.getString("status").equals("true")) {
                             JSONArray dataArray = response.getJSONArray("data");
@@ -179,6 +273,7 @@ public class Withdraw extends AppCompatActivity {
                                         item.getString("date_time"),
                                         item.getString("status")
                                 );
+                                recyclerView.setVisibility(VISIBLE);
                                 withdrawList.add(withdrawItem);
                             }
                             withdrawList.sort((request1, request2) -> {
@@ -196,12 +291,17 @@ public class Withdraw extends AppCompatActivity {
                             });
                             adapter.notifyDataSetChanged();
                         }
+                        else
+                            oopsLayout.setVisibility(VISIBLE);
                     } catch (JSONException e) {
+                        oopsLayout.setVisibility(VISIBLE);
                         e.printStackTrace();
                     }
                 },
-                error -> error.printStackTrace()
-        );
+                error -> {
+                    error.printStackTrace();
+                    oopsLayout.setVisibility(VISIBLE);
+                });
 
         requestQueue.add(jsonObjectRequest);
     }

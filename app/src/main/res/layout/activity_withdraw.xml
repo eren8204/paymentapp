@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="@color/white"
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".Withdraw">
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        android:background="#EE9328">
+        android:background="@color/endColor">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,14 +22,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/startColor"
+                android:background="@color/endColor"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/back_button"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:background="@color/startColor"
+                    android:background="@color/endColor"
                     android:src="@drawable/arrow_back">
 
                 </ImageButton>
@@ -103,7 +103,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_10sdp">
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,6 +117,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/_12sdp"
                 android:layout_gravity="center"
+                app:cardElevation="@dimen/_20sdp"
                 app:cardBackgroundColor="@color/white"
                 android:layout_margin="@dimen/_12sdp">
 
@@ -125,22 +127,60 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:padding="@dimen/_12sdp">
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/_18sdp"
-                        android:text="Make Withdraw"
-                        android:background="@drawable/edittextbackground"
-                        android:textColor="@color/startColor"
-                        android:padding="@dimen/_8sdp"
+                        android:text="To:"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_marginTop="@dimen/_10sdp">
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14sdp"/>
+                    <RadioGroup
+                        android:id="@+id/radioGroup1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_5sdp"
+                        android:checkedButton="@id/toggleFundWallet">
 
-                    </TextView>
+                    <RadioButton
+                        android:id="@+id/toggleFundWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fund Wallet"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
 
+                    <RadioButton
+                        android:id="@+id/togglePerson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Person"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
 
+                    <RadioButton
+                        android:id="@+id/toggleBank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bank"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
+                    </RadioGroup>
+                </LinearLayout>
                     <EditText
                         android:id="@+id/withdraw_amount"
                         android:layout_width="match_parent"
@@ -150,17 +190,33 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:maxLength="4"
                         android:background="@drawable/edittextbackground"
-                        android:hint="Enter Amount"
+                        android:hint="Enter Amount (Min - 50)"
                         android:padding="@dimen/_8sdp"
                         android:minLines="1"
                         android:maxLines="5"
                         android:scrollbars="vertical"
                         android:gravity="top" />
+                    <EditText
+                        android:id="@+id/toMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:inputType="textMultiLine"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:maxLength="4"
+                        android:background="@drawable/edittextbackground"
+                        android:hint="Member Id"
+                        android:padding="@dimen/_8sdp"
+                        android:minLines="1"
+                        android:maxLines="5"
+                        android:scrollbars="vertical"
+                        android:visibility="gone"
+                        android:gravity="top" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:orientation="horizontal">
@@ -168,34 +224,116 @@
 
                         <Button
                             android:id="@+id/withdrawbtn"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:textColor="@color/white"
                             android:background="@drawable/btnbackground"
-                            android:text="Send request" />
+                            android:text="Withdraw" />
 
                     </LinearLayout>
 
 
-
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <RadioGroup
+                    android:id="@+id/radioGroup2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:checkedButton="@id/seeAll">
+
+                    <RadioButton
+                        android:id="@+id/seeAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="All"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
+
+                    <RadioButton
+                        android:id="@+id/seeFundWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fund Wallet"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
+
+                    <RadioButton
+                        android:id="@+id/seePerson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Person"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
+
+                    <RadioButton
+                        android:id="@+id/seeBank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bank"
+                        android:textColor="@color/black"
+                        android:button="@null"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/custom_toggle_button"/>
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_withdraw" />
-
+                    tools:listitem="@layout/item_withdraw"
+                    android:visibility="gone"/>
+            <LinearLayout
+                android:id="@+id/progress_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="visible"
+                android:orientation="vertical">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/oops_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:lottie_rawRes="@raw/oops"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="true"/>
+            </LinearLayout>
+            </LinearLayout>
     </LinearLayout>
 </LinearLayout>
