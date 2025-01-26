@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,19 +43,24 @@ public class payment extends AppCompatActivity {
 
     private Button pay;
     private ImageButton back_button;
-    private TextView payment_type,subtype,subtype_num,amount,memberName,userId;
+    private TextView payment_type,subtype,subtype_num,amount,memberName,userId,paymenttype,rechargeamount,rechargetype;
     private LinearLayout pay_layout,success_layout;
     private ProgressBar progressBar;
 
     private EditText tpin_text,ctpin_text;
     private boolean isTpinVissible = false;
+
+    private ImageView successimage;
+
     private boolean isCtpinVissible = false;
-    private String operatorCode="",circleCode="",number_id="",money="";
+    private String operatorCode="",circleCode="",number_id="",money="",stype="";
     @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
         payment_type = findViewById(R.id.payment_type);
         subtype = findViewById(R.id.subtype);
         subtype_num = findViewById(R.id.subtype_num);
@@ -65,6 +72,11 @@ public class payment extends AppCompatActivity {
         success_layout = findViewById(R.id.success_layout);
         progressBar = findViewById(R.id.pay_progress);
         back_button = findViewById(R.id.back_button);
+        rechargeamount = findViewById(R.id.rechargeamount);
+        rechargetype = findViewById(R.id.rechargetype);
+
+        successimage = findViewById(R.id.successimage);
+        paymenttype = findViewById(R.id.paymenttype);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
@@ -121,6 +133,7 @@ public class payment extends AppCompatActivity {
 
             if(passed_intent.hasExtra("stype")) {
                 subtype.setText(passed_intent.getStringExtra("stype"));
+                stype=passed_intent.getStringExtra("stype");
             } else {
                 type = "";
             }
@@ -142,30 +155,8 @@ public class payment extends AppCompatActivity {
             type = "";
         }
 
-        LottieAnimationView lottieAnimationzoom = findViewById(R.id.success);
-        lottieAnimationzoom.playAnimation();
-        lottieAnimationzoom.addAnimatorListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        String finalType = type;
+        String finalType = stype;
         pay.setOnClickListener(v -> {
             pay.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
@@ -176,6 +167,7 @@ public class payment extends AppCompatActivity {
             if (checkTPin(tpin, ctpin)) {
 
                 check(memberId, tpin, response -> {
+
                     try {
                         boolean isValid = response.getBoolean("isValid");
                         if (isValid) {
@@ -190,6 +182,8 @@ public class payment extends AppCompatActivity {
                                         if ("success".equals(status)) {
                                             pay_layout.setVisibility(View.GONE);
                                             success_layout.setVisibility(View.VISIBLE);
+                                            rechargeamount.setText("₹649/-");
+                                            rechargetype.setText(finalType);
                                         }
                                     } catch (Exception e) {
                                         showError("Error parsing membership response: " + e.getMessage());
@@ -209,6 +203,8 @@ public class payment extends AppCompatActivity {
                                         if ("success".equals(status)) {
                                             pay_layout.setVisibility(View.GONE);
                                             success_layout.setVisibility(View.VISIBLE);
+                                            rechargeamount.setText("₹1298/-");
+                                            rechargetype.setText(finalType);
                                         }
                                     } catch (Exception e) {
                                         showError("Error parsing membership response: " + e.getMessage());
@@ -219,13 +215,36 @@ public class payment extends AppCompatActivity {
                                 });
                             }
                             else if(finalType.equals("Mobile Recharge")){
+
                                 mobile_recharge(memberId,operatorCode,circleCode,number_id,money);
+                                if (operatorCode.equals("VI")) {
+                                    successimage.setImageResource(R.drawable.vi);
+                                    paymenttype.setText("Recharge Successful");
+                                }
+                                else if (operatorCode.equals("A")) {
+                                    successimage.setImageResource(R.drawable.airtel);
+                                    paymenttype.setText("Recharge Successful");
+                                }
+                                else if (operatorCode.equals("RC")) {
+                                    successimage.setImageResource(R.drawable.jio);
+                                    paymenttype.setText("Recharge Successful");
+                                }
+                                else if (operatorCode.equals("BT") || operatorCode.equals("BS")) {
+                                    successimage.setImageResource(R.drawable.bsnl);
+                                    paymenttype.setText("Recharge Successful");
+                                }
+                                else{
+                                    successimage.setImageResource(R.drawable.unopayimg);
+                                    paymenttype.setText("Payment Successful");
+                                }
 
                             }
                         } else {
+                            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
                             showError("Invalid T-PIN");
                         }
                     } catch (Exception e) {
+                        Log.d("arsh", response.toString());
                         showError("Error parsing T-PIN response: " + e.getMessage());
                     } finally {
                         progressBar.setVisibility(View.GONE);
@@ -364,6 +383,8 @@ public class payment extends AppCompatActivity {
                 if ("true".equals(status)) {
                     pay_layout.setVisibility(View.GONE);
                     success_layout.setVisibility(View.VISIBLE);
+                    rechargeamount.setText(amount);
+                    rechargetype.setText(number);
                     Toast.makeText(this, "Recharge Successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class Plans_Activity extends AppCompatActivity {
     private TextView header,final_price,header2,final_price2,memberName,userId;
     private Button payBasic,payPrime;
+    private ImageButton back_button;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,11 @@ public class Plans_Activity extends AppCompatActivity {
         final_price2 = findViewById(R.id.final_price2);
         payBasic = findViewById(R.id.payBasic);
         payPrime = findViewById(R.id.payPrime);
+
+        back_button = findViewById(R.id.back_button);
+        back_button.setOnClickListener(v -> {
+            finish();
+        });
 
         payBasic.setOnClickListener(v -> {
             Intent intent = new Intent(this, payment.class);

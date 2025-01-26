@@ -61,6 +61,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+
         androidId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         forgetpassword=findViewById(R.id.forgetpassword);
         signup=findViewById(R.id.signup);
