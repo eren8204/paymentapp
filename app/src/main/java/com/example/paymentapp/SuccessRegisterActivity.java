@@ -20,7 +20,7 @@ public class SuccessRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_success_register);
 
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
 
         Intent intent = getIntent();
 

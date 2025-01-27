@@ -3,7 +3,7 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/main"
-android:background="@drawable/background_gradient"
+android:background="@color/endColor"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,6 +14,19 @@ tools:context=".SuccessRegisterActivity">
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/_15sdp"
     app:cardCornerRadius="@dimen/_10sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:src="@drawable/unopayimg" />
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,18 +37,8 @@ tools:context=".SuccessRegisterActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:orientation="vertical">
-
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/_10sdp"
-            android:src="@drawable/flag" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,213 +73,231 @@ tools:context=".SuccessRegisterActivity">
             android:orientation="horizontal"
             >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardElevation="@dimen/_4sdp"
+                android:backgroundTint="@color/white">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Member ID : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="sponser ID : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    <!-- Row for Member ID -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Name : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Member ID:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Phone no. : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/memberid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="UP100070"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Email : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    <!-- Row for Sponsor ID -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_margin="@dimen/_7sdp"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Sponsor ID:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
-                    />
+                        <TextView
+                            android:id="@+id/sponserID"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="UP100072"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Password : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_margin="@dimen/_10sdp"
+                    <!-- Row for Name -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Name:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="TPIN : "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Arsh Saxena"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Date of joining: "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    <!-- Row for Phone Number -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Phone No.:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/phone_no"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1234567890"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/memberid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="UP100070"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    <!-- Row for Email -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/sponserID"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="UP100072"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Email:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Arsh saxena"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="arshsaxena123@gmail.com"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/phone_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="1234567890"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    <!-- Row for Password -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="arshsaxena123@gmail.com"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Password:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="123456789012"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/password"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="123456789012"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tpin"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="1236"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                    <!-- Row for TPIN -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/doj"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="14/1/2025"
-                    android:textColor="@color/startColor"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="TPIN:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
 
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/tpin"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1236"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Row for Date of Joining -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Date of Joining:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/doj"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="14/1/2025"
+                            android:textColor="@color/startColor"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
 
         </LinearLayout>
@@ -438,6 +459,7 @@ tools:context=".SuccessRegisterActivity">
 
     </LinearLayout>
     </ScrollView>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
 
 

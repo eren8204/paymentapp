@@ -30,7 +30,9 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Transactionfragment extends Fragment {
@@ -66,7 +68,7 @@ public class Transactionfragment extends Fragment {
     }
 
     private void fetchTransactions(String memberId) {
-        String url = BuildConfig.api_url+"selfTransactions";
+        String url = BuildConfig.api_url + "selfTransactions";
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -87,71 +89,18 @@ public class Transactionfragment extends Fragment {
                             recyclerView.setVisibility(View.VISIBLE);
                             errorTextView.setVisibility(View.GONE);
 
-                            JSONArray transactions = response.getJSONObject("transactions").getJSONArray("data");
-                            recyclerView.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-                                @NonNull
-                                @Override
-                                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction, parent, false);
-                                    return new RecyclerView.ViewHolder(view) {};
-                                }
 
-                                @Override
-                                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                                    try {
-                                        JSONObject transaction = transactions.getJSONObject(position);
-                                        TextView type = holder.itemView.findViewById(R.id.type);
-                                        TextView date = holder.itemView.findViewById(R.id.date);
-                                        TextView amount = holder.itemView.findViewById(R.id.amount);
-                                        TextView subtype = holder.itemView.findViewById(R.id.subtype);
-                                        TextView rechargeto = holder.itemView.findViewById(R.id.rechargeto);
-                                        type.setText(transaction.getString("type"));
+                            // Convert JSONArray to List<JSONObject>
+                            JSONArray transactionsArray = response.getJSONObject("transactions").getJSONArray("data");
+                            List<JSONObject> transactionsList = new ArrayList<>();
+                            for (int i = 0; i < transactionsArray.length(); i++) {
+                                transactionsList.add(transactionsArray.getJSONObject(i));
+                            }
 
-                                        if(transaction.getString("type").equals("Add Fund Request"))
-                                        {
-                                            type.setText("Fund Request");
+                            // Set RecyclerView Adapter
+                            TransactionAdapter adapter = new TransactionAdapter(getContext(), transactionsList);
+                            recyclerView.setAdapter(adapter);
 
-                                        }
-                                        date.setText(formatDate(transaction.getString("created_at")));
-
-                                        if(transaction.getString("credit").equals("0"))
-                                        {
-                                            amount.setText(transaction.getString("debit"));
-                                        }
-                                        else {
-                                            amount.setText(transaction.getString("credit"));
-                                        }
-                                        if(!transaction.getString("subType").equals("null"))
-                                        {
-                                            subtype.setText(transaction.getString("subType"));
-                                            subtype.setVisibility(View.VISIBLE);
-                                        }
-                                        else
-                                        {
-                                            subtype.setVisibility(View.GONE);
-                                        }
-                                        if(!transaction.getString("recharge_to").equals("null"))
-                                        {
-                                            rechargeto.setText(transaction.getString("recharge_to"));
-                                            rechargeto.setVisibility(View.VISIBLE);
-                                            LinearLayout linearLayout = holder.itemView.findViewById(R.id.statuscolour);
-                                            linearLayout.setBackgroundColor(getResources().getColor(R.color.reject));
-                                        }
-                                        else
-                                        {
-                                            rechargeto.setVisibility(View.GONE);
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public int getItemCount() {
-                                    return transactions.length();
-                                }
-                            });
                         } else {
                             recyclerView.setVisibility(View.GONE);
                             errorTextView.setVisibility(View.VISIBLE);
@@ -163,7 +112,10 @@ public class Transactionfragment extends Fragment {
                         showError("Error parsing response.");
                     }
                 },
-                error -> showError("Error: " + error.getMessage())
+                error -> {
+                    progressBar.setVisibility(View.GONE);
+                    showError("Error: " + error.getMessage());
+                }
         );
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
