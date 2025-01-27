@@ -210,8 +210,19 @@
                         android:minLines="1"
                         android:maxLines="5"
                         android:scrollbars="vertical"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:gravity="top" />
+                    <TextView
+                        android:id="@+id/member_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Member Name"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/endColor"
+                        android:visibility="gone"
+                        android:textSize="@dimen/_12sdp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -219,7 +230,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
 
                         <Button
@@ -231,7 +242,15 @@
                             android:gravity="center"
                             android:textColor="@color/white"
                             android:background="@drawable/btnbackground"
-                            android:text="Withdraw" />
+                            android:text="Withdraw"
+                            android:visibility="visible"/>
+                        <ProgressBar
+                            android:id="@+id/withdraw_progress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btnbackground"
+                            android:visibility="gone"
+                            />
 
                     </LinearLayout>
 

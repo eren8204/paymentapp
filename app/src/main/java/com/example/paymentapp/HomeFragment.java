@@ -27,11 +27,12 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-    HorizontalScrollView horizontalScrollView;
-    CardView addfund;
-
-    TextView bonusamount, fundwalletamount, totalincome, commisionincome;
-    LinearLayout prepaid_mobile,cibil,sbi,icici,hdfc,postpaid_mobile,dth_recharge,fastag,electricity_bill,gas_cylinder,water_bill,cable_tv,money_transfer,credit_card,
+    private HorizontalScrollView horizontalScrollView;
+    private CardView addfund;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
+    private TextView bonusamount, fundwalletamount, totalincome, commisionincome;
+    private LinearLayout prepaid_mobile,cibil,sbi,icici,hdfc,postpaid_mobile,dth_recharge,fastag,electricity_bill,gas_cylinder,water_bill,cable_tv,money_transfer,credit_card,
             loan_repayment,atm_locator,bike_insurance,car_insurance,family_insurance,tax_calculation,irctc,confirm_tkt,spot_train,parivahan,redbus,makemytrip,
             ola,uber,aadhar,pan_card,income_tax,ecard,voter_card,passport,post_office,rashan,amazon,flipkart,meesho,zomato,swiggy,vishal_mart,bookmyshow,tata1mg,
             entertainment,kuku,business,money,full_plan,kyc,add_money,computer,pro_class,support,whatsapp,facebook,telegram,instagram,youtube;
@@ -105,20 +106,24 @@ public class HomeFragment extends Fragment {
         youtube = view.findViewById(R.id.youtube);
 
         horizontalScrollView = view.findViewById(R.id.horizonatalScrollView);
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String flexi = sharedPreferences.getString("flexi_wallet","0.0");
-        String commission = sharedPreferences.getString("commission_wallet","0.0");
-        String bonus = sharedPreferences.getString("signup_bonus","0.0");
+
+        sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
         bonusamount=view.findViewById(R.id.bonusamount);
         fundwalletamount=view.findViewById(R.id.fundwalletamount);
         totalincome=view.findViewById(R.id.totalincome);
         commisionincome=view.findViewById(R.id.commisionincome);
 
-        bonusamount.setText("₹ "+bonus);
-        fundwalletamount.setText("₹ "+flexi);
-        totalincome.setText("₹ "+commission);
-        commisionincome.setText("₹ "+commission);
+
+        updateUI();
+
+        preferenceChangeListener = (sharedPreferences, key) -> {
+            if ("flexi_wallet".equals(key) || "commission_wallet".equals(key)){
+                updateUI();
+            }
+        };
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 
         LottieAnimationView lottieAnimationzoom = view.findViewById(R.id.zoomAnimation);
         lottieAnimationzoom.playAnimation();
@@ -141,6 +146,10 @@ public class HomeFragment extends Fragment {
             public void onAnimationRepeat(Animator animation) {
 
             }
+        });
+        lottieAnimationzoom.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), ZoomMeeting.class);
+            startActivity(intent);
         });
 
         LottieAnimationView lottieAnimationqr = view.findViewById(R.id.qrAnimation);
@@ -274,7 +283,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
                 horizontalScrollView.smoothScrollBy(5, 0);
-                horizontalScrollView.postDelayed(this, 30);
+                horizontalScrollView.postDelayed(this, 25);
 
                 if (horizontalScrollView.getScrollX() >= horizontalScrollView.getChildAt(0).getWidth() - horizontalScrollView.getWidth()) {
                     horizontalScrollView.scrollTo(0, 0);
@@ -598,10 +607,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), recharge_plans.class);
-                intent.putExtra("username","");
-                intent.putExtra("memberId","");
                 startActivity(intent);
-
             }
         });
         fastag.setOnClickListener(new View.OnClickListener() {
@@ -668,5 +674,14 @@ public class HomeFragment extends Fragment {
     private void coming_soon(){
         Intent intent = new Intent(getActivity(), coming_soon.class);
         startActivity(intent);
+    }
+    private void updateUI(){
+        String flexi = sharedPreferences.getString("flexi_wallet","0.0");
+        String commission = sharedPreferences.getString("commission_wallet","0.0");
+        String bonus = sharedPreferences.getString("signup_bonus","0.0");
+        bonusamount.setText("₹ "+bonus);
+        fundwalletamount.setText("₹ "+flexi);
+        totalincome.setText("₹ "+commission);
+        commisionincome.setText("₹ "+commission);
     }
 }

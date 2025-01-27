@@ -45,7 +45,7 @@
                         <ImageView
                             android:layout_width="@dimen/_78sdp"
                             android:layout_height="@dimen/_78sdp"
-                            android:src="@drawable/person"
+                            android:src="@drawable/baseline_person_24"
                             android:layout_gravity="center"/>
                     </androidx.cardview.widget.CardView>
 
@@ -251,13 +251,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                app:cardCornerRadius="@dimen/_12sdp">
+                app:cardCornerRadius="@dimen/_12sdp"
+                android:visibility="gone">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-
 
                     <LinearLayout
                         android:layout_width="wrap_content"

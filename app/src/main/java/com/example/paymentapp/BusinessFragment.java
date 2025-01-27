@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BusinessFragment extends Fragment {
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     private LinearLayout rank_layout;
     private TextView uname,uid,m_status,id_status,u_number,id_doj,flexi_text,commission_text,bonus_text;
     private CardView my_team,income;
@@ -59,7 +61,33 @@ public class BusinessFragment extends Fragment {
 
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        updateUI();
+        preferenceChangeListener = (sharedPreferences, key) -> {
+            if ("flexi_wallet".equals(key) || "commission_wallet".equals(key) || "membership".equals(key)) {
+                updateUI();
+            }
+        };
+        sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+
+        my_team.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), MyTeam.class);
+            startActivity(intent);
+        });
+
+        income.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), MyIncome.class);
+            startActivity(intent);
+        });
+
+        rank_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), Rank.class);
+            startActivity(intent);
+        });
+
+        return  view;
+    }
+    private void updateUI(){
+        sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username","Hello!");
         String memberId = sharedPreferences.getString("memberId","UP000000");
         String status = sharedPreferences.getString("membership","FREE");
@@ -78,22 +106,5 @@ public class BusinessFragment extends Fragment {
         flexi_text.setText("₹ "+flexi);
         commission_text.setText("₹ "+commission);
         bonus_text.setText("₹ "+bonus);
-
-        my_team.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), MyTeam.class);
-            startActivity(intent);
-        });
-
-        income.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), MyIncome.class);
-            startActivity(intent);
-        });
-
-        rank_layout.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), Rank.class);
-            startActivity(intent);
-        });
-
-        return  view;
     }
 }

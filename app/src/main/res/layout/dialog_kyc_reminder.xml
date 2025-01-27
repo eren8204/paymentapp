@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/warning" />
+                app:lottie_rawRes="@raw/red_alert" />
                 <ImageView
                     android:id="@+id/close"
                     android:layout_width="@dimen/_20sdp"

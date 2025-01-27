@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -61,7 +64,9 @@ public class Withdraw extends AppCompatActivity {
 
     private Button withdrawbtn;
     private ImageView back_button;
-
+    private ProgressBar withdraw_progress;
+    private TextView member_name;
+    private int k = 0;
     private LinearLayout progressLayout,oopsLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,17 +85,31 @@ public class Withdraw extends AppCompatActivity {
         progressLayout = findViewById(R.id.progress_layout);
         oopsLayout = findViewById(R.id.oops_layout);
         withdrawbtn=findViewById(R.id.withdrawbtn);
-
+        withdraw_progress = findViewById(R.id.withdraw_progress);
         toMember = findViewById(R.id.toMember);
+        member_name = findViewById(R.id.member_name);
         toMember.setVisibility(GONE);
         messageEditText = findViewById(R.id.withdraw_amount);
+        withdrawbtn.setEnabled(true);
         withdrawbtn.setOnClickListener(v -> {
             String message = messageEditText.getText().toString();
-            try {
-                sendMessageAndFetchChat(memberId,message);
-            } catch (JSONException e) {
-                Toast.makeText(this, "Try again later", Toast.LENGTH_SHORT).show();
-                throw new RuntimeException(e);
+            if(message.isEmpty()){
+                messageEditText.setError("Enter amount");
+            }
+            else if(k==1){
+                toMember.setError("Valid Member Required");
+            }
+            else{
+                try {
+                    withdrawbtn.setVisibility(GONE);
+                    withdraw_progress.setVisibility(VISIBLE);
+                    sendMessageAndFetchChat(memberId,message);
+                } catch (JSONException e) {
+                    withdraw_progress.setVisibility(GONE);
+                    withdrawbtn.setVisibility(VISIBLE);
+                    Toast.makeText(this, "Try again later", Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -112,18 +131,28 @@ public class Withdraw extends AppCompatActivity {
 
         radioGroup1.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId==R.id.toggleFundWallet){
+                k=0;
+                member_name.setVisibility(GONE);
+                withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
             }
             else if(checkedId==R.id.togglePerson){
+                k=1;
                 transferSelect = 2;
                 toMember.setVisibility(VISIBLE);
             }
             else if(checkedId==R.id.toggleBank){
+                k=0;
+                member_name.setVisibility(GONE);
+                withdrawbtn.setEnabled(true);
                 transferSelect = 3;
                 toMember.setVisibility(GONE);
             }
             else{
+                k=0;
+                member_name.setVisibility(GONE);
+                withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
             }
@@ -155,7 +184,99 @@ public class Withdraw extends AppCompatActivity {
             filterDataByType();
         });
 
+        toMember.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() < 8) {
+                    k=1;
+                    member_name.setVisibility(View.GONE);
+                    toMember.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 8) {
+                    checkSponsorID(toMember.getText().toString().trim());
+                } else if (s.length() > 0) {
+                    toMember.setError("ID should be 8 characters in length");
+                }
+            }
+        });
+        ;
+
         fetchData(memberId);
+    }
+
+    private void checkSponsorID(String sponsorID) {
+        String baseUrl = BuildConfig.api_url+"checkSponserId";
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("sponser_id", sponsorID);
+        } catch (JSONException e) {
+            Log.d("Sponsor Id: ",e.getMessage());
+            return;
+        }
+
+        RequestQueue requestQueue = Volley.newRequestQueue(Withdraw.this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                baseUrl,
+                requestBody,
+                response -> {
+                    try {
+                        boolean isValid = response.getBoolean("isValid");
+                        String name = response.getString("sponserName");
+                        if (isValid) {
+                            k=0;
+                            member_name.setTextColor(ContextCompat.getColor(this, R.color.endColor));
+                            withdrawbtn.setEnabled(true);
+                            member_name.setText(name);
+                            member_name.setVisibility(View.VISIBLE);
+                        } else {
+                            if(transferSelect==2){
+                                k=1;
+                                withdrawbtn.setEnabled(false);
+                            }else{
+                                k=0;
+                                withdrawbtn.setEnabled(true);
+                            }
+                            member_name.setTextColor(ContextCompat.getColor(this, R.color.reject));
+                            member_name.setText("Invalid! Try Again");
+                            member_name.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        if(transferSelect==2){
+                            k=1;
+                            withdrawbtn.setEnabled(false);
+                        }else{
+                            k=0;
+                            withdrawbtn.setEnabled(true);
+                        }
+                        Log.d("Sponsor Id: ",e.getMessage());
+                    }
+                },
+                error -> {
+                    if(transferSelect==2){
+                        k=1;
+                        withdrawbtn.setEnabled(false);
+                    }else{
+                        k=0;
+                        withdrawbtn.setEnabled(true);
+                    }
+                    Log.e("Bhenkeloada", "An error occurred: " + error.getMessage(), error);
+                }
+        );
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void filterDataByType() {
@@ -221,13 +342,18 @@ public class Withdraw extends AppCompatActivity {
                 SEND_MESSAGE_URL,
                 requestBody,
                 response -> {
+                    withdraw_progress.setVisibility(GONE);
+                    withdrawbtn.setVisibility(VISIBLE);
                     try {
                         if(response.has("status") && response.getString("status").equals("true")){
+                            messageEditText.setText("");
+                            toMember.setText("");
                             String msg = "Done";
                             if(response.has("message"))
                                 msg = response.getString("message");
                             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                             Log.d("arsh_gendu",msg);
+                            fetchData(memberId);
                         }
                         else{
                             String msg = "Error";
@@ -244,6 +370,8 @@ public class Withdraw extends AppCompatActivity {
                 error -> {
                     Log.d("arsh_gendu",error.getMessage());
                     Toast.makeText(Withdraw.this, "Error", Toast.LENGTH_SHORT).show();
+                    withdraw_progress.setVisibility(GONE);
+                    withdrawbtn.setVisibility(VISIBLE);
                 }
         );
         sendRequest.setRetryPolicy(new DefaultRetryPolicy(

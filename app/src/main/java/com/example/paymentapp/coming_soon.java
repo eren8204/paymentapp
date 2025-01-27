@@ -24,34 +24,15 @@ import java.util.ArrayList;
 public class coming_soon extends AppCompatActivity {
 
 
-
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coming_soon);
+
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
-//        View view = inflater.inflate(R.layout.activity_coming_soon, container, false);
-//        ImageSlider imageSlider = view.findViewById(R.id.imageSlider);
-//
-//
-//
-//
-//        ArrayList<SlideModel> slideModels = new ArrayList<>();
-//
-//        slideModels.add(new SlideModel(R.drawable.a, ScaleTypes.FIT));
-//        slideModels.add(new SlideModel(R.drawable.b, ScaleTypes.FIT));
-//        slideModels.add(new SlideModel(R.drawable.c, ScaleTypes.FIT));
-//        slideModels.add(new SlideModel(R.drawable.d, ScaleTypes.FIT));
-//        slideModels.add(new SlideModel(R.drawable.e, ScaleTypes.FIT));
-//        slideModels.add(new SlideModel(R.drawable.f, ScaleTypes.FIT));
-//
-//        imageSlider.setImageList(slideModels, ScaleTypes.FIT);
-
 
         LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimation);
-
         lottieAnimationView.playAnimation();
-
         lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {

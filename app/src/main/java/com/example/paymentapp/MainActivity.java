@@ -45,9 +45,12 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
-    private Dialog dialog;
+    private Dialog dialog,dialog2;
+    private TextView membership;
     @SuppressLint({"NonConstantResourceId","MissingInflatedId", "LocalSuppress","CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView memberName = findViewById(R.id.memberName);
         TextView userId = findViewById(R.id.memberId);
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
         String memberId = sharedPreferences.getString("memberId", "UP000000");
 
@@ -140,12 +143,36 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new Transactionfragment();
             }
             else if (id == R.id.drawer_item10) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
-                Intent intent = new Intent(this, Login.class);
-                startActivity(intent);
-                finish();
+
+                dialog2 = new Dialog(this);
+                dialog2.setContentView(R.layout.dialog_logout_confirm);
+                dialog2.setCancelable(true);
+
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(Objects.requireNonNull(dialog2.getWindow()).getAttributes());
+                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                dialog2.getWindow().setAttributes(layoutParams);
+                Objects.requireNonNull(dialog2.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+                TextView accept_logout = dialog2.findViewById(R.id.accept_logout);
+                TextView reject_logout = dialog2.findViewById(R.id.reject_logout);
+
+                accept_logout.setOnClickListener(v->{
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    Intent intent = new Intent(this, Login.class);
+                    startActivity(intent);
+                    finish();
+                    dialog2.dismiss();
+                    finishAffinity();
+                });
+
+                reject_logout.setOnClickListener(v->{
+                    dialog2.dismiss();
+                });
+                dialog2.show();
             }
 
             if (selectedFragment != null) {
@@ -193,15 +220,20 @@ public class MainActivity extends AppCompatActivity {
             ImageView headerImageView = headerView.findViewById(R.id.imageView);
             TextView headerUserName = headerView.findViewById(R.id.userName);
             TextView headerUserEmail = headerView.findViewById(R.id.userEmail);
-            TextView membership = headerView.findViewById(R.id.membership);
+            membership = headerView.findViewById(R.id.membership);
 
             headerImageView.setImageResource(R.drawable.baseline_person_24);
             String header_username = sharedPreferences.getString("username", "Hello, !");
             String header_memberId = sharedPreferences.getString("memberId", "UP000000");
-            String header_membership = sharedPreferences.getString("membership","FREE");
             headerUserName.setText(header_username);
             headerUserEmail.setText(header_memberId);
-            membership.setText(header_membership);
+            updateMembership();
+            preferenceChangeListener = (sharedPreferences, key) -> {
+                if ("membership".equals(key)) {
+                    updateMembership();
+                }
+            };
+            sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
         }
     }
 
@@ -376,5 +408,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    private void updateMembership(){
+        String status = sharedPreferences.getString("membership","FREE");
+        membership.setText(status);
     }
 }
