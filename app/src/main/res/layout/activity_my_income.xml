@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".MyIncome">
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        android:background="#EE9328">
+        android:background="@color/endColor">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,14 +23,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/startColor"
+                android:background="@color/endColor"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/back_button"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:background="@color/startColor"
+                    android:background="@color/endColor"
                     android:src="@drawable/arrow_back">
 
                 </ImageButton>
@@ -103,7 +103,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="@dimen/_10sdp"
         android:padding="@dimen/_5sdp">
@@ -113,23 +113,113 @@
             android:textStyle="bold"
             android:textSize="@dimen/_15sdp"
             android:text="My Income"/>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:checkedButton="@id/seeAll">
+
+                <RadioButton
+                    android:id="@+id/seeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/seeMembership"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Membership"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/seeRecharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recharge"
+                    android:textColor="@color/black"
+                    android:button="@null"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:background="@drawable/custom_toggle_button"/>
+
+                <RadioButton
+                    android:id="@+id/seeRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/custom_toggle_button"
+                    android:button="@null"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Rank"
+                    android:textColor="@color/black" />
+                <RadioButton
+                    android:id="@+id/seeMoneyPlant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/custom_toggle_button"
+                    android:button="@null"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Money Plant"
+                    android:textColor="@color/black" />
+            </RadioGroup>
+        </LinearLayout>
+        </HorizontalScrollView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_margin="@dimen/_10sdp"
-        android:padding="@dimen/_5sdp"
-        android:visibility="gone">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+        <LinearLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            android:visibility="visible">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/oops_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:lottie_rawRes="@raw/oops"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

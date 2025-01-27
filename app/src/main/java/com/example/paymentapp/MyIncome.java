@@ -1,5 +1,8 @@
 package com.example.paymentapp;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,8 +49,10 @@ public class MyIncome extends AppCompatActivity {
     private TextView tb_memberid, tb_username;
     private RecyclerView recyclerView;
     private IncomeAdapter incomeAdapter;
-    private final List<Transaction> transactionList = new ArrayList<>();
-
+    private List<Transaction> transactionList = new ArrayList<>();
+    private List<Transaction> filteredList = new ArrayList<>();
+    private Integer seeSelect = 1;
+    private LinearLayout progressLayout,oopsLayout;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,8 @@ public class MyIncome extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         tb_username = findViewById(R.id.memberName);
         tb_memberid = findViewById(R.id.memberId);
+        progressLayout = findViewById(R.id.progress_layout);
+        oopsLayout = findViewById(R.id.oops_layout);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
@@ -64,6 +75,84 @@ public class MyIncome extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         incomeAdapter = new IncomeAdapter(transactionList);
         recyclerView.setAdapter(incomeAdapter);
+
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+
+        RadioButton seeAll = findViewById(R.id.seeAll);
+        RadioButton seeMembership = findViewById(R.id.seeMembership);
+        RadioButton seeRecharge = findViewById(R.id.seeRecharge);
+        RadioButton seeRank = findViewById(R.id.seeRank);
+        RadioButton seeMoneyPlant = findViewById(R.id.seeRank);
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId==R.id.seeAll){
+                seeSelect = 1;
+            }
+            else if(checkedId==R.id.seeMembership){
+                seeSelect = 2;
+            }
+            else if(checkedId==R.id.seeRecharge) {
+                seeSelect = 3;
+            }
+            else if(checkedId==R.id.seeRank){
+                seeSelect = 4;
+            }
+            else if(checkedId==R.id.seeMoneyPlant){
+                seeSelect = 5;
+            }
+            else {
+                seeSelect = 1;
+            }
+                filterDataByType();
+        });
+
+    }
+
+    private void filterDataByType() {
+        progressLayout.setVisibility(GONE);
+        recyclerView.setVisibility(VISIBLE);
+        if (filteredList != null) {
+            filteredList.clear();
+        } else {
+            filteredList = new ArrayList<>();
+        }
+        if (seeSelect == 1) {
+            filteredList.addAll(transactionList);
+        } else if(seeSelect == 2){
+            for (Transaction transaction : transactionList) {
+                if (transaction.type.equalsIgnoreCase("Membership")) {
+                    filteredList.add(transaction);
+                }
+            }
+        }
+        else if(seeSelect == 3){
+            for (Transaction transaction : transactionList) {
+                if (transaction.type.equalsIgnoreCase("Recharge")) {
+                    filteredList.add(transaction);
+                }
+            }
+        }
+        else if(seeSelect == 4){
+            for (Transaction transaction : transactionList) {
+                if (transaction.type.equalsIgnoreCase("Rank Income")) {
+                    filteredList.add(transaction);
+                }
+            }
+        }
+        else if(seeSelect == 5){
+            for (Transaction transaction : transactionList) {
+                if (transaction.type.equalsIgnoreCase("Money Plant")) {
+                    filteredList.add(transaction);
+                }
+            }
+        }
+        if(filteredList.size()==0){
+            progressLayout.setVisibility(GONE);
+            recyclerView.setVisibility(GONE);
+            oopsLayout.setVisibility(VISIBLE);
+        }
+        incomeAdapter.updateList(filteredList);
+
     }
 
     private void fetchTransactions(String memberId) {
@@ -89,6 +178,8 @@ public class MyIncome extends AppCompatActivity {
 
                             boolean success = response.getBoolean("success");
                             if (success) {
+                                progressLayout.setVisibility(GONE);
+                                recyclerView.setVisibility(VISIBLE);
                                 JSONArray transactions = response.getJSONObject("transactions").getJSONArray("data");
                                 transactionList.clear();
 
@@ -99,6 +190,7 @@ public class MyIncome extends AppCompatActivity {
                                             transaction.getString("subType"),
                                             transaction.getString("commissionBy"),
                                             transaction.getString("level"),
+                                            transaction.getString("date_time"),
                                             formatDate(transaction.getString("date_time")),
                                             formatTime(transaction.getString("date_time")),
                                             transaction.getString("recharge_to"),
@@ -106,22 +198,46 @@ public class MyIncome extends AppCompatActivity {
                                             transaction.getString("credit")
                                     ));
                                 }
-
+                                transactionList.sort((request1, request2) -> {
+                                    try {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                                        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                        Date date1 = sdf.parse(request1.dateTime);
+                                        Date date2 = sdf.parse(request2.dateTime);
+                                        assert date2 != null;
+                                        return date2.compareTo(date1);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                        return 0;
+                                    }
+                                });
+                                if(transactionList.size()==0){
+                                    progressLayout.setVisibility(GONE);
+                                    oopsLayout.setVisibility(VISIBLE);
+                                }
                                 incomeAdapter.notifyDataSetChanged();
                             } else {
+                                progressLayout.setVisibility(GONE);
+                                oopsLayout.setVisibility(VISIBLE);
                                 Log.d(TAG, "Transaction fetch failed.");
-                                recyclerView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(GONE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e(TAG, "Error parsing response: ", e);
+                            progressLayout.setVisibility(GONE);
+                            oopsLayout.setVisibility(VISIBLE);
                         }
                     }
                 },
-                error -> Log.e(TAG, "Error fetching transactions: ", error)
+                error -> {
+                    Log.e(TAG, "Error fetching transactions: ", error);
+                    progressLayout.setVisibility(GONE);
+                    oopsLayout.setVisibility(VISIBLE);
+                }
         );
 
-        RequestQueue queue = Volley.newRequestQueue(this); // Use 'this' instead of getContext()
+        RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
     }
 
@@ -174,7 +290,7 @@ public class MyIncome extends AppCompatActivity {
         });
 
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources().getColor(R.color.startColor));
+        window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
 
         tb_username.setText(username);
         tb_memberid.setText(memberId);
@@ -182,13 +298,14 @@ public class MyIncome extends AppCompatActivity {
 
     // Transaction model class
     static class Transaction {
-        String type, subType, commissionBy, level, date, time, rechargeTo, amountSpent, amountGot;
+        String type, subType, commissionBy, level,dateTime, date, time, rechargeTo, amountSpent, amountGot;
 
-        public Transaction(String type, String subType, String commissionBy, String level, String date, String time, String rechargeTo, String amountSpent, String amountGot) {
+        public Transaction(String type, String subType, String commissionBy, String level,String dateTime, String date, String time, String rechargeTo, String amountSpent, String amountGot) {
             this.type = type;
             this.subType = subType;
             this.commissionBy = commissionBy;
             this.level = level;
+            this.dateTime = dateTime;
             this.date = date;
             this.time = time;
             this.rechargeTo = rechargeTo;
@@ -198,7 +315,7 @@ public class MyIncome extends AppCompatActivity {
     }
 
     class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeViewHolder> {
-        private final List<Transaction> transactionList;
+        private List<Transaction> transactionList;
 
         public IncomeAdapter(List<Transaction> transactionList) {
             this.transactionList = transactionList;
@@ -220,11 +337,27 @@ public class MyIncome extends AppCompatActivity {
             holder.type.setText(transaction.type);
             holder.subType.setText(transaction.subType);
             holder.username.setText(transaction.commissionBy);
-            holder.level.setText("Level: "+transaction.level);
+            if(transaction.level.equals("0") || transaction.level.equals("null"))
+                holder.level.setVisibility(GONE);
+            else{
+                holder.level.setVisibility(VISIBLE);
+                holder.level.setText("Level: "+transaction.level);
+            }
+
             holder.date.setText(transaction.date);
             holder.time.setText(transaction.time);
             holder.rechargeTo.setText(transaction.rechargeTo);
-            holder.amountSpent.setText(transaction.amountSpent);
+            if(transaction.type.equalsIgnoreCase("Rank Income") || transaction.type.equalsIgnoreCase("Money Plant")){
+                holder.amountSpent.setVisibility(GONE);
+                holder.amountSpent.setText("");
+                holder.divider.setVisibility(GONE);
+            }
+            else{
+                holder.amountSpent.setText(transaction.amountSpent);
+                holder.amountSpent.setVisibility(VISIBLE);
+                holder.divider.setVisibility(VISIBLE);
+            }
+
             double amount = Double.parseDouble(transaction.amountGot);
             String formattedAmount;
             if (amount == Math.floor(amount)) {
@@ -244,16 +377,22 @@ public class MyIncome extends AppCompatActivity {
 
         }
 
+        public void updateList(List<Transaction> newList) {
+            this.transactionList = newList;
+            notifyDataSetChanged();
+        }
+
         @Override
         public int getItemCount() {
             return transactionList.size();
         }
 
         class IncomeViewHolder extends RecyclerView.ViewHolder {
-            TextView username, level, type, subType, rechargeTo, date, time, amountSpent, amountGot;
+            TextView username, level, type, subType, rechargeTo, date, time, amountSpent, amountGot, divider;
 
             public IncomeViewHolder(View itemView) {
                 super(itemView);
+                divider = itemView.findViewById(R.id.divider);
                 username = itemView.findViewById(R.id.username);
                 level = itemView.findViewById(R.id.level);
                 type = itemView.findViewById(R.id.type);
