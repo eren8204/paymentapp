@@ -186,7 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_8sdp"
-                        android:inputType="textMultiLine"
+                        android:inputType="number"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:maxLength="4"
                         android:background="@drawable/edittextbackground"
@@ -203,7 +203,7 @@
                         android:layout_margin="@dimen/_8sdp"
                         android:inputType="textMultiLine"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:maxLength="4"
+                        android:maxLength="8"
                         android:background="@drawable/edittextbackground"
                         android:hint="Member Id"
                         android:padding="@dimen/_8sdp"
@@ -307,6 +307,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:listitem="@layout/item_withdraw"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:visibility="gone"/>
             <LinearLayout
                 android:id="@+id/progress_layout"

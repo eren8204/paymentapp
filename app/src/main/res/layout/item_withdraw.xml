@@ -3,6 +3,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="@dimen/_10sdp"
     android:layout_margin="8dp">
 
     <LinearLayout
@@ -23,6 +24,7 @@
 
 
                 <TextView
+                    android:id="@+id/typeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Withdrawal "

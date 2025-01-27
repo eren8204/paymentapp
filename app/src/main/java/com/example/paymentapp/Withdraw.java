@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class Withdraw extends AppCompatActivity {
     private List<WithdrawItem> withdrawList,filteredList;
 
     private EditText messageEditText,toMember;
-    private static String SEND_MESSAGE_URL = BuildConfig.api_url+"user-withdraw-request";
+    private static String SEND_MESSAGE_URL;
 
     private int transferSelect = 1;
     private int seeSelect = 1;
@@ -85,7 +86,6 @@ public class Withdraw extends AppCompatActivity {
         messageEditText = findViewById(R.id.withdraw_amount);
         withdrawbtn.setOnClickListener(v -> {
             String message = messageEditText.getText().toString();
-            Log.d(TAG, "raiseTicketButton: Sending message: " + message);
             try {
                 sendMessageAndFetchChat(memberId,message);
             } catch (JSONException e) {
@@ -152,10 +152,44 @@ public class Withdraw extends AppCompatActivity {
             else {
                 seeSelect = 1;
             }
-            //filterDataByType();
+            filterDataByType();
         });
 
         fetchData(memberId);
+    }
+
+    private void filterDataByType() {
+        recyclerView.setVisibility(VISIBLE);
+        if (filteredList != null) {
+            filteredList.clear();
+        } else {
+            filteredList = new ArrayList<>();
+        }
+        if (seeSelect == 1) {
+            filteredList.addAll(withdrawList);
+        } else if(seeSelect == 2){
+            for (WithdrawItem withdrawItem : withdrawList) {
+                if (withdrawItem.type.equalsIgnoreCase("Self Transfer")) {
+                    filteredList.add(withdrawItem);
+                }
+            }
+        }
+        else if(seeSelect == 3){
+            for (WithdrawItem withdrawItem : withdrawList) {
+                if (withdrawItem.type.equalsIgnoreCase("Money Transfer")) {
+                    filteredList.add(withdrawItem);
+                }
+            }
+        }
+        else if(seeSelect == 4){
+            for (WithdrawItem withdrawItem : withdrawList) {
+                if (withdrawItem.type.equalsIgnoreCase("Bank Transfer")) {
+                    filteredList.add(withdrawItem);
+                }
+            }
+        }
+        adapter.updateList(filteredList);
+
     }
 
     private void sendMessageAndFetchChat(final String memberId,String message) throws JSONException {
@@ -164,12 +198,24 @@ public class Withdraw extends AppCompatActivity {
             SEND_MESSAGE_URL = BuildConfig.api_url+"commissin-wallet-to-flexi-wallet";
             requestBody.put("member_id", memberId);
             requestBody.put("commission_amount", message);
-        }
-        else{
+        } else if (transferSelect==2) {
+            SEND_MESSAGE_URL = BuildConfig.api_url+"person-to-person-transfer";
+            requestBody.put("sender_member_id", memberId);
+            String receiver_id = toMember.getText().toString();
+            requestBody.put("receiver_member_id", receiver_id);
+            requestBody.put("commission_amount", Integer.parseInt(message));
+        } else if(transferSelect==3){
+            SEND_MESSAGE_URL = BuildConfig.api_url+"user-withdraw-request";
             requestBody.put("member_id", memberId);
             requestBody.put("amount", message);
         }
-        Log.d("commission_request",requestBody.toString());
+        else{
+            SEND_MESSAGE_URL = BuildConfig.api_url+"commissin-wallet-to-flexi-wallet";
+            requestBody.put("member_id", memberId);
+            requestBody.put("commission_amount", message);
+        }
+        Log.d("arsh_gendu",SEND_MESSAGE_URL);
+        Log.d("arsh_gendu",requestBody.toString());
         JsonObjectRequest sendRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 SEND_MESSAGE_URL,
@@ -181,12 +227,14 @@ public class Withdraw extends AppCompatActivity {
                             if(response.has("message"))
                                 msg = response.getString("message");
                             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                            Log.d("arsh_gendu",msg);
                         }
                         else{
                             String msg = "Error";
                             if(response.has("message"))
                                 msg = response.getString("message");
                             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                            Log.d("arsh_gendu",msg);
                         }
                     } catch (JSONException e) {
                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
@@ -194,6 +242,7 @@ public class Withdraw extends AppCompatActivity {
                     }
                 },
                 error -> {
+                    Log.d("arsh_gendu",error.getMessage());
                     Toast.makeText(Withdraw.this, "Error", Toast.LENGTH_SHORT).show();
                 }
         );
@@ -264,17 +313,39 @@ public class Withdraw extends AppCompatActivity {
                 response -> {
                     progressLayout.setVisibility(GONE);
                     try {
-                        if (response.getString("status").equals("true")) {
+                        if (response.getString("success").equals("true")) {
                             JSONArray dataArray = response.getJSONArray("data");
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject item = dataArray.getJSONObject(i);
-                                WithdrawItem withdrawItem = new WithdrawItem(
-                                        formatAmount(item.getString("amount")),
-                                        item.getString("date_time"),
-                                        item.getString("status")
-                                );
+                                String type = item.getString("type");
+                                if(type.equalsIgnoreCase("Bank Transfer")){
+                                    WithdrawItem withdrawItem = new WithdrawItem(
+                                            item.getString("type"),
+                                            formatAmount(item.getString("amount")),
+                                            item.getString("date_time"),
+                                            item.getString("status")
+                                    );
+                                    withdrawList.add(withdrawItem);
+                                }
+                                else if(type.equalsIgnoreCase("Money Transfer")){
+                                    WithdrawItem withdrawItem = new WithdrawItem(
+                                            item.getString("type"),
+                                            formatAmount(item.getString("amount")),
+                                            item.getString("date_time"),
+                                            item.getString("receiver")
+                                    );
+                                    withdrawList.add(withdrawItem);
+                                }
+                                else{
+                                    WithdrawItem withdrawItem = new WithdrawItem(
+                                            item.getString("type"),
+                                            formatAmount(item.getString("amount")),
+                                            item.getString("date_time"),
+                                            item.optString("status","NA")
+                                    );
+                                    withdrawList.add(withdrawItem);
+                                }
                                 recyclerView.setVisibility(VISIBLE);
-                                withdrawList.add(withdrawItem);
                             }
                             withdrawList.sort((request1, request2) -> {
                                 try {
@@ -283,7 +354,7 @@ public class Withdraw extends AppCompatActivity {
                                     Date date1 = sdf.parse(request1.dateTime);
                                     Date date2 = sdf.parse(request2.dateTime);
                                     assert date2 != null;
-                                    return date2.compareTo(date1); // Latest to oldest
+                                    return date2.compareTo(date1);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                     return 0;
@@ -309,7 +380,7 @@ public class Withdraw extends AppCompatActivity {
     private String formatAmount(String amount) {
         try {
             double value = Double.parseDouble(amount);
-            DecimalFormat decimalFormat = new DecimalFormat("₹0.000");
+            DecimalFormat decimalFormat = new DecimalFormat("₹0.00");
             return decimalFormat.format(value);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -318,11 +389,13 @@ public class Withdraw extends AppCompatActivity {
     }
 
     static class WithdrawItem {
+        String type;
         String amount;
         String dateTime;
         String status;
 
-        public WithdrawItem(String amount, String dateTime, String status) {
+        public WithdrawItem(String type,String amount, String dateTime, String status) {
+            this.type = type;
             this.amount = amount;
             this.dateTime = dateTime;
             this.status = status;
@@ -346,34 +419,68 @@ public class Withdraw extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+            holder.status.setVisibility(View.VISIBLE);
+            holder.status_img.setVisibility(View.VISIBLE);
+            holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accept)); // Default background color
+            holder.status.setText("");
+            holder.status.setTypeface(null, Typeface.NORMAL);
+            holder.status.setTextSize(14);
+
             WithdrawItem item = withdrawItems.get(position);
             String formattedDate = formatDate(item.dateTime);
             String formattedTime = formatTime(item.dateTime);
+            holder.typeText.setText(item.type);
             holder.amount.setText(item.amount);
             holder.time.setText(formattedTime);
             holder.date.setText(formattedDate);
             holder.status.setText(item.status);
 
             String status = item.status;
-            switch (status) {
+
+            switch (item.status.toLowerCase()) {
                 case "pending":
                     holder.status.setText("Pending");
-                    holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.pending_small));
-                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey)); // Gray color for Pending
+                    holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.pending_small));
+                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey));
                     break;
+
                 case "done":
                     holder.status.setText("Approved");
-                    holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.approved));
-                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.accept)); // Set the status color (green)
+                    holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.approved));
+                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accept));
                     break;
-                default:
+
+                case "rejected":
                     holder.status.setText("Rejected");
-                    holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),R.drawable.rejected));
-                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.reject)); // Set the status color (red)
+                    holder.status_img.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rejected));
+                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.reject));
+                    break;
+
+                case "na":
+                    holder.status.setVisibility(GONE);
+                    holder.status.setText("");
+                    holder.status_img.setVisibility(View.GONE);
+                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accept));
+                    break;
+
+                default:
+                    holder.status.setTypeface(null, Typeface.BOLD);
+                    holder.status.setTextSize(20);
+                    holder.status.setText("To: "+item.status);
+                    holder.status_img.setVisibility(View.GONE);
+                    holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accept));
                     break;
             }
+
+
+
         }
 
+        public void updateList(List<WithdrawItem> newList) {
+            this.withdrawItems = newList;
+            notifyDataSetChanged();
+        }
 
         @Override
         public int getItemCount() {
@@ -381,12 +488,13 @@ public class Withdraw extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView  amount, date, status , time;
+            TextView  amount, date, status , time,typeText;
 
             ImageView status_img;
             LinearLayout statusColour;
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
+                typeText = itemView.findViewById(R.id.typeTextView);
                 amount = itemView.findViewById(R.id.amountTextView);
                 time=itemView.findViewById(R.id.timeTextView);
                 date = itemView.findViewById(R.id.dateTextView);
