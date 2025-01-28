@@ -62,6 +62,7 @@ public class Login extends AppCompatActivity {
     private boolean isnotificationpermissiongranted=false;
     private boolean isexactalarmgranted=false;
 
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,12 @@ public class Login extends AppCompatActivity {
         otp_edittext = findViewById(R.id.otp);
         help = findViewById(R.id.help);
 
-        // Request permissions
+        //ye websocket ke liye hai
+        Intent serviceIntent = new Intent(this, WebSocketService.class);
+        startService(serviceIntent);
+
+
+        // permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestNotificationPermissionWithDialog();
         }
@@ -228,8 +234,8 @@ public class Login extends AppCompatActivity {
         );
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,12);
-        calendar.set(Calendar.MINUTE, 16);
+        calendar.set(Calendar.HOUR_OF_DAY,6);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 0);
 
         if (Calendar.getInstance().after(calendar)) {
@@ -358,4 +364,6 @@ public class Login extends AppCompatActivity {
             return dateString;
         }
     }
+
+
 }

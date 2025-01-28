@@ -52,8 +52,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         // Build the Notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Good Morning!")
-                .setContentText("Ye lo hum aaye or abhi tak so rahe hai")
+                .setContentTitle("UNO PAY")
+                .setContentText("Happy member dear member")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
