@@ -153,7 +153,13 @@ public class Login extends AppCompatActivity {
             finish();
         });
 
-        login.setOnClickListener(v -> loginIdPass());
+        login.setOnClickListener(v -> {
+            if (username.length() < 8 || pass.length() < 8) {
+                 Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            loginIdPass();
+        });
 
         password.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -253,10 +259,7 @@ public class Login extends AppCompatActivity {
         username = email.getText().toString().trim();
         pass = password.getText().toString().trim();
         otp = otp_edittext.getText().toString().trim();
-        if (username.length() < 8 || pass.length() < 8) {
-           // Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         if (otpVisible && otp.length() < 6) {
             Toast.makeText(Login.this, "Enter OTP", Toast.LENGTH_SHORT).show();
             return;
