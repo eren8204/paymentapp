@@ -254,7 +254,7 @@ public class Login extends AppCompatActivity {
         pass = password.getText().toString().trim();
         otp = otp_edittext.getText().toString().trim();
         if (username.length() < 8 || pass.length() < 8) {
-            Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
         if (otpVisible && otp.length() < 6) {
