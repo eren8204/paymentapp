@@ -45,10 +45,15 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
         holder.useridText.setText(member.getMember());
         holder.usernameTextView.setText(member.getUsername());
         holder.membershipTextView.setText(member.getMembership());
-        if (member.getMembership().trim().equalsIgnoreCase("BASIC") ||
-                member.getMembership().trim().equalsIgnoreCase("PREMIUM")) {
+        if (member.getMembership().trim().equalsIgnoreCase("BASIC")) {
+            holder.membershipTextView.setTextColor(context.getResources().getColor(R.color.endColor));
             holder.member_card.setBackgroundColor(context.getResources().getColor(R.color.end_bg));
-        } else {
+        }
+        else if(member.getMembership().trim().equalsIgnoreCase("PREMIUM")){
+            holder.membershipTextView.setTextColor(context.getResources().getColor(R.color.accept));
+            holder.member_card.setBackgroundColor(context.getResources().getColor(R.color.green_bg));
+        }else {
+            holder.membershipTextView.setTextColor(context.getResources().getColor(R.color.startColor));
             holder.member_card.setBackgroundColor(context.getResources().getColor(R.color.start_bg));
         }
     }

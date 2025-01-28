@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Payment App</string>
+    <string name="app_name">UNO Pay</string>
     <string name="home">Home</string>
     <string name="select_operator_prompt">Select Operator</string>
     <string name="select_circle_prompt">Select Circle</string>

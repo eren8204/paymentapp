@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username"
+                android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"/>
 
 
@@ -35,12 +36,14 @@
                 android:id="@+id/userid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
                 android:text="userid" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
                 android:text="Date" />
 
         </LinearLayout>
@@ -54,6 +57,9 @@
                 android:id="@+id/membership"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+
+                android:textStyle="bold"
                 android:text="FREE"/>
         </LinearLayout>
 

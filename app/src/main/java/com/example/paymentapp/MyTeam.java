@@ -115,6 +115,18 @@ public class MyTeam extends AppCompatActivity {
     private void setupExpandableListView(Map<Integer, List<Member>> teamData) {
         TeamExpandableListAdapter adapter = new TeamExpandableListAdapter(this, teamData);
         expandableListView.setAdapter(adapter);
+
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            private int previousGroup = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (groupPosition != previousGroup && previousGroup != -1) {
+                    expandableListView.collapseGroup(previousGroup);
+                }
+                previousGroup = groupPosition;
+            }
+        });
     }
 
 
