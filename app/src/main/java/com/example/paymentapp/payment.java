@@ -157,10 +157,11 @@ public class payment extends AppCompatActivity {
 
 
         String finalType = stype;
+        String ttype=type;
+        Log.d("recharge_type",type);
         pay.setOnClickListener(v -> {
             pay.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-
             String tpin = tpin_text.getText().toString().trim();
             String ctpin = ctpin_text.getText().toString().trim();
 
@@ -214,7 +215,7 @@ public class payment extends AppCompatActivity {
                                     }
                                 });
                             }
-                            else if(finalType.equals("Mobile Recharge")){
+                            else if(ttype.equals("Mobile Recharge")){
 
                                 mobile_recharge(memberId,operatorCode,circleCode,number_id,money);
                                 if (operatorCode.equals("VI")) {
@@ -240,11 +241,10 @@ public class payment extends AppCompatActivity {
 
                             }
                         } else {
-                            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
                             showError("Invalid T-PIN");
                         }
                     } catch (Exception e) {
-                        Log.d("arsh", response.toString());
+                        Log.d("recharge_type", response.toString());
                         showError("Error parsing T-PIN response: " + e.getMessage());
                     } finally {
                         progressBar.setVisibility(View.GONE);

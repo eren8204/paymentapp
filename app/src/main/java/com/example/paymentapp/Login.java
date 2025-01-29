@@ -140,6 +140,10 @@ public class Login extends AppCompatActivity {
             signup.setEnabled(false);
         }
         if(isnotificationpermissiongranted && isexactalarmgranted) {
+            if (username.length() < 8 || pass.length() < 8) {
+                Toast.makeText(Login.this, "Please fill in all field", Toast.LENGTH_SHORT).show();
+                return;
+            }
                 loginIdPass();
 
         }
@@ -154,10 +158,10 @@ public class Login extends AppCompatActivity {
         });
 
         login.setOnClickListener(v -> {
-            if (username.length() < 8 || pass.length() < 8) {
-                 Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (username.length() < 8 || pass.length() < 8) {
+//                 Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             loginIdPass();
         });
 
