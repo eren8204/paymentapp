@@ -117,25 +117,7 @@
                     android:layout_marginTop="@dimen/_16sdp">
 
                 </EditText>
-                <EditText
-                    android:id="@+id/otp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittextbackground"
-                    android:hint="Enter OTP"
-                    android:drawablePadding="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_8sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:padding="@dimen/_8sdp"
-                    android:maxLength="6"
-                    android:inputType="number"
-                    android:drawableLeft="@drawable/baseline_lock_24"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_16sdp">
 
-                </EditText>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -161,6 +143,26 @@
 
                 </TextView>
                 </FrameLayout>
+
+                <EditText
+                    android:id="@+id/otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittextbackground"
+                    android:hint="Enter OTP"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_8sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:maxLength="6"
+                    android:inputType="number"
+                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_16sdp">
+
+                </EditText>
 
                 <FrameLayout
                     android:layout_width="match_parent"

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,9 @@ public class ForgetTpinFragment extends Fragment {
     LinearLayout success_layout;
 
     CardView card;
+
+    private long timeLeftInMillis = 60000;
+    private CountDownTimer otpTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,11 +80,16 @@ public class ForgetTpinFragment extends Fragment {
         otp = view.findViewById(R.id.otp);
         coinPin = view.findViewById(R.id.coin_pin);
 
-        sendOtpText.setOnClickListener(v -> sendOtp(memberId));
+        sendOtpText.setOnClickListener(v ->
+        {
+            if(newPin.getText().toString().isEmpty() || coinPin.getText().toString().isEmpty())
+            {
+                Toast.makeText(requireContext(), "Please fill all the details", Toast.LENGTH_SHORT).show();
+                return;
+            }
+                sendOtp(memberId);
 
-
-
-
+        });
 
         if(newPin.getText().toString().equals(coinPin.getText().toString()) && newPin.getText().toString()!=null) {
             updatePinButton.setOnClickListener(v -> {
@@ -150,6 +159,8 @@ public class ForgetTpinFragment extends Fragment {
                         sendOtpText.setVisibility(VISIBLE);
                         otpprogressbar.setVisibility(GONE);
                         Toast.makeText(getContext(), "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                        sendOtpText.setEnabled(false);
+                        startOtpCountdown();
                     },
                     error -> {
                         Log.e(TAG, "Error in sendOtp", error);
@@ -235,6 +246,28 @@ public class ForgetTpinFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void startOtpCountdown() {
+        otpTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                sendOtpText.setText("Resend OTP (" + millisUntilFinished / 1000 + "s)");
+            }
+
+            @Override
+            public void onFinish() {
+                sendOtpText.setText("Resend OTP");
+                sendOtpText.setEnabled(true);
+            }
+        }.start();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (otpTimer != null) {
+            otpTimer.cancel();
+        }
     }
 
 }

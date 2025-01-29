@@ -38,13 +38,13 @@ public class WebSocketService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Service started");
-        return START_STICKY; // Ensures the service restarts if terminated
+        return START_STICKY;
     }
 
     private void startWebSocket() {
         client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("ws://157.119.41.139:3000")
+                .url("ws://unotag.biz/api/")
                 .build();
 
         webSocket = client.newWebSocket(request, new WebSocketListener() {
@@ -98,7 +98,7 @@ public class WebSocketService extends Service {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
-                .setSmallIcon(R.drawable.logo) // Replace with your app's icon
+                .setSmallIcon(R.drawable.uno)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -110,7 +110,7 @@ public class WebSocketService extends Service {
 
     private Notification getServiceNotification(String text) {
         return new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo) // Replace with your app's icon
+                .setSmallIcon(R.drawable.uno)
                 .setContentTitle("UNO PAY")
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_LOW)

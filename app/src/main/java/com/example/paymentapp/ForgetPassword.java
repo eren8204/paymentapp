@@ -247,7 +247,7 @@ public class ForgetPassword extends AppCompatActivity {
         }.start();
     }
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (otpTimer != null) {
             otpTimer.cancel();

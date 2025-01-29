@@ -47,6 +47,7 @@ public class payment extends AppCompatActivity {
     private LinearLayout pay_layout,success_layout;
     private ProgressBar progressBar;
 
+    private TextView avabalance;
     private EditText tpin_text,ctpin_text;
     private boolean isTpinVissible = false;
 
@@ -74,6 +75,7 @@ public class payment extends AppCompatActivity {
         back_button = findViewById(R.id.back_button);
         rechargeamount = findViewById(R.id.rechargeamount);
         rechargetype = findViewById(R.id.rechargetype);
+        avabalance = findViewById(R.id.avaliablebalance);
 
         successimage = findViewById(R.id.successimage);
         paymenttype = findViewById(R.id.paymenttype);
@@ -81,6 +83,9 @@ public class payment extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
         String memberId = sharedPreferences.getString("memberId", "UP000000");
+        String flexi_wallet = sharedPreferences.getString("flexi_wallet", "0.0");
+
+        avabalance.setText(flexi_wallet);
 
         String type="";
         pre(username,memberId);
@@ -380,7 +385,7 @@ public class payment extends AppCompatActivity {
                 Log.d("mobile_recharge", "Response Message: " + message);
 
                 String status = response.getString("status");
-                if ("true".equals(status)) {
+                if ("true".equals(status) && response.getString("message").equals("Recharge failed.")) {
                     pay_layout.setVisibility(View.GONE);
                     success_layout.setVisibility(View.VISIBLE);
                     rechargeamount.setText(amount);

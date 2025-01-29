@@ -27,9 +27,9 @@ public class Plans_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_plans);
-        ////Initializer
+
         pre();
-        ////
+
         header = findViewById(R.id.header);
         header2 = findViewById(R.id.header2);
         final_price = findViewById(R.id.final_price);
@@ -44,7 +44,7 @@ public class Plans_Activity extends AppCompatActivity {
 
         payBasic.setOnClickListener(v -> {
             Intent intent = new Intent(this, payment.class);
-            intent.putExtra("ptype","Package");
+            intent.putExtra("ptype","E-Book");
             intent.putExtra("stype",header.getText().toString().trim());
             intent.putExtra("amount","₹"+final_price.getText().toString().trim());
             startActivity(intent);
@@ -53,7 +53,7 @@ public class Plans_Activity extends AppCompatActivity {
 
         payPrime.setOnClickListener(v -> {
             Intent intent = new Intent(this, payment.class);
-            intent.putExtra("ptype","Package");
+            intent.putExtra("ptype","E-Book");
             intent.putExtra("stype",header2.getText().toString().trim());
             intent.putExtra("amount","₹"+final_price2.getText().toString().trim());
             startActivity(intent);
