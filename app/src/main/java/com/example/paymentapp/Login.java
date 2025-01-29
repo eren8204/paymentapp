@@ -5,11 +5,13 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -20,6 +22,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +66,10 @@ public class Login extends AppCompatActivity {
     private boolean isnotificationpermissiongranted=false;
     private boolean isexactalarmgranted=false;
 
+    private LinearLayout whatsapp,youtube,telegram,facebook,instagram;
+    private GridLayout social;
+
+    private SharedPreferences sharedPreferences;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -81,6 +89,12 @@ public class Login extends AppCompatActivity {
         error_msg = findViewById(R.id.login_error_text);
         otp_edittext = findViewById(R.id.otp);
         help = findViewById(R.id.help);
+        whatsapp = findViewById(R.id.whatsapp);
+        youtube = findViewById(R.id.youtube);
+        telegram = findViewById(R.id.telegram);
+        facebook = findViewById(R.id.facebook);
+        instagram = findViewById(R.id.instagram);
+        social = findViewById(R.id.social);
 
         //ye websocket ke liye hai
         Intent serviceIntent = new Intent(this, WebSocketService.class);
@@ -126,7 +140,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         if (sharedPreferences.contains("memberId") && sharedPreferences.contains("password")) {
             pass = sharedPreferences.getString("password", "");
             username = sharedPreferences.getString("memberId", "");
@@ -138,17 +152,7 @@ public class Login extends AppCompatActivity {
             password.setEnabled(false);
             login.setEnabled(true);
             signup.setEnabled(false);
-        }
-        if(isnotificationpermissiongranted && isexactalarmgranted) {
-            if (username.length() < 8 || pass.length() < 8) {
-                Toast.makeText(Login.this, "Please fill in all field", Toast.LENGTH_SHORT).show();
-                return;
-            }
-                loginIdPass();
-
-        }
-        else {
-           // Toast.makeText(this, "Notification permission is required for daily reminders.", Toast.LENGTH_SHORT).show();
+            loginIdPass();
         }
 
         signup.setOnClickListener(v -> {
@@ -158,10 +162,18 @@ public class Login extends AppCompatActivity {
         });
 
         login.setOnClickListener(v -> {
-//            if (username.length() < 8 || pass.length() < 8) {
-//                 Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
+            username = email.getText().toString().trim();
+            pass = password.getText().toString().trim();
+            otp = otp_edittext.getText().toString().trim();
+
+            if (username.length() < 8 || pass.length() < 8) {
+                 Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (otpVisible && otp.length() < 6) {
+                Toast.makeText(Login.this, "Enter OTP", Toast.LENGTH_SHORT).show();
+                return;
+            }
             loginIdPass();
         });
 
@@ -179,6 +191,80 @@ public class Login extends AppCompatActivity {
                 }
             }
             return false;
+        });
+
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
+                intent.setPackage("com.whatsapp");
+
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
+                    startActivity(browserIntent);
+                }
+
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/share/1DcMLnBuv2/"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/share/1DcMLnBuv2/"));
+
+                try {
+                    startActivity(facebookIntent);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(browserIntent);
+                }
+
+            }
+        });
+        telegram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent telegramIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?domain=unotagofficial"));
+                telegramIntent.setPackage("org.telegram.messenger");
+
+                try {
+                    startActivity(telegramIntent);
+                } catch (ActivityNotFoundException e) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/unotagofficial"));
+                    startActivity(browserIntent);
+                }
+
+            }
+        });
+        instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent instaIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/unotag.official.unopay"));
+                instaIntent.setPackage("com.instagram.android");
+
+                try {
+                    startActivity(instaIntent);
+                } catch (ActivityNotFoundException e) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/unotag.official.unopay?utm_source=qr&igsh=MXV6eXIxaHQ2NHc1Yg=="));
+                    startActivity(browserIntent);
+                }
+
+            }
+        });
+        youtube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://www.youtube.com/@unotagofficialunopay"));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@unotagofficialunopay?si=Uv6_T34rh18QREPe"));
+
+                try {
+                    startActivity(appIntent);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(webIntent);
+                }
+            }
         });
     }
 
@@ -260,14 +346,6 @@ public class Login extends AppCompatActivity {
     }
 
     public void loginIdPass() {
-        username = email.getText().toString().trim();
-        pass = password.getText().toString().trim();
-        otp = otp_edittext.getText().toString().trim();
-
-        if (otpVisible && otp.length() < 6) {
-            Toast.makeText(Login.this, "Enter OTP", Toast.LENGTH_SHORT).show();
-            return;
-        }
         login.setVisibility(View.GONE);
         progressbarlogin.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
@@ -325,8 +403,16 @@ public class Login extends AppCompatActivity {
                                 email.setEnabled(true);
                                 password.setEnabled(true);
                             }
+                            password.setText("");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
                         }
                     } catch (JSONException e) {
+                        password.setText("");
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
                         progressbarlogin.setVisibility(View.GONE);
                         login.setVisibility(View.VISIBLE);
                         login.setEnabled(true);
@@ -340,6 +426,10 @@ public class Login extends AppCompatActivity {
                     }
                 },
                 error -> {
+                    password.setText("");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
                     progressbarlogin.setVisibility(View.GONE);
                     login.setVisibility(View.VISIBLE);
                     email.setEnabled(true);

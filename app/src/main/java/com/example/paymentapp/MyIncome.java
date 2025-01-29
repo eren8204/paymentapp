@@ -141,7 +141,7 @@ public class MyIncome extends AppCompatActivity {
         }
         else if(seeSelect == 5){
             for (Transaction transaction : transactionList) {
-                if (transaction.type.equalsIgnoreCase("Money Plant")) {
+                if (transaction.type.equalsIgnoreCase("Magic Plant")) {
                     filteredList.add(transaction);
                 }
             }
@@ -347,12 +347,14 @@ public class MyIncome extends AppCompatActivity {
             holder.date.setText(transaction.date);
             holder.time.setText(transaction.time);
             holder.rechargeTo.setText(transaction.rechargeTo);
-            if(transaction.type.equalsIgnoreCase("Rank Income") || transaction.type.equalsIgnoreCase("Money Plant")){
+            if(transaction.type.equalsIgnoreCase("Rank Income") || transaction.type.equalsIgnoreCase("Magic Plant")){
                 holder.amountSpent.setVisibility(GONE);
+                holder.level.setVisibility(GONE);
                 holder.amountSpent.setText("");
                 holder.divider.setVisibility(GONE);
             }
             else{
+                holder.level.setVisibility(VISIBLE);
                 holder.amountSpent.setText(transaction.amountSpent);
                 holder.amountSpent.setVisibility(VISIBLE);
                 holder.divider.setVisibility(VISIBLE);

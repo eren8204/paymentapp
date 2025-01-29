@@ -2,9 +2,11 @@ package com.example.paymentapp;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -539,31 +541,74 @@ public class HomeFragment extends Fragment {
         whatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //something
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
+                intent.setPackage("com.whatsapp");
+
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
+                    startActivity(browserIntent);
+                }
+
             }
         });
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //something
+                Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/share/1DcMLnBuv2/"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/share/1DcMLnBuv2/"));
+
+                try {
+                    startActivity(facebookIntent);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(browserIntent);
+                }
+
             }
         });
         telegram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //something
+                Intent telegramIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?domain=unotagofficial"));
+                telegramIntent.setPackage("org.telegram.messenger");
+
+                try {
+                    startActivity(telegramIntent);
+                } catch (ActivityNotFoundException e) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/unotagofficial"));
+                    startActivity(browserIntent);
+                }
+
             }
         });
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //something
+                Intent instaIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/unotag.official.unopay"));
+                instaIntent.setPackage("com.instagram.android");
+
+                try {
+                    startActivity(instaIntent);
+                } catch (ActivityNotFoundException e) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/unotag.official.unopay?utm_source=qr&igsh=MXV6eXIxaHQ2NHc1Yg=="));
+                    startActivity(browserIntent);
+                }
+
             }
         });
         youtube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //something
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://www.youtube.com/@unotagofficialunopay"));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@unotagofficialunopay?si=Uv6_T34rh18QREPe"));
+
+                try {
+                    startActivity(appIntent);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(webIntent);
+                }
             }
         });
         atm_locator.setOnClickListener(new View.OnClickListener() {

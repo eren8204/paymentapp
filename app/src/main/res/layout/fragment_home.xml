@@ -2140,6 +2140,7 @@
                         android:textStyle="bold"
                         android:text="Connect with us"/>
                     <GridLayout
+                        android:id="@+id/social"
                         android:layout_gravity="fill_horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
