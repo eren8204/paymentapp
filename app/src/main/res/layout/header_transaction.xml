@@ -5,6 +5,13 @@
     android:background="@drawable/table_row_border"
     android:padding="4dp">
 
+    <!-- Status Color Indicator -->
+    <View
+        android:id="@+id/statuscolour"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
     <!-- Type -->
     <TextView
         android:id="@+id/type"
@@ -12,14 +19,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Type"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="13sp"
         android:padding="6dp"
         android:gravity="start"
         android:ellipsize="end"
         android:maxLines="1"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@color/grey" />
+        android:textColor="@android:color/black" />
 
     <!-- Date -->
     <TextView
@@ -28,14 +36,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Date"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="13sp"
         android:padding="6dp"
         android:gravity="start"
         android:ellipsize="end"
         android:maxLines="1"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@color/grey" />
+        android:textColor="@android:color/black" />
 
     <!-- Subtype -->
     <TextView
@@ -44,14 +53,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Subtype"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="13sp"
         android:padding="6dp"
-        android:gravity="center"
+        android:gravity="start"
         android:ellipsize="end"
         android:maxLines="1"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@color/grey"
+        android:textColor="@android:color/black"
         android:visibility="visible" />
 
     <!-- Recharge To -->
@@ -61,14 +71,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Recharge To"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="13sp"
         android:padding="6dp"
-        android:gravity="center"
+        android:gravity="start"
         android:ellipsize="end"
         android:maxLines="1"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@color/grey"
+        android:textColor="@android:color/black"
         android:visibility="visible" />
 
     <!-- Amount -->
@@ -78,12 +89,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Amount"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="13sp"
         android:padding="6dp"
         android:gravity="end"
         android:ellipsize="end"
         android:maxLines="1"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@color/grey" />
+        android:textColor="@android:color/black" />
 </TableRow>

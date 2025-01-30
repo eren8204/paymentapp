@@ -1,16 +1,22 @@
 package com.example.paymentapp;
-
 import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -31,18 +35,19 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class Transactionfragment extends Fragment {
 
+    private EditText startDateEditText, endDateEditText;
+    private Button filterButton;
+    private List<JSONObject> transactionsList = new ArrayList<>();
+    private TransactionAdapter adapter;
     private RecyclerView recyclerView;
-    private TextView errorTextView;
-
-    private ProgressBar progressBar;
-
-    private ImageView status_img;
+    private LinearLayout oops_layout,progress_layout;
 
     @Nullable
     @Override
@@ -50,21 +55,40 @@ public class Transactionfragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_transactionfragment, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        errorTextView = view.findViewById(R.id.errorTextView);
+        startDateEditText = view.findViewById(R.id.startDate);
+        endDateEditText = view.findViewById(R.id.endDate);
+        filterButton = view.findViewById(R.id.filterButton);
+        oops_layout = view.findViewById(R.id.oops_layout);
+        progress_layout = view.findViewById(R.id.progress_layout);
 
-        progressBar = view.findViewById(R.id.progressbar);
-        progressBar.setVisibility(View.VISIBLE);
-
-        status_img = view.findViewById(R.id.status_img);
-        status_img.setVisibility(View.GONE);
-
+        progress_layout.setVisibility(VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
+
         fetchTransactions(memberId);
 
+        startDateEditText.setOnClickListener(v -> showDatePickerDialog(startDateEditText));
+        endDateEditText.setOnClickListener(v -> showDatePickerDialog(endDateEditText));
+        filterButton.setOnClickListener(v -> filterTransactions());
+
         return view;
+    }
+
+    private void showDatePickerDialog(EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                (view, year1, month1, dayOfMonth) -> {
+                    String selectedDate = year1 + "-" + (month1 + 1) + "-" + dayOfMonth;
+                    editText.setText(selectedDate);
+                }, year, month, day);
+        datePickerDialog.show();
     }
 
     private void fetchTransactions(String memberId) {
@@ -77,69 +101,101 @@ public class Transactionfragment extends Fragment {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                requestBody,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                 response -> {
                     try {
-                        progressBar.setVisibility(View.GONE);
                         boolean success = response.getBoolean("success");
                         if (success) {
-                            recyclerView.setVisibility(View.VISIBLE);
-                            errorTextView.setVisibility(View.GONE);
-
-
-                            // Convert JSONArray to List<JSONObject>
+                            recyclerView.setVisibility(VISIBLE);
                             JSONArray transactionsArray = response.getJSONObject("transactions").getJSONArray("data");
-                            List<JSONObject> transactionsList = new ArrayList<>();
+                            transactionsList.clear();
                             for (int i = 0; i < transactionsArray.length(); i++) {
                                 transactionsList.add(transactionsArray.getJSONObject(i));
                             }
-
-                            // Set RecyclerView Adapter
-                            TransactionAdapter adapter = new TransactionAdapter(getContext(), transactionsList);
+                            if (transactionsList.isEmpty()){
+                                recyclerView.setVisibility(GONE);
+                                progress_layout.setVisibility(GONE);
+                                oops_layout.setVisibility(VISIBLE);
+                            }else{
+                                progress_layout.setVisibility(GONE);
+                                oops_layout.setVisibility(GONE);
+                                recyclerView.setVisibility(VISIBLE);
+                            }
+                            adapter = new TransactionAdapter(getContext(), transactionsList);
                             recyclerView.setAdapter(adapter);
-
                         } else {
-                            recyclerView.setVisibility(View.GONE);
-                            errorTextView.setVisibility(View.VISIBLE);
-                            errorTextView.setText("No transaction found.");
+                            recyclerView.setVisibility(GONE);
+                            progress_layout.setVisibility(GONE);
+                            oops_layout.setVisibility(VISIBLE);
+                            showError("No transactions found.");
                         }
                     } catch (JSONException e) {
-                        progressBar.setVisibility(View.GONE);
-                        e.printStackTrace();
+                        recyclerView.setVisibility(GONE);
+                        progress_layout.setVisibility(GONE);
+                        oops_layout.setVisibility(VISIBLE);
                         showError("Error parsing response.");
                     }
                 },
-                error -> {
-                    progressBar.setVisibility(View.GONE);
+                error ->{
+                    recyclerView.setVisibility(GONE);
+                    progress_layout.setVisibility(GONE);
+                    oops_layout.setVisibility(VISIBLE);
                     showError("Error: " + error.getMessage());
-                }
-        );
-
+                });
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }
 
-    public static String formatDate(String dateString) {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yy", Locale.getDefault());
+    private void filterTransactions() {
+        String startDateStr = startDateEditText.getText().toString();
+        String endDateStr = endDateEditText.getText().toString();
+
+        if (startDateStr.isEmpty() || endDateStr.isEmpty()) {
+            Toast.makeText(requireActivity(), "No Data Found", Toast.LENGTH_SHORT).show();
+            recyclerView.setVisibility(GONE);
+            progress_layout.setVisibility(GONE);
+            oops_layout.setVisibility(VISIBLE);
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        List<JSONObject> filteredList = new ArrayList<>();
 
         try {
-            Date date = inputFormat.parse(dateString);
-            return outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return dateString;
+            Date startDate = sdf.parse(startDateStr);
+            Date endDate = sdf.parse(endDateStr);
+
+            for (JSONObject transaction : transactionsList) {
+                String transactionDateStr = transaction.getString("created_at");
+                Date transactionDate = sdf.parse(transactionDateStr);
+
+                if (transactionDate != null && !transactionDate.before(startDate) && !transactionDate.after(endDate)) {
+                    filteredList.add(transaction);
+                }
+            }
+
+            if (filteredList.isEmpty()) {
+                recyclerView.setVisibility(GONE);
+                progress_layout.setVisibility(GONE);
+                oops_layout.setVisibility(VISIBLE);
+                adapter.updateData(filteredList);
+                Toast.makeText(requireActivity(), "No Data To Display", Toast.LENGTH_SHORT).show();
+            } else {
+                recyclerView.setVisibility(VISIBLE);
+                adapter.updateData(filteredList);
+            }
+        } catch (JSONException | ParseException e) {
+            recyclerView.setVisibility(GONE);
+            progress_layout.setVisibility(GONE);
+            oops_layout.setVisibility(VISIBLE);
+            showError("Error");
+            Log.d("sorting_ki_error",e.toString());
+            Toast.makeText(requireActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showError(String message) {
-        recyclerView.setVisibility(View.GONE);
-        errorTextView.setVisibility(View.VISIBLE);
-        errorTextView.setText("No transaction found.");
-        status_img.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(GONE);
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

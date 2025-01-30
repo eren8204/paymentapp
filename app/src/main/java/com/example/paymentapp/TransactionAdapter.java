@@ -17,10 +17,11 @@ import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
 
-    private final List<JSONObject> transactionsList;
+    private List<JSONObject> transactionsList;
     private final Context context;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
-    // Constructor to initialize the list and context
     public TransactionAdapter(Context context, List<JSONObject> transactionsList) {
         this.context = context;
         this.transactionsList = transactionsList;
@@ -29,48 +30,45 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the item_transaction layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction, parent, false);
-        return new TransactionViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == TYPE_HEADER) {
+            View headerView = inflater.inflate(R.layout.header_transaction, parent, false);
+            return new TransactionViewHolder(headerView);
+        } else {
+            View itemView = inflater.inflate(R.layout.item_transaction, parent, false);
+            return new TransactionViewHolder(itemView);
+        }
+    }
+    public void updateData(List<JSONObject> newList) {
+        this.transactionsList = newList;
+        notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
+        if (getItemViewType(position) == TYPE_HEADER) {
+            return;
+        }
+
+        int adjustedPosition = position - 1;
+
         try {
-            // Get the current transaction
-            JSONObject transaction = transactionsList.get(position);
+            JSONObject transaction = transactionsList.get(adjustedPosition);
 
-            // Set the type
             holder.type.setText(transaction.getString("type"));
-            if (transaction.getString("type").equals("Add Fund Request")) {
-                holder.type.setText("Fund Request");
-            }
-
-            // Set the date (formatted)
             holder.date.setText(formatDate(transaction.getString("created_at")));
+            holder.amount.setText(transaction.getString("credit").equals("0") ? transaction.getString("debit") : transaction.getString("credit"));
 
-            // Set the amount (credit or debit)
-            if (transaction.getString("credit").equals("0")) {
-                holder.amount.setText(transaction.getString("debit"));
-            } else {
-                holder.amount.setText(transaction.getString("credit"));
-            }
-
-            // Handle the subtype visibility
             if (!transaction.getString("subType").equals("null")) {
                 holder.subtype.setText(transaction.getString("subType"));
-                holder.subtype.setVisibility(View.VISIBLE);
             } else {
-                holder.subtype.setVisibility(View.GONE);
+                holder.subtype.setText("-");
             }
 
-            // Handle recharge_to visibility and background color
             if (!transaction.getString("recharge_to").equals("null")) {
                 holder.rechargeto.setText(transaction.getString("recharge_to"));
-                holder.rechargeto.setVisibility(View.VISIBLE);
-                holder.statusColour.setBackgroundColor(context.getResources().getColor(R.color.reject));
             } else {
-                holder.rechargeto.setVisibility(View.GONE);
+                holder.rechargeto.setText("-");
             }
 
         } catch (JSONException e) {
@@ -80,29 +78,27 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public int getItemCount() {
-        return transactionsList.size();
+        return transactionsList.size() + 1;
     }
 
-    // ViewHolder class for transaction items
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_HEADER : TYPE_ITEM;
+    }
+
     static class TransactionViewHolder extends RecyclerView.ViewHolder {
         TextView type, date, amount, subtype, rechargeto;
-        LinearLayout statusColour;
-
         public TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Initialize UI components
             type = itemView.findViewById(R.id.type);
             date = itemView.findViewById(R.id.date);
             amount = itemView.findViewById(R.id.amount);
             subtype = itemView.findViewById(R.id.subtype);
             rechargeto = itemView.findViewById(R.id.rechargeto);
-            statusColour = itemView.findViewById(R.id.statuscolour);
         }
     }
 
-    // Helper method to format the date
     private String formatDate(String date) {
-        // Placeholder: Add your actual date formatting logic here
-        return date.substring(0, 10); // Example: Return only the date part
+        return date.substring(0, 10);
     }
 }
