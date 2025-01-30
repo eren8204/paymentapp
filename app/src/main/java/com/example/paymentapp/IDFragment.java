@@ -39,7 +39,6 @@ public class IDFragment extends Fragment {
         memberidtext = view.findViewById(R.id.memberid);
         usernametext = view.findViewById(R.id.name);
         emailtext = view.findViewById(R.id.email);
-        timetext = view.findViewById(R.id.time);
         datetext = view.findViewById(R.id.date);
 
         memberidtext.setText(memberId);

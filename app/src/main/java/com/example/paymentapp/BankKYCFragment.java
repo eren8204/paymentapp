@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -462,6 +463,18 @@ public class BankKYCFragment extends Fragment {
                         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.nav_host_fragment, selectedFragment);
                         transaction.commit();
+
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("kyc_status", "true");
+                        editor.putString("IFSC",ifscCode);
+                        editor.putString("bank_name",bankName);
+                        editor.putString("account_number",accountNumber);
+                        editor.putString("aadhar_number",aadharNumber);
+                        editor.putString("nominee_name",nomineeName);
+                        editor.putString("nominee_relation",nomineeRelation);
+                        editor.putString("pan_number",panNumber);
+                        editor.apply();
                         Toast.makeText(getActivity(), "KYC submitted successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         form.setEnabled(true);

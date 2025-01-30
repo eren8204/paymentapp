@@ -37,6 +37,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 
 public class payment extends AppCompatActivity {
@@ -46,12 +49,13 @@ public class payment extends AppCompatActivity {
     private TextView payment_type,subtype,subtype_num,amount,memberName,userId,paymenttype,rechargeamount,rechargetype;
     private LinearLayout pay_layout,success_layout;
     private ProgressBar progressBar;
-
+    private LinearLayout cashbacklayout;
+    private TextView cashbacktext,transactionid;
     private TextView avabalance;
     private EditText tpin_text,ctpin_text;
     private boolean isTpinVissible = false;
 
-    private ImageView successimage;
+    private ImageView successimage,unoimage;
 
     private boolean isCtpinVissible = false;
     private String operatorCode="",circleCode="",number_id="",money="",stype="";
@@ -76,6 +80,13 @@ public class payment extends AppCompatActivity {
         rechargeamount = findViewById(R.id.rechargeamount);
         rechargetype = findViewById(R.id.rechargetype);
         avabalance = findViewById(R.id.avaliablebalance);
+        unoimage = findViewById(R.id.unoimage);
+
+        cashbacktext = findViewById(R.id.cashback);
+        transactionid = findViewById(R.id.transactionid);
+        transactionid.setVisibility(View.GONE);
+        cashbacklayout = findViewById(R.id.cashbacklayout);
+        cashbacklayout.setVisibility(View.GONE);
 
         successimage = findViewById(R.id.successimage);
         paymenttype = findViewById(R.id.paymenttype);
@@ -89,6 +100,8 @@ public class payment extends AppCompatActivity {
 
         String type="";
         pre(username,memberId);
+
+        unoimage.setVisibility(View.GONE);
 
         ctpin_text.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -148,7 +161,7 @@ public class payment extends AppCompatActivity {
                 subtype_num.setText(passed_intent.getStringExtra("stype_num"));
             }
             if(passed_intent.hasExtra("amount")){
-                amount.setText(passed_intent.getStringExtra("amount"));
+                amount.setText("₹"+passed_intent.getStringExtra("amount"));
                 money = passed_intent.getStringExtra("amount");
             }
 
@@ -188,7 +201,7 @@ public class payment extends AppCompatActivity {
                                         if ("success".equals(status)) {
                                             pay_layout.setVisibility(View.GONE);
                                             success_layout.setVisibility(View.VISIBLE);
-                                            rechargeamount.setText("₹649/-");
+                                            rechargeamount.setText("649/-");
                                             rechargetype.setText(finalType);
                                         }
                                     } catch (Exception e) {
@@ -209,7 +222,7 @@ public class payment extends AppCompatActivity {
                                         if ("success".equals(status)) {
                                             pay_layout.setVisibility(View.GONE);
                                             success_layout.setVisibility(View.VISIBLE);
-                                            rechargeamount.setText("₹1298/-");
+                                            rechargeamount.setText("1298/-");
                                             rechargetype.setText(finalType);
                                         }
                                     } catch (Exception e) {
@@ -363,7 +376,7 @@ public class payment extends AppCompatActivity {
                 });
     }
     private void mobile_recharge(String memberId, String operatorCode, String circleCode, String number, String amount) {
-        String url = BuildConfig.api_url+"doMobileRecharge";
+        String url = BuildConfig.api_url + "doMobileRecharge";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("circlecode", circleCode);
@@ -371,8 +384,6 @@ public class payment extends AppCompatActivity {
             jsonObject.put("number", number);
             jsonObject.put("amount", amount);
             jsonObject.put("member_id", memberId);
-
-
         } catch (JSONException e) {
             Log.e("mobile_recharge", "JSONException: " + e.getMessage());
             Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
@@ -385,23 +396,74 @@ public class payment extends AppCompatActivity {
                 Log.d("mobile_recharge", "Response Message: " + message);
 
                 String status = response.getString("status");
-                if ("true".equals(status) && response.getString("message").equals("Recharge failed.")) {
-                    pay_layout.setVisibility(View.GONE);
-                    success_layout.setVisibility(View.VISIBLE);
-                    rechargeamount.setText(amount);
-                    rechargetype.setText(number);
-                    Toast.makeText(this, "Recharge Successful", Toast.LENGTH_SHORT).show();
+                if ("true".equals(status)) {
+
+
+                    if (response.has("data")) {
+                        JSONObject dataObject = response.getJSONObject("data");
+                        String transaction = dataObject.getString("orderid");
+
+                        transactionid.setVisibility(View.VISIBLE);
+                        transactionid.setText(transaction);
+                        pay_layout.setVisibility(View.GONE);
+                        success_layout.setVisibility(View.VISIBLE);
+                        rechargeamount.setText("₹" + amount);
+                        rechargetype.setText(number);
+                        cashbacklayout.setVisibility(View.VISIBLE);
+                        unoimage.setVisibility(View.VISIBLE);
+
+
+                        double amountValue = Double.parseDouble(amount);
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                        if (amountValue > 100) {
+                            String membership = sharedPreferences.getString("membership", "FREE");
+                            double cashback = 0;
+                            switch (membership) {
+                                case "FREE":
+                                    cashback = (amountValue * 1.5) / 100;
+                                    break;
+                                case "BASIC":
+                                    cashback = (amountValue * 3) / 100;
+                                    break;
+                                case "PREMIUM":
+                                    cashback = (amountValue * 5) / 100;
+                                    break;
+                            }
+                            String cash= String.format("%.2f", cashback);
+                            cashbacktext.setText("₹" + cash);
+                        } else {
+                            cashbacktext.setText("No Cashback");
+                        }
+
+
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.ENGLISH);
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
+                        Calendar calendar = Calendar.getInstance();
+
+                        TextView dateTextView = findViewById(R.id.date);
+                        TextView timeTextView = findViewById(R.id.time);
+                        dateTextView.setText(dateFormat.format(calendar.getTime()));
+                        timeTextView.setText(timeFormat.format(calendar.getTime()));
+
+                        Toast.makeText(this, "Recharge Successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("mobile_recharge", "Response does not contain 'data' key");
+                        //Toast.makeText(this, "Recharge Failed: No transaction data received", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 Log.e("mobile_recharge", "Error parsing response: " + e.getMessage());
-                Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
             }
         }, error -> {
             error.printStackTrace();
             Log.d("mobile_recharge_error", "Error: " + error.getMessage());
-            Toast.makeText(this, "Error Try Again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -263,9 +263,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:visibility="visible">
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/unoimage"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_150sdp"
+                        android:visibility="visible"
+                        android:src="@drawable/uno"/>
 
                     <TextView
                         android:id="@+id/paymenttype"
@@ -273,7 +278,7 @@
                         android:layout_height="wrap_content"
                         android:text="Payment successful"
                         android:textColor="@color/endColor"
-                        android:textSize="@dimen/_17sdp"
+                        android:textSize="@dimen/_20sdp"
                         android:textStyle="bold"
                         android:gravity="center"
                         >
@@ -282,13 +287,14 @@
                     <ImageView
                         android:id="@+id/successimage"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_150sdp"
+                        android:layout_height="@dimen/_140sdp"
                         android:src="@drawable/unopayimg"/>
 
                     <TextView
                         android:id="@+id/rechargetype"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:text="1234567890"
                         android:textStyle="bold"
                         android:gravity="center"
@@ -298,9 +304,10 @@
 
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_margin="@dimen/_10sdp"
                         >
@@ -309,8 +316,7 @@
                         android:layout_height="wrap_content"
                         android:text="Amount :"
                         android:textStyle="bold"
-                        android:paddingLeft="@dimen/_20sdp"
-                        android:gravity="left"
+                        android:gravity="center"
                         android:textSize="@dimen/_16sdp"/>
 
                         <TextView
@@ -325,7 +331,74 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/transactionid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TXN4633833736"
+                        android:visibility="gone"
+                        android:textSize="@dimen/_13sdp"
+                        android:gravity="center"/>
 
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_margin="@dimen/_10sdp"
+                        >
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="JAN 30 2025 "
+                            android:textSize="@dimen/_12sdp"
+                            android:gravity="center"
+                            />
+
+                        <TextView
+                            android:id="@+id/time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="01:30:34 PM "
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:textSize="@dimen/_12sdp"
+                            android:gravity="center"
+                            />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cashbacklayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/_10sdp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bachat : "
+                            android:textStyle="bold"
+                            android:textColor="@color/startColor"
+                            android:gravity="center"
+                            android:textSize="@dimen/_16sdp"/>
+
+                        <TextView
+                            android:id="@+id/cashback"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/endColor"
+                            android:text="₹1.5"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_16sdp"/>
+                    </LinearLayout>
 
 
 

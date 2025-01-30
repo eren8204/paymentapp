@@ -46,7 +46,7 @@ public class Plans_Activity extends AppCompatActivity {
             Intent intent = new Intent(this, payment.class);
             intent.putExtra("ptype","E-Book");
             intent.putExtra("stype",header.getText().toString().trim());
-            intent.putExtra("amount","₹"+final_price.getText().toString().trim());
+            intent.putExtra("amount",final_price.getText().toString().trim());
             startActivity(intent);
             finish();
         });
@@ -55,7 +55,7 @@ public class Plans_Activity extends AppCompatActivity {
             Intent intent = new Intent(this, payment.class);
             intent.putExtra("ptype","E-Book");
             intent.putExtra("stype",header2.getText().toString().trim());
-            intent.putExtra("amount","₹"+final_price2.getText().toString().trim());
+            intent.putExtra("amount",final_price2.getText().toString().trim());
             startActivity(intent);
             finish();
         });

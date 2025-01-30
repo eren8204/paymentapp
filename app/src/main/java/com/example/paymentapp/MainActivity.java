@@ -1,7 +1,5 @@
 package com.example.paymentapp;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -16,13 +14,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -129,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.drawer_item4) {
                 selectedFragment = new BankKYCFragment();
             }else if (id == R.id.drawer_item5) {
-                selectedFragment = new GalleryFragment();
+                selectedFragment = new benefitsFragment();
             }else if (id == R.id.drawer_item6) {
                 selectedFragment = new PlanPDFVideoFragment();
             }else if (id == R.id.drawer_item7) {
