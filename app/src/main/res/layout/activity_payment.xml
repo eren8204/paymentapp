@@ -172,17 +172,17 @@
 
                         </TextView>
 
-                    <TextView
-                        android:id="@+id/avaliablebalance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="190000/-"
-                        android:textSize="@dimen/_14sdp"
-                        android:paddingBottom="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        >
+                        <TextView
+                            android:id="@+id/avaliablebalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="190000/-"
+                            android:textSize="@dimen/_14sdp"
+                            android:paddingBottom="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            >
 
-                    </TextView>
+                        </TextView>
 
                     </LinearLayout>
 
@@ -311,13 +311,13 @@
                         android:gravity="center"
                         android:layout_margin="@dimen/_10sdp"
                         >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Amount :"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:textSize="@dimen/_16sdp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amount :"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:textSize="@dimen/_16sdp"/>
 
                         <TextView
                             android:id="@+id/rechargeamount"

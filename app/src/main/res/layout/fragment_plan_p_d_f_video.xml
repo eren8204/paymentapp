@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:layout_gravity="center"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -52,15 +53,6 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:text="UNO PAY" />
-
-
-                <TextView
-                    android:id="@+id/addedDateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:text="30/12/24" />
 
             </LinearLayout>
 

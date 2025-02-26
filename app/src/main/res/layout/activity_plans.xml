@@ -12,7 +12,6 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/_24sdp"
         app:titleTextColor="@color/white"
         android:background="#EE9328">
 

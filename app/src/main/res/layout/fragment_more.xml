@@ -260,37 +260,13 @@
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/withdraw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    app:cardCornerRadius="@dimen/_8sdp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Withdraw"
-                            android:textColor="@color/endColor"
-                            android:textSize="@dimen/_19sdp"
-                            android:gravity="start"
-                            android:paddingRight="@dimen/_8sdp"
-                            android:drawableStart="@drawable/baseline_withdraw_24"
-                            android:drawablePadding="@dimen/_12sdp"
-                            android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
-                            android:padding="@dimen/_8sdp">
-                        </TextView>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
-                    app:cardCornerRadius="@dimen/_8sdp">
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:visibility="gone">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -3,6 +3,6 @@
     <style name="Base.Theme.Paymentapp" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+            <!-- Prevent force dark mode -->
     </style>
-    <style name="Operator" parent="Theme.Material3.Light"/>
 </resources>

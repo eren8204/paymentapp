@@ -15,5 +15,6 @@
     <color name="end_bg">#BDFFF6</color>
     <color name="green_bg">#ABF2C9</color>
     <color name="zoom_join">#007AFD</color>
+    <color name="light_grey">#F1D9D9D9</color>
 
 </resources>

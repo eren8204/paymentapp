@@ -155,7 +155,24 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_margin="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_16sdp"
+        app:cardElevation="@dimen/_10sdp">
+        <Spinner
+            android:id="@+id/circle_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittextbackground"
+            android:padding="@dimen/_6sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:spinnerMode="dropdown"
+            android:prompt="@string/select_circle_prompt" />
 
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

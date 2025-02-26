@@ -183,7 +183,7 @@
                     android:background="@drawable/custom_toggle_button"
                     android:button="@null"
                     android:padding="@dimen/_8sdp"
-                    android:text="Magic Plant"
+                    android:text="Money Plant"
                     android:textColor="@color/black" />
             </RadioGroup>
         </LinearLayout>

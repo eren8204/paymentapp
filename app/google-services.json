@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "174518430696",
+    "project_id": "unopayapp",
+    "storage_bucket": "unopayapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174518430696:android:3e682536a7253efcd9925d",
+        "android_client_info": {
+          "package_name": "com.unotag.unopay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpKRIJFnN-pJqLRzaS9jyeRKxAc-yV3Vs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

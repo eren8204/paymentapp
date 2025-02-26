@@ -43,7 +43,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GET 1.5% ON MOBILE RECHARGE"
+        android:text="GET 6.5% ON MOBILE RECHARGE"
         android:textColor="@color/endColor"
         android:textSize="@dimen/_14sdp"
         android:gravity="start"
@@ -121,7 +121,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FIXED MONTHLY INCENTIVE"
+        android:text="ELIGIBLE FOR ALL ROYALTY INCOME"
         android:textColor="@color/endColor"
         android:textSize="@dimen/_14sdp"
         android:gravity="start"

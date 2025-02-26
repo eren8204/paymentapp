@@ -4,8 +4,10 @@ androidPdfViewer = "3.2.0-beta.1"
 blurry = "4.0.0"
 collection = "1.4.5"
 glide = "4.15.1"
+googleAppUpdate = "2.1.0"
 gson = "2.10.1"
 imageslideshow = "0.1.0"
+installreferrer = "2.2"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -26,6 +28,7 @@ gridlayout = "1.0.0"
 recyclerview = "1.4.0"
 retrofit = "2.9.0"
 sdpAndroid = "1.1.1"
+squareupLoggingInterceptor = "4.9.3"
 volley = "1.2.1"
 playServicesCastFramework = "22.0.0"
 
@@ -36,8 +39,10 @@ collection = { module = "androidx.collection:collection", version.ref = "collect
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+google-app-update = { module = "com.google.android.play:app-update", version.ref = "googleAppUpdate" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 imageslideshow = { module = "com.github.denzcoskun:ImageSlideshow", version.ref = "imageslideshow" }
+installreferrer = { module = "com.android.installreferrer:installreferrer", version.ref = "installreferrer" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -56,6 +61,7 @@ material-v190 = { module = "com.google.android.material:material", version.ref =
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+okhttp3-logging-interceptor-v493 = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "squareupLoggingInterceptor" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }

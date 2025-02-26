@@ -100,45 +100,30 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/progress_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:textStyle="bold"
-        android:textSize="@dimen/_14sdp"
-        android:textColor="@color/endColor"
-        android:text="My Rank Progress"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10sdp">
+        android:padding="@dimen/_10sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/journey"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:progressDrawable="@drawable/custom_seekbar_progress"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:max="100"
-            android:progress="10" />
         <TextView
-            android:id="@+id/percentage_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10%"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:gravity="center"
-            android:layout_marginBottom="8dp" />
-    </LinearLayout>
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/endColor"
+            android:text="My Rank - "/>
+        <TextView
+            android:id="@+id/progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/endColor"
+            android:text="Not Achieved"/>
 
+    </LinearLayout>
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
@@ -249,6 +234,38 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/rank_ka_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/endColor"
+            android:text="All"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/endColor"
+            android:text=" Members - "/>
+        <TextView
+            android:id="@+id/ranked_members_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/endColor"
+            android:text="0"/>
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

@@ -1,9 +1,9 @@
 <!-- res/drawable/divider.xml -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:top="4dp" android:bottom="4dp"> <!-- Add padding -->
+    <item android:top="0dp" android:bottom="0dp"> <!-- Add padding -->
         <shape>
-            <size android:height="1dp" /> <!-- Height of the divider -->
-            <solid android:color="@color/grey" /> <!-- Color of the divider -->
+            <size android:height="0dp" /> <!-- Height of the divider -->
+            <solid android:color="@color/white" /> <!-- Color of the divider -->
         </shape>
     </item>
 </layer-list>

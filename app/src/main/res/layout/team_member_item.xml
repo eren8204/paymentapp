@@ -38,13 +38,39 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_14sdp"
                 android:text="userid" />
-
-            <TextView
-                android:id="@+id/date"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sdp"
-                android:text="Date" />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="DOJ : " />
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Date" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/doa_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="DOA : " />
+                <TextView
+                    android:id="@+id/date_of_activation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Date" />
+            </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
@@ -58,9 +84,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_14sdp"
-
                 android:textStyle="bold"
                 android:text="FREE"/>
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:text="0000000000"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/call_sponsor"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:background="@drawable/baseline_call_24"
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
+                <ImageButton
+                    android:id="@+id/wsp_sponsor"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:background="@drawable/whatsapp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -7,11 +7,13 @@
     android:layout_gravity="center"
     android:orientation="vertical"
     android:scrollbars="none"
+    tools:ignore="HardcodedText"
     tools:context=".BankKYCFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +50,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="@dimen/_20sdp"
-
                 android:layout_gravity="center">
 
                 <TextView
@@ -61,7 +62,7 @@
                     android:textColor="@color/grey"
                     android:visibility="visible"
                     android:layout_gravity="center"
-                    android:gravity="center"/>
+                    android:gravity="center" />
 
 
 
@@ -103,7 +104,7 @@
                 android:text="Fill again"
                 android:layout_margin="@dimen/_23sdp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_39sdp"
+                android:layout_marginStart="@dimen/_39sdp"
                 android:textColor="#FAF7F7"
                 android:padding="@dimen/_10sdp"
                 android:textSize="@dimen/_18sdp"
@@ -127,7 +128,8 @@
                     android:layout_height="@dimen/_93sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:src="@drawable/dollar" />
+                    android:src="@drawable/rupee_round"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,47 +167,47 @@
                         android:layout_marginTop="@dimen/_16sdp" />
 
 
-
                     <EditText
                         android:id="@+id/Pan_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_8sdp"
+                        android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
                         android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
-                        android:hint="Pan Number"
-                        android:maxLength="10"
+                        android:drawableStart="@drawable/baseline_card_membership_24"
                         android:drawablePadding="@dimen/_8sdp"
-                        android:paddingLeft="@dimen/_12sdp"
-                        android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                        android:paddingRight="@dimen/_8sdp"
+                        android:hint="Pan Number"
                         android:inputType="text"
-                        android:drawableLeft="@drawable/baseline_card_membership_24"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_16sdp">
+                        android:maxLength="10"
+                        android:padding="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        tools:ignore="TextFields">
 
                     </EditText>
+
                     <EditText
-                        android:id="@+id/IFSCcode"
+                        android:id="@+id/Aadharnumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_8sdp"
                         android:layout_marginStart="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
-                        android:hint="IFSC Code"
-                        android:maxLength="11"
+                        android:hint="Aadhar Number"
                         android:drawablePadding="@dimen/_8sdp"
-                        android:paddingLeft="@dimen/_12sdp"
-                        android:drawableRight="@drawable/baseline_remove_red_eye_24"
-                        android:paddingRight="@dimen/_8sdp"
-                        android:inputType="numberPassword"
-                        android:drawableLeft="@drawable/baseline_home_24"
+                        android:maxLength="12"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:drawableStart="@drawable/baseline_account_balance_wallet_24"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:inputType="number"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_16sdp">
 
                     </EditText>
+
                     <EditText
                         android:id="@+id/BankName"
                         android:layout_width="match_parent"
@@ -236,14 +238,15 @@
                         android:hint="Account Number"
                         android:maxLength="18"
                         android:drawablePadding="@dimen/_8sdp"
-                        android:paddingLeft="@dimen/_12sdp"
-                        android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                        android:paddingRight="@dimen/_8sdp"
-                        android:inputType="text"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:drawableStart="@drawable/baseline_account_balance_wallet_24"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:inputType="number"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_16sdp">
 
                     </EditText>
+
                     <EditText
                         android:id="@+id/ConfirmAccountNumber"
                         android:layout_width="match_parent"
@@ -258,27 +261,27 @@
                         android:paddingLeft="@dimen/_12sdp"
                         android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
                         android:paddingRight="@dimen/_8sdp"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_16sdp">
 
                     </EditText>
 
                     <EditText
-                        android:id="@+id/Aadharnumber"
+                        android:id="@+id/IFSCcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_8sdp"
                         android:layout_marginStart="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_30sdp"
                         android:background="@drawable/edittextbackground"
-                        android:hint="Aadhar Number"
+                        android:hint="IFSC Code"
+                        android:maxLength="11"
                         android:drawablePadding="@dimen/_8sdp"
-                        android:maxLength="12"
-                        android:paddingLeft="@dimen/_12sdp"
-                        android:drawableLeft="@drawable/baseline_account_balance_wallet_24"
-                        android:paddingRight="@dimen/_8sdp"
-                        android:inputType="number"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:inputType="text"
+                        android:drawableStart="@drawable/baseline_home_24"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_16sdp">
 
@@ -548,7 +551,7 @@
                                 android:id="@+id/imagecheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
                                 android:visibility="invisible"
                                 android:layout_gravity="center"
                                 android:src="@drawable/baseline_check_circle_24"
@@ -567,7 +570,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:textSize="@dimen/_16sdp"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:paddingTop="@dimen/_4sdp"
                         android:textStyle="bold">
 
@@ -636,18 +639,21 @@
                         android:orientation="vertical">
 
                         <ProgressBar
-                            android:id="@+id/progress"
+                            android:id="@+id/otp_progress"
                             android:layout_width="@dimen/_27sdp"
                             android:layout_height="@dimen/_27sdp"
-                            android:layout_gravity="center"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_40sdp"
                             android:visibility="gone" />
                         <TextView
                             android:id="@+id/sendotp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_30sdp"
+                            android:visibility="visible"
                             android:text="Send OTP"
                             android:textColor="#EE9328"
                             android:textSize="@dimen/_16sdp"
@@ -662,12 +668,11 @@
                             android:padding="@dimen/_8sdp"
                             android:layout_marginStart="@dimen/_30sdp"
                             android:layout_marginEnd="@dimen/_30sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
                             android:background="@drawable/edittextbackground"
                             android:drawableStart="@drawable/baseline_lock_24"
                             android:drawablePadding="@dimen/_8sdp"
                             android:hint="Enter OTP"
-                            android:inputType="textEmailAddress"
+                            android:inputType="number"
                             android:layout_marginTop="@dimen/_15sdp"
                             tools:ignore="RtlSymmetry">
 

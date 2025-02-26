@@ -1,9 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:gravity="start"
+    tools:ignore="HardcodedText"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="10dp">
+        android:padding="@dimen/_8sdp">
 
         <EditText
             android:id="@+id/startDate"
@@ -21,11 +23,12 @@
             android:hint="Select Start Date"
             android:focusable="false"
             android:clickable="true"
-            android:padding="8dp"
+            android:padding="@dimen/_4sdp"
             android:layout_margin="@dimen/_5sdp"
             android:background="@drawable/edittextbackground"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/_12sdp"
+            />
 
         <EditText
             android:id="@+id/endDate"
@@ -35,22 +38,142 @@
             android:hint="Select End Date"
             android:focusable="false"
             android:clickable="true"
+            android:padding="@dimen/_4sdp"
             android:layout_margin="@dimen/_5sdp"
-            android:padding="8dp"
             android:background="@drawable/edittextbackground"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/_12sdp"/>
 
         <Button
             android:id="@+id/filterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Filter"
-            android:padding="8dp"
-
-            android:background="@drawable/loginbtnbakground" />
+            android:background="@drawable/btnbackground" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp"
+            android:checkedButton="@id/toggleIncome">
+
+        <RadioButton
+            android:id="@+id/toggleIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Income Wallet"
+            android:textColor="@color/black"
+            android:button="@null"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_toggle_button"/>
+
+        <RadioButton
+            android:id="@+id/toggleFund"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fund Wallet"
+            android:textColor="@color/black"
+            android:button="@null"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_toggle_button"/>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/opening_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="0.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opening"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/total_cr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="0.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total CR"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/total_dr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="0.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total DR"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/closing_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="0.0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Closing"/>
+        </LinearLayout>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

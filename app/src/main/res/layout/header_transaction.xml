@@ -1,101 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/table_row_border"
-    android:padding="4dp">
+    tools:ignore="HardcodedText"
+    android:padding="@dimen/_2sdp">
 
-    <!-- Status Color Indicator -->
-    <View
-        android:id="@+id/statuscolour"
-        android:layout_width="4dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
 
-    <!-- Type -->
     <TextView
-        android:id="@+id/type"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Type"
-        android:textStyle="bold"
-        android:textSize="13sp"
+        android:text="#"
+        android:textSize="@dimen/_10sdp"
         android:padding="6dp"
-        android:gravity="start"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:gravity="center"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/grey"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:maxLines="5"
+        />
 
     <!-- Date -->
     <TextView
         android:id="@+id/date"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
         android:text="Date"
-        android:textStyle="bold"
-        android:textSize="13sp"
+        android:textSize="@dimen/_10sdp"
         android:padding="6dp"
-        android:gravity="start"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:gravity="center|center_vertical"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@android:color/black" />
-
+        android:textColor="@color/grey"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:maxLines="5"
+        />
     <!-- Subtype -->
     <TextView
-        android:id="@+id/subtype"
+        android:id="@+id/cr"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Subtype"
-        android:textStyle="bold"
-        android:textSize="13sp"
+        android:text="CR"
+        android:textSize="@dimen/_10sdp"
         android:padding="6dp"
-        android:gravity="start"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:gravity="center"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@android:color/black"
-        android:visibility="visible" />
+        android:textColor="@color/grey"
+        android:visibility="visible"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:maxLines="5"/>
 
     <!-- Recharge To -->
     <TextView
-        android:id="@+id/rechargeto"
+        android:id="@+id/dr"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Recharge To"
-        android:textStyle="bold"
-        android:textSize="13sp"
+        android:text="DR"
+        android:textSize="@dimen/_10sdp"
         android:padding="6dp"
-        android:gravity="start"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:gravity="center"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@android:color/black"
-        android:visibility="visible" />
-
+        android:textColor="@color/grey"
+        android:visibility="visible"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:maxLines="5"/>
     <!-- Amount -->
     <TextView
         android:id="@+id/amount"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Amount"
-        android:textStyle="bold"
-        android:textSize="13sp"
+        android:text="BAL"
+        android:textSize="@dimen/_10sdp"
         android:padding="6dp"
-        android:gravity="end"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:gravity="center"
         android:minWidth="0dp"
         android:background="@drawable/cell_border"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/grey"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:maxLines="5"/>
+    <!-- Type -->
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:text="Description"
+        android:textSize="@dimen/_10sdp"
+        android:padding="6dp"
+        android:gravity="center|center_vertical"
+        android:minWidth="0dp"
+        android:background="@drawable/cell_border"
+        android:textColor="@color/grey"
+        android:singleLine="false"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:maxLines="5"
+        />
+
 </TableRow>

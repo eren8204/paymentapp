@@ -34,11 +34,6 @@
                     app:iss_title_background="@drawable/gradient" />
             </androidx.cardview.widget.CardView>
 
-
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,7 +45,8 @@
                     android:gravity="center_horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -81,7 +77,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:orientation="vertical">
@@ -113,7 +110,8 @@
                 </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginStart="@dimen/_10sdp">
@@ -154,7 +152,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -212,7 +211,6 @@
                             android:gravity="center"/>
                     </LinearLayout>
                 </LinearLayout>
-                </HorizontalScrollView>
 
             <HorizontalScrollView
                 android:id="@+id/horizonatalScrollView"
@@ -281,6 +279,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:textStyle="bold"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:text="Amount"/>
 
@@ -314,6 +313,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:textStyle="bold"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:text="Amount"/>
 
@@ -343,9 +343,11 @@
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/today_income"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:textStyle="bold"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:text="Amount"/>
 
@@ -379,6 +381,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:textStyle="bold"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:text="Amount"/>
 
@@ -389,42 +392,10 @@
                                 android:layout_marginTop="@dimen/_4sdp"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_8sdp"
-                                android:text="Total Income"/>
+                                android:text="Income Wallet"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="@dimen/_116sdp"
-                        android:layout_height="@dimen/_78sdp"
-                        app:cardCornerRadius="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_marginEnd="@dimen/_8sdp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/commisionincome"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:text="Amount"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_4sdp"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_8sdp"
-                                android:text="Commission Wallet"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -445,7 +416,7 @@
                     android:padding="@dimen/_8sdp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:text="Welcome to Customer Support All Problem Report Here \t (+91xxxxxxxxxx)"
+                    android:text="Welcome to Customer Support All Problem Report Here On Our Official Whatsapp Channel"
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:scrollHorizontally="true"
@@ -1109,6 +1080,31 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/makemytrip"
+                            android:layout_gravity="fill"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:src="@drawable/makemytrip"
+                                android:layout_gravity="center"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/_8sdp"
+                                android:text="Make My Trip"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                        <LinearLayout
                             android:id="@+id/confirm_tkt"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
@@ -1116,6 +1112,7 @@
                             android:orientation="vertical"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
+                            android:visibility="gone"
                             android:gravity="center">
                             <ImageView
                                 android:layout_width="@dimen/_23sdp"
@@ -1209,31 +1206,6 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/makemytrip"
-                            android:layout_gravity="fill"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="@dimen/_23sdp"
-                                android:layout_height="@dimen/_23sdp"
-                                android:src="@drawable/makemytrip"
-                                android:layout_gravity="center"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_8sdp"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_8sdp"
-                                android:text="Make My Trip"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        <LinearLayout
                             android:id="@+id/ola"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
@@ -1241,6 +1213,7 @@
                             android:orientation="vertical"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
+                            android:visibility="gone"
                             android:gravity="center">
                             <ImageView
                                 android:layout_width="@dimen/_23sdp"
@@ -1266,6 +1239,7 @@
                             android:orientation="vertical"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
+                            android:visibility="gone"
                             android:gravity="center">
                             <ImageView
                                 android:layout_width="@dimen/_23sdp"
@@ -1602,81 +1576,6 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/meesho"
-                            android:layout_gravity="fill"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="@dimen/_23sdp"
-                                android:layout_height="@dimen/_23sdp"
-                                android:src="@drawable/meesho"
-                                android:layout_gravity="center"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_8sdp"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_8sdp"
-                                android:text="Meesho"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/zomato"
-                            android:layout_gravity="fill"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="@dimen/_23sdp"
-                                android:layout_height="@dimen/_23sdp"
-                                android:src="@drawable/zomato"
-                                android:layout_gravity="center"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_8sdp"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_8sdp"
-                                android:text="Zomato"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/swiggy"
-                            android:layout_gravity="fill"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="@dimen/_23sdp"
-                                android:layout_height="@dimen/_23sdp"
-                                android:src="@drawable/swiggi"
-                                android:layout_gravity="center"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_8sdp"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_8sdp"
-                                android:text="Swiggy"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        <LinearLayout
                             android:id="@+id/vishal_mart"
                             android:layout_gravity="fill"
                             android:layout_width="0dp"
@@ -1751,6 +1650,84 @@
                                 android:text="TATA 1mg"
                                 android:textStyle="bold" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/meesho"
+                            android:layout_gravity="fill"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:visibility="gone"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:src="@drawable/meesho"
+                                android:layout_gravity="center"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/_8sdp"
+                                android:text="Meesho"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/zomato"
+                            android:layout_gravity="fill"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:visibility="gone"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:src="@drawable/zomato"
+                                android:layout_gravity="center"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/_8sdp"
+                                android:text="Zomato"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/swiggy"
+                            android:layout_gravity="fill"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:visibility="gone"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:src="@drawable/swiggi"
+                                android:layout_gravity="center"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/_8sdp"
+                                android:text="Swiggy"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
                     </GridLayout>
                 </LinearLayout>
@@ -1764,7 +1741,8 @@
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
                 app:cardBackgroundColor="#99FFFFFF"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:visibility="gone">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1897,7 +1875,8 @@
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
                 app:cardBackgroundColor="#99FFFFFF"
-                android:layout_marginBottom="@dimen/_8sdp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:visibility="gone">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -2030,7 +2009,8 @@
                 app:cardCornerRadius="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
-                app:cardBackgroundColor="#99FFFFFF">
+                app:cardBackgroundColor="#99FFFFFF"
+                android:visibility="gone">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
