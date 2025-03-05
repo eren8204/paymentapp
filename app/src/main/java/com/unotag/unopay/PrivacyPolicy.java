@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class PrivacyPolicy extends AppCompatActivity {
+public class PrivacyPolicy extends BaseActivity {
     private ImageView back_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

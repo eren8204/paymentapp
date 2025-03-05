@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Rank extends AppCompatActivity {
+public class Rank extends BaseActivity {
     String[] ranks = {"Not Achieved", "Opal", "Topaz", "Jasper", "Alexander", "Diamond", "Blue Diamond", "Crown Diamond"};
     private int selectedRank = -1;
     private RecyclerView recyclerView;

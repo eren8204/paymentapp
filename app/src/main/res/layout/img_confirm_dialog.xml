@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:ignore="HardcodedText"
     android:padding="@dimen/_10sdp">
 
     <ScrollView
@@ -15,7 +17,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:contentDescription="Uploaded image" />
+            android:contentDescription="Uploaded image"/>
     </ScrollView>
 
     <LinearLayout
@@ -31,12 +33,22 @@
             android:text="Change"
             android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/btnbackground" />
+
+        <Button
+            android:id="@+id/crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crop"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/btnbackground" />
+
         <Button
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="OK"
             android:layout_margin="@dimen/_10sdp"
-            android:background="@drawable/btnbackground" />
+            android:background="@drawable/btnbackground"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

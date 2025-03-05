@@ -90,6 +90,13 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
+        holder.see_next.setOnClickListener(v-> {
+            Intent intent = new Intent(context, MyTeam.class);
+            intent.putExtra("shared_member",member.getMember());
+            intent.putExtra("shared_name",member.getUsername());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
     }
     public static String formatDate(String dateString) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
@@ -110,7 +117,7 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
     }
 
     public static class MemberViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout doa_layout;
+        LinearLayout doa_layout,see_next;
         TextView usernameTextView, membershipTextView,useridText,dateText,number,dateOfActivation;
         ImageButton call_member,wsp_member;
         CardView member_card;
@@ -119,6 +126,7 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
             super(itemView);
             member_card = itemView.findViewById(R.id.member_item_card);
             useridText = itemView.findViewById(R.id.userid);
+            see_next = itemView.findViewById(R.id.see_next);
             dateText = itemView.findViewById(R.id.date);
             usernameTextView = itemView.findViewById(R.id.username);
             membershipTextView = itemView.findViewById(R.id.membership);

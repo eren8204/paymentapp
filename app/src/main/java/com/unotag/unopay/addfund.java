@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,6 +57,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -79,14 +83,14 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class addfund extends AppCompatActivity {
+public class addfund extends BaseActivity {
 
     private ImageView imageView;
     private TextView upiId,filename;
     private CardView cardView;
     private static final String TAG = "addfund";
     private Bitmap qrBitmap;
-    private Uri imageUri;
+    private Uri imageUri,cameraImageUri;
     private SharedPreferences sharedPreferences;
     private RecyclerView recyclerView;
     private FundRequestAdapter adapter;
@@ -119,7 +123,7 @@ public class addfund extends AppCompatActivity {
         dialog2 = new Dialog(this);
 
 //        Button shareButton = findViewById(R.id.shareButton);
-       // Button saveButton = findViewById(R.id.saveButton);
+        // Button saveButton = findViewById(R.id.saveButton);
         Button addFundButton = findViewById(R.id.addfund);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -237,7 +241,7 @@ public class addfund extends AppCompatActivity {
             else {
                 seeSelect = 1;
             }
-                filterDataByType();
+            filterDataByType();
         });
 
     }
@@ -356,8 +360,6 @@ public class addfund extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(request);
     }
-
-
 
     private void fetchImageName() {
         String url = BuildConfig.api_url+"getRandomQR";
@@ -501,8 +503,7 @@ public class addfund extends AppCompatActivity {
         filename.setOnClickListener(v -> dialog2.show());
 
         uploadImage.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, 1);
+            openImagePicker(1);
         });
 
         submitButton.setOnClickListener(v -> {
@@ -513,6 +514,10 @@ public class addfund extends AppCompatActivity {
 
             if (utrNumberText.isEmpty() || memberIdText.isEmpty() || toUpiIdText.isEmpty() || amountText.isEmpty() || imageUri == null) {
                 Toast.makeText(addfund.this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(Integer.valueOf(amountText)<50){
+                Toast.makeText(addfund.this, "Minimum amount is 50", Toast.LENGTH_SHORT).show();
                 return;
             }
             submitButton.setVisibility(View.GONE);
@@ -542,7 +547,7 @@ public class addfund extends AppCompatActivity {
 
             File imageFile = new File(directory, Timing.getCurrentTimeEpoch() + "_selectedImg.jpg");
             FileOutputStream fos = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos); // Compress as JPEG
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, fos); // Compress as JPEG
             fos.close();
 
             Retrofit retrofit = new Retrofit.Builder()
@@ -583,19 +588,20 @@ public class addfund extends AppCompatActivity {
                         String memberId = sharedPreferences.getString("memberId", "UP000000");
                         fetchDataSequentially(memberId);
                     } else {
-                        try {
-                            String errorMessage;
-                            if (response.errorBody() != null) {
-                                errorMessage = response.errorBody().string();
-                            } else {
-                                errorMessage = "Unknown error occurred";
+                        if (response.errorBody() != null) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                String errorMessage = jsonObject.optString("error", "Error Try Again Later");
+                                Log.d("response", errorMessage);
+                                Toast.makeText(addfund.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            } catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(addfund.this, "Error Try Again Later", Toast.LENGTH_SHORT).show();
                             }
-                            Log.d("response", errorMessage);
-                            Toast.makeText(addfund.this, "Failed", Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.d("response", "Error parsing error response");
+                        } else {
+                            Toast.makeText(addfund.this, "Error Try Again Later", Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 }
 
@@ -613,11 +619,17 @@ public class addfund extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) { // Gallery
+                imageUri = (data != null) ? data.getData() : null;
+            } else if (requestCode == 101) { // Camera (requestCode + 100)
+                imageUri = cameraImageUri; // Use the URI from the camera capture
+            }
+
             if (imageUri != null) {
                 // Check the file size
                 long imageSize = getFileSize(imageUri);
@@ -627,7 +639,7 @@ public class addfund extends AppCompatActivity {
                 }
 
                 // Proceed with showing the dialog
-                dialog2.setContentView(R.layout.img_confirm_dialog);
+                dialog2.setContentView(R.layout.image_confirm_add_fund);
                 dialog2.setCancelable(true);
 
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -643,12 +655,11 @@ public class addfund extends AppCompatActivity {
                 Button ok = dialog2.findViewById(R.id.ok);
 
                 change.setOnClickListener(v -> {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 1);
+                    openImagePicker(1);
                     dialog2.dismiss();
                 });
 
-                ok.setOnClickListener(v ->{
+                ok.setOnClickListener(v -> {
                     filename.setEnabled(true);
                     filename.setText("Image Selected, Click to View");
                     dialog2.dismiss();
@@ -659,7 +670,6 @@ public class addfund extends AppCompatActivity {
             }
         }
     }
-
     // Helper method to get the file size from a Uri
     private long getFileSize(Uri uri) {
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -675,7 +685,6 @@ public class addfund extends AppCompatActivity {
         return size;
     }
 
-
     private void shareCardView() {
         cardView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(cardView.getDrawingCache());
@@ -688,6 +697,49 @@ public class addfund extends AppCompatActivity {
         shareIntent.setType("image/png");
         shareIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
         startActivity(Intent.createChooser(shareIntent, "Share CardView"));
+    }
+
+    private void openImagePicker(int requestCode) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Image Source")
+                .setItems(new CharSequence[]{"Camera", "Gallery"}, (dialog, which) -> {
+                    if (which == 0) {
+                        openCamera(requestCode + 100); // Camera (Add 100 to differentiate)
+                    } else {
+                        openGallery(requestCode); // Gallery (Keep requestCode same)
+                    }
+                })
+                .show();
+    }
+
+    private void openGallery(int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //intent.setType("image/*");
+        startActivityForResult(intent, requestCode); // Keep requestCode unchanged for Gallery
+    }
+
+    private void openCamera(int requestCode) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+
+            File imageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "IMG_" + System.currentTimeMillis() + ".jpg");
+
+            cameraImageUri = FileProvider.getUriForFile(this,
+                    getPackageName()+".fileprovider",
+                    imageFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            startActivityForResult(intent, requestCode);
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + ".jpg";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return new File(storageDir, imageFileName);
     }
 
     private void saveImageToGallery(Bitmap bitmap) {
@@ -715,5 +767,4 @@ public class addfund extends AppCompatActivity {
             return String.valueOf(epochTime);
         }
     }
-
 }

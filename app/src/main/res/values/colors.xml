@@ -16,5 +16,14 @@
     <color name="green_bg">#ABF2C9</color>
     <color name="zoom_join">#007AFD</color>
     <color name="light_grey">#F1D9D9D9</color>
-
+        <color name="level_1">#007bff</color>
+        <color name="level_2">#28a745</color>
+        <color name="level_3">#d63384</color>
+        <color name="level_4">#fd7e14</color>
+        <color name="level_5">#17a2b8</color>
+        <color name="level_6">#dc3545</color>
+        <color name="level_7">#198754</color>
+        <color name="level_8">#495057</color>
+        <color name="level_9">#6610f2</color>
+        <color name="level_10">#6c757d</color>
 </resources>

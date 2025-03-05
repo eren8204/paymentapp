@@ -47,7 +47,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class MyIncome extends AppCompatActivity {
+public class MyIncome extends BaseActivity {
     private static final String TAG = "adityai";
     private SharedPreferences sharedPreferences;
     private ImageButton back_button;

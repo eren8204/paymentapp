@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class recharge_plans extends AppCompatActivity {
+public class recharge_plans extends BaseActivity {
     HashMap<String, String> operatorMap = new HashMap<>();
     ArrayAdapter<String> adapter;
     ArrayAdapter<String> circleAdapter;
@@ -138,6 +138,7 @@ public class recharge_plans extends AppCompatActivity {
         });
 
     }
+
     private void initializeOperatorMap(){
         operatorMap.put("Airtel DTH TV","ATV");
         operatorMap.put("SUNDIRECT DTH TV","STV");
@@ -145,6 +146,7 @@ public class recharge_plans extends AppCompatActivity {
         operatorMap.put("VIDEOCON DTH TV","VTV");
         operatorMap.put("DISH TV","DTV");
     }
+
     private void initializeStateCircleMap() {
         stateCircleMap.put("Andhra Pradesh", "13");
         stateCircleMap.put("Assam", "24");

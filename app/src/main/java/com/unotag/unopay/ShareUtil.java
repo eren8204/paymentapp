@@ -29,7 +29,7 @@ public class ShareUtil {
             shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
             shareIntent.putExtra(Intent.EXTRA_TEXT,
-                    "Install this amazing app and use my ID: " + memberId + " to get ₹649 as signup bonus! \n\n" +
+                    "Install this amazing app and use my ID: " + memberId + " to get ₹649 as Rebate Points! \n\n" +
                             "https://play.google.com/store/apps/details?id=" + context.getPackageName() +
                             "&referrer=utm_source%3Dgoogle%26utm_campaign%3D" + memberId
             );

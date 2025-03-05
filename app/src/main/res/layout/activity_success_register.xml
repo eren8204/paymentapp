@@ -25,7 +25,7 @@ tools:context=".SuccessRegisterActivity">
         android:layout_width="match_parent"
         android:layout_height="@dimen/_150sdp"
         android:layout_margin="@dimen/_10sdp"
-        android:src="@drawable/unopayimg" />
+        android:src="@drawable/uno_img" />
 
     <ScrollView
         android:layout_width="wrap_content"

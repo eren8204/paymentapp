@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class Terms extends AppCompatActivity {
+public class Terms extends BaseActivity {
     private ImageView back_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

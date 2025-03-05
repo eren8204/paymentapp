@@ -34,26 +34,46 @@
                     android:gravity="center"
                     android:padding="@dimen/_12sdp">
 
-                    <androidx.cardview.widget.CardView
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="@dimen/_39sdp"
-                        app:cardBackgroundColor="@color/startColor"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/_12sdp">
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="@dimen/_40sdp"
+                            app:cardBackgroundColor="@color/startColor"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:id="@+id/view_image"
+                                android:layout_width="@dimen/_78sdp"
+                                android:layout_height="@dimen/_78sdp"
+                                android:src="@drawable/baseline_person_24"
+                                android:scaleType="centerCrop"
+                                android:layout_gravity="center"/>
+
+                        </androidx.cardview.widget.CardView>
 
                         <ImageView
-                            android:layout_width="@dimen/_78sdp"
-                            android:layout_height="@dimen/_78sdp"
-                            android:src="@drawable/baseline_person_24"
-                            android:layout_gravity="center"/>
-                    </androidx.cardview.widget.CardView>
+                            android:id="@+id/change_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/baseline_camera_alt_24"
+                            android:layout_gravity="end|bottom"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:elevation="@dimen/_4sdp"/>
+
+                    </FrameLayout>
+
 
                     <TextView
                         android:id="@+id/id_card_uname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ARSH"
+                        android:text="User"
                         android:textSize="@dimen/_23sdp"
                         android:textStyle="bold"
                         android:gravity="center"/>
@@ -192,9 +212,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:weightSum="3"
                 android:gravity="center">
                 <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/_8sdp"
                     android:padding="@dimen/_20sdp"
@@ -221,7 +243,8 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/_8sdp"
                     android:background="@color/green"
@@ -243,6 +266,35 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="Rank Graph"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_16sdp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:background="@color/green"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_20sdp">
+
+                    <LinearLayout
+                        android:id="@+id/level_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/endColor"
+                        android:padding="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Level Status Graph"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_16sdp" />
@@ -505,7 +557,7 @@
                             android:textColor="@color/white"
                             android:layout_marginTop="@dimen/_8sdp"
                             android:textSize="@dimen/_16sdp"
-                            android:text="₹ 0.0" />
+                            android:text="649" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -515,7 +567,7 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_16sdp"
                             android:textAlignment="center"
-                            android:text="Bonus Wallet" />
+                            android:text="Rebate Points" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

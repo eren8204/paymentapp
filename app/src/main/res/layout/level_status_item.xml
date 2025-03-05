@@ -1,0 +1,72 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:gravity="center_vertical">
+
+    <!-- Index Number -->
+    <TextView
+        android:id="@+id/index"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/edittextbackground"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
+
+    <!-- Progress Container -->
+    <RelativeLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@color/msg_grey"
+        android:padding="2dp">
+
+        <!-- Active Progress Section (Left Side) -->
+        <View
+            android:id="@+id/activeProgress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/start_bg"
+            android:layout_alignParentStart="true"/>
+
+        <!-- Free Progress Section (Right Side) -->
+        <View
+            android:id="@+id/freeProgress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/end_bg"
+            android:layout_toEndOf="@id/activeProgress"/>
+
+        <!-- Active Count (Inside Progress) -->
+        <TextView
+            android:id="@+id/active_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+
+        <!-- Free Count (Inside Progress) -->
+        <TextView
+            android:id="@+id/free_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

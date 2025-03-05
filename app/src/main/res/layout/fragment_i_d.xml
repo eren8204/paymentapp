@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_150sdp"
-        android:src="@drawable/unopayimg"/>
+        android:src="@drawable/uno_img"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

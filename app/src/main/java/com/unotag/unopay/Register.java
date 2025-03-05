@@ -45,15 +45,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Register extends AppCompatActivity {
+public class Register extends BaseActivity {
 
     private EditText countryCodeEditText, otp_edit , sponsorID, phoneNumberEditText, nameEditText, emailEditText, passwordEditText, confirmPasswordEditText, tPinEditText;
-    private TextView sponsor_name,login,sendotp,verifyotp;
+    private TextView sponsor_name,login,sendotp;
     private CheckBox termsCheckBox;
     private Button registerButton;
     private ProgressBar progressbar_register;
-    private  int k=0,x=1;
-    private LinearLayout otp_progress_layout,verify_progress_layout;
+    private  int k=0;
+    private LinearLayout otp_progress_layout;
     private boolean passwordVisible,cPasswordVisible,tpinVisible;
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
@@ -67,12 +67,10 @@ public class Register extends AppCompatActivity {
         sendotp = findViewById(R.id.sendotp_text);
         sponsorID = findViewById(R.id.sponserID);
         otp_edit = findViewById(R.id.otp);
-        verifyotp = findViewById(R.id.verifyotp_text);
         countryCodeEditText = findViewById(R.id.country_code);
         phoneNumberEditText = findViewById(R.id.phonenumber);
         sponsor_name = findViewById(R.id.sponsor_name);
         nameEditText = findViewById(R.id.name);
-        verify_progress_layout = findViewById(R.id.verify_progress_layout);
         otp_progress_layout = findViewById(R.id.otp_progress_layout);
         emailEditText = findViewById(R.id.registeremail);
         passwordEditText = findViewById(R.id.password);
@@ -95,7 +93,7 @@ public class Register extends AppCompatActivity {
         login.setOnClickListener(v -> {
             Intent intent = new Intent(Register.this, Login.class);
             startActivity(intent);
-            finish();
+            finishAffinity();
         });
 
         sendotp.setOnClickListener(v-> {
@@ -111,24 +109,6 @@ public class Register extends AppCompatActivity {
                 sendOtp(emailEditText.getText().toString().trim());
             }
 
-        });
-
-        verifyotp.setOnClickListener(v -> {
-            String email = emailEditText.getText().toString().trim();
-            String otp = otp_edit.getText().toString().trim();
-
-            // Validate OTP input
-            if (otp.isEmpty()) {
-                otp_edit.setError("OTP required");
-                otp_edit.requestFocus();
-            } else if (otp.length() < 6) {
-                otp_edit.setError("OTP must be 6 digits");
-                otp_edit.requestFocus();
-            } else {
-                verifyotp.setVisibility(View.GONE);
-                verify_progress_layout.setVisibility(View.VISIBLE);
-                verifyOtp(email, otp);
-            }
         });
 
         passwordEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -229,7 +209,7 @@ public class Register extends AppCompatActivity {
                 String username = nameEditText.getText().toString().trim();
                 String sid = sponsorID.getText().toString().trim();
 
-                String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,12}$";
+                String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%?&])[A-Za-z\\d@$!%?&]{8,12}$";
 
                 if (sid.isEmpty()) {
                     sponsorID.setError("Sponsor ID is required");
@@ -290,10 +270,7 @@ public class Register extends AppCompatActivity {
                 if(k==1){
                     Toast.makeText(Register.this, "Invalid Sponsor ID", Toast.LENGTH_SHORT).show();
                 }
-                else if(x==1){
-                    Toast.makeText(Register.this, "Email not verified", Toast.LENGTH_SHORT).show();
-                }
-                else if(k==0 && x==0) {
+                else if(k==0) {
                     submitRegistration();
                 }
 
@@ -450,7 +427,7 @@ public class Register extends AppCompatActivity {
     }
 
     private CountDownTimer otpTimer;
-    private long timeLeftInMillis = 60000;
+    private long timeLeftInMillis = 120000;
 
     private void sendOtp(String memberId) {
         String apiUrl = BuildConfig.api_url_non_auth+"forget/send-register-otp";
@@ -472,7 +449,6 @@ public class Register extends AppCompatActivity {
                                     otp_edit.setVisibility(View.VISIBLE);
                                     otp_progress_layout.setVisibility(View.GONE);
                                     sendotp.setVisibility(View.VISIBLE);
-                                    verifyotp.setVisibility(View.VISIBLE);
                                     Toast.makeText(Register.this, "OTP sent successfully", Toast.LENGTH_SHORT).show();
                                     emailEditText.setEnabled(false);
                                     sendotp.setEnabled(false); // Disable the button
@@ -514,7 +490,6 @@ public class Register extends AppCompatActivity {
             requestQueue.add(jsonObjectRequest);
 
         } catch (Exception e) {
-            Log.e("Bhenkeloada", "Error in constructing the JSON request", e);
             Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
         }
     }
@@ -532,83 +507,6 @@ public class Register extends AppCompatActivity {
                 sendotp.setEnabled(true);
             }
         }.start();
-    }
-
-    private void verifyOtp(String memberId, String otp) {
-        String apiUrl = BuildConfig.api_url_non_auth+"forget/verify-register-otp";
-
-        try {
-            JSONObject jsonInput = new JSONObject();
-            jsonInput.put("identifier", memberId);
-            jsonInput.put("otp", otp);
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    apiUrl,
-                    jsonInput,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("verifyotperror", "Response: " + response.toString());
-                            try {
-                                if (response.has("success") && response.getString("success").equals("true")) {
-                                    // OTP verified successfully
-                                    x=0;
-                                    registerButton.setEnabled(true);
-                                    otp_edit.setEnabled(false);
-                                    emailEditText.setEnabled(false);
-                                    sendotp.setEnabled(false);
-                                    verify_progress_layout.setVisibility(View.GONE);
-                                    verifyotp.setEnabled(false);
-                                    verifyotp.setTextColor(ContextCompat.getColor(Register.this, R.color.accept));
-                                    verifyotp.setText("Verified");
-                                    verifyotp.setVisibility(View.VISIBLE);
-                                } else {
-                                    x=1;
-                                    // Invalid OTP
-                                    registerButton.setEnabled(false);
-                                    verify_progress_layout.setVisibility(View.GONE);
-                                    Toast.makeText(Register.this, "Wrong OTP! Try Again", Toast.LENGTH_SHORT).show();
-                                    verifyotp.setVisibility(View.VISIBLE);
-                                }
-                            } catch (JSONException e) {
-                                x=1;
-                                // Handle JSONException
-                                registerButton.setEnabled(false);
-                                Toast.makeText(Register.this, "Error Verifying OTP", Toast.LENGTH_SHORT).show();
-                                Log.e("verifyotperror", "Error in verifying OTP", e);
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // Handle VolleyError
-                            x=1;
-                            registerButton.setEnabled(false);
-                            verify_progress_layout.setVisibility(View.GONE);
-                            verifyotp.setVisibility(View.VISIBLE);
-                            Toast.makeText(Register.this, "Failed to verify OTP. Please try again.", Toast.LENGTH_SHORT).show();
-                            Log.e("verifyotperror", "Error in OTP verification", error);
-                        }
-                    }
-            );
-
-            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    60000,
-                    0,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            ));
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(jsonObjectRequest);
-
-        } catch (Exception e) {
-            x=1;
-            registerButton.setEnabled(false);
-            Log.e("verifyotperror", "Error in constructing the JSON request", e);
-            Toast.makeText(Register.this, "Error in OTP request", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

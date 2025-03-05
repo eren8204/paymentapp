@@ -55,7 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class Withdraw extends AppCompatActivity {
+public class Withdraw extends BaseActivity {
 
     private RecyclerView recyclerView;
     private WithdrawAdapter adapter;
@@ -70,7 +70,7 @@ public class Withdraw extends AppCompatActivity {
     private Button withdrawbtn;
     private ImageView back_button;
     private ProgressBar withdraw_progress;
-    private TextView member_name,available_fund;
+    private TextView member_name,available_fund,tpin;
     private int k = 0;
     private LinearLayout progressLayout,oopsLayout;
     private SharedPreferences sharedPreferences;
@@ -90,6 +90,7 @@ public class Withdraw extends AppCompatActivity {
         userId.setText(memberId);
 
         available_fund = findViewById(R.id.available_fund);
+        tpin = findViewById(R.id.tpin);
         available_fund.setText("₹ "+fund);
         progressLayout = findViewById(R.id.progress_layout);
         oopsLayout = findViewById(R.id.oops_layout);
@@ -101,25 +102,45 @@ public class Withdraw extends AppCompatActivity {
         messageEditText = findViewById(R.id.withdraw_amount);
         withdrawbtn.setEnabled(true);
         withdrawbtn.setOnClickListener(v -> {
-            String message = messageEditText.getText().toString();
-            if(message.isEmpty()){
-                messageEditText.setError("Enter amount");
+            if(tpin.getText().toString().trim().isEmpty()){
+                tpin.setError("Enter T-PIN");
+                return;
             }
-            else if(k==1){
-                toMember.setError("Valid Member Required");
-            }
-            else{
+            check(memberId,tpin.getText().toString().trim(),response -> {
                 try {
-                    withdrawbtn.setVisibility(GONE);
-                    withdraw_progress.setVisibility(VISIBLE);
-                    sendMessageAndFetchChat(memberId,message);
-                } catch (JSONException e) {
-                    withdraw_progress.setVisibility(GONE);
-                    withdrawbtn.setVisibility(VISIBLE);
-                    Toast.makeText(this, "Try again later", Toast.LENGTH_SHORT).show();
-                    throw new RuntimeException(e);
+                    boolean isValid = response.getBoolean("isValid");
+                    if(isValid){
+                        String message = messageEditText.getText().toString();
+                        if(message.isEmpty()){
+                            messageEditText.setError("Enter amount");
+                            return;
+                        } else if (Integer.valueOf(message)<100) {
+                            messageEditText.setError("Minimum Withdraw Amount is 100");
+                        } else if(k==1){
+                            toMember.setError("Valid Member Required");
+                            return;
+                        }
+                        else{
+                            try {
+                                withdrawbtn.setVisibility(GONE);
+                                withdraw_progress.setVisibility(VISIBLE);
+                                sendMessageAndFetchChat(memberId,message);
+                            } catch (JSONException e) {
+                                withdraw_progress.setVisibility(GONE);
+                                withdrawbtn.setVisibility(VISIBLE);
+                                Toast.makeText(this, "Try again later", Toast.LENGTH_SHORT).show();
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                    else{
+                        showError("Invalid T-PIN");
+                    }
                 }
-            }
+                catch (Exception e){
+                    showError("Some error occured");
+                }
+            });
         });
 
         back_button=findViewById(R.id.back_button);
@@ -223,6 +244,38 @@ public class Withdraw extends AppCompatActivity {
 
 
         fetchData(memberId);
+    }
+
+    private void check(String memberId, String tpin, Response.Listener<JSONObject> responseListener) {
+        String url = BuildConfig.api_url+"checktpin";
+
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("member_id", memberId);
+            payload.put("tpin", tpin);
+        } catch (JSONException e) {
+            showError("Error! Try Again");
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
+                responseListener,
+                error -> showError("Error! Try Again")){
+            @Override
+            public Map<String, String> getHeaders() {
+                String token = sharedPreferences.getString("token","");
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(request);
     }
 
     private void checkSponsorID(String sponsorID) {
@@ -389,6 +442,9 @@ public class Withdraw extends AppCompatActivity {
                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                         throw new RuntimeException(e);
                     }
+                    finally {
+                        fetchWalletBalance(memberId);
+                    }
                 },
                 error -> {
                     Log.d("arsh_gendu",error.getMessage());
@@ -416,7 +472,6 @@ public class Withdraw extends AppCompatActivity {
         requestQueue.add(sendRequest);
 
     }
-
 
     private String formatDate(String dateString) {
         String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -623,6 +678,11 @@ public class Withdraw extends AppCompatActivity {
             e.printStackTrace();
             return amount;
         }
+    }
+
+    private void showError(String message) {
+        Log.e("arsh", "Error: " + message);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     static class WithdrawItem {

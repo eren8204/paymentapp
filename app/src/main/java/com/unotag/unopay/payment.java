@@ -38,11 +38,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class payment extends AppCompatActivity {
+public class payment extends BaseActivity {
 
     private Button pay;
     private ImageButton back_button;
-    private TextView payment_type,subtype,subtype_num,amount,memberName,userId,paymenttype,rechargeamount,rechargetype;
+    private TextView payment_type,subtype,subtype_num,amount,memberName,userId,paymenttype,rechargeamount,rechargetype,date,time;
     private LinearLayout pay_layout,success_layout;
     private ProgressBar progressBar;
     private LinearLayout cashbacklayout;
@@ -77,7 +77,6 @@ public class payment extends AppCompatActivity {
         rechargetype = findViewById(R.id.rechargetype);
         avabalance = findViewById(R.id.avaliablebalance);
         unoimage = findViewById(R.id.unoimage);
-
         cashbacktext = findViewById(R.id.cashback);
         transactionid = findViewById(R.id.transactionid);
         transactionid.setVisibility(View.GONE);
@@ -198,6 +197,7 @@ public class payment extends AppCompatActivity {
                                             success_layout.setVisibility(View.VISIBLE);
                                             rechargeamount.setText("649/-");
                                             rechargetype.setText(finalType);
+                                            showDateTime();
                                         }
                                     } catch (Exception e) {
                                         Log.d(ttype, Objects.requireNonNull(e.getMessage()));
@@ -220,6 +220,7 @@ public class payment extends AppCompatActivity {
                                             success_layout.setVisibility(View.VISIBLE);
                                             rechargeamount.setText("1298/-");
                                             rechargetype.setText(finalType);
+                                            showDateTime();
                                         }
                                     } catch (Exception e) {
                                         Log.d(ttype, Objects.requireNonNull(e.getMessage()));
@@ -271,6 +272,7 @@ public class payment extends AppCompatActivity {
         });
 
     }
+
     private void check(String memberId, String tpin, Response.Listener<JSONObject> responseListener) {
         String url = BuildConfig.api_url+"checktpin";
 
@@ -302,6 +304,7 @@ public class payment extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(request);
     }
+
     private void buyMembership(String memberId, String packageName, Response.Listener<JSONObject> responseListener) {
         String url = BuildConfig.api_url+"buymembership";
 
@@ -360,6 +363,7 @@ public class payment extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(request);
     }
+
     private void updateMembership(String memberId){
         String url = BuildConfig.api_url+"getmembershipStatus";
         JSONObject jsonObject = new JSONObject();
@@ -404,6 +408,7 @@ public class payment extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(request);
     }
+
     private void mobile_recharge(String memberId, String operatorCode, String circleCode, String number, String amount) {
         String url = BuildConfig.api_url + "doMobileRecharge";
         JSONObject jsonObject = new JSONObject();
@@ -499,17 +504,7 @@ public class payment extends AppCompatActivity {
                                 cashbacktext.setText("No Cashback");
                             }
 
-
-                            @SuppressLint("SimpleDateFormat")
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.ENGLISH);
-                            @SuppressLint("SimpleDateFormat")
-                            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
-                            Calendar calendar = Calendar.getInstance();
-
-                            TextView dateTextView = findViewById(R.id.date);
-                            TextView timeTextView = findViewById(R.id.time);
-                            dateTextView.setText(dateFormat.format(calendar.getTime()));
-                            timeTextView.setText(timeFormat.format(calendar.getTime()));
+                            showDateTime();
 
                             Toast.makeText(this, "Recharge Successful", Toast.LENGTH_SHORT).show();
                         }
@@ -652,15 +647,7 @@ public class payment extends AppCompatActivity {
                             } else {
                                 cashbacktext.setText("No Cashback");
                             }
-                            @SuppressLint("SimpleDateFormat")
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.ENGLISH);
-                            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
-                            Calendar calendar = Calendar.getInstance();
-
-                            TextView dateTextView = findViewById(R.id.date);
-                            TextView timeTextView = findViewById(R.id.time);
-                            dateTextView.setText(dateFormat.format(calendar.getTime()));
-                            timeTextView.setText(timeFormat.format(calendar.getTime()));
+                            showDateTime();
 
                             Toast.makeText(this, "Recharge Successful", Toast.LENGTH_SHORT).show();
                         }
@@ -807,5 +794,17 @@ public class payment extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void showDateTime(){
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.ENGLISH);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
+        Calendar calendar = Calendar.getInstance();
+
+        TextView dateTextView = findViewById(R.id.date);
+        TextView timeTextView = findViewById(R.id.time);
+        dateTextView.setText(dateFormat.format(calendar.getTime()));
+        timeTextView.setText(timeFormat.format(calendar.getTime()));
     }
 }

@@ -1,8 +1,11 @@
 [versions]
 agp = "8.8.0"
+androidImageCropper = "4.3.2"
+androidImageCropperVersion = "4.5.0"
 androidPdfViewer = "3.2.0-beta.1"
 blurry = "4.0.0"
 collection = "1.4.5"
+githubUcrop = "2.2.8"
 glide = "4.15.1"
 googleAppUpdate = "2.1.0"
 gson = "2.10.1"
@@ -33,11 +36,13 @@ volley = "1.2.1"
 playServicesCastFramework = "22.0.0"
 
 [libraries]
+android-image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "androidImageCropper" }
 android-pdf-viewer = { module = "com.github.barteksc:android-pdf-viewer", version.ref = "androidPdfViewer" }
 blurry = { module = "jp.wasabeef:blurry", version.ref = "blurry" }
 collection = { module = "androidx.collection:collection", version.ref = "collection" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+github-ucrop = { module = "com.github.yalantis:ucrop", version.ref = "githubUcrop" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-app-update = { module = "com.google.android.play:app-update", version.ref = "googleAppUpdate" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -65,6 +70,7 @@ okhttp3-logging-interceptor-v493 = { module = "com.squareup.okhttp3:logging-inte
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
+vanniktech-android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropperVersion" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
 play-services-cast-framework = { group = "com.google.android.gms", name = "play-services-cast-framework", version.ref = "playServicesCastFramework" }
 

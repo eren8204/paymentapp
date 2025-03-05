@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-public class openPDF_activity extends AppCompatActivity {
+public class openPDF_activity extends BaseActivity {
 
     private SharedPreferences sharedPreferences;
     private PDFView pdfView;

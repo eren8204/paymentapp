@@ -34,7 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountDeletion extends AppCompatActivity {
+public class AccountDeletion extends BaseActivity {
     private ImageView back_button;
     private Button delete;
     private EditText tpin,pass;

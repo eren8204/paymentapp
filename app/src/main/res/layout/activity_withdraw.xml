@@ -41,17 +41,13 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UNO PAY"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Withdraw"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_18sdp"
                     android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#Bachat Har Bar"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/white"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -212,7 +208,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:maxLength="4"
                         android:background="@drawable/edittextbackground"
-                        android:hint="Enter Amount (Min - 50)"
+                        android:hint="Enter Amount (Min - 100)"
                         android:padding="@dimen/_8sdp"
                         android:minLines="1"
                         android:maxLines="5"
@@ -223,7 +219,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_8sdp"
-                        android:inputType="textMultiLine"
+                        android:inputType="text"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:maxLength="8"
                         android:background="@drawable/edittextbackground"
@@ -245,7 +241,22 @@
                         android:textColor="@color/endColor"
                         android:visibility="gone"
                         android:textSize="@dimen/_12sdp"/>
-
+                    <EditText
+                        android:id="@+id/tpin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:inputType="number"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:maxLength="4"
+                        android:background="@drawable/edittextbackground"
+                        android:hint="TPIN"
+                        android:padding="@dimen/_8sdp"
+                        android:minLines="1"
+                        android:maxLines="1"
+                        android:scrollbars="vertical"
+                        android:visibility="visible"
+                        android:gravity="top" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

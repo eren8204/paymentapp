@@ -61,7 +61,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Login extends AppCompatActivity {
+public class Login extends BaseActivity {
 
     private TextView signup, error_msg, help;
     private EditText email, password, otp_edittext;
@@ -267,6 +267,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,6 +282,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
         telegram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,6 +298,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,6 +314,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
         youtube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -421,7 +425,7 @@ public class Login extends AppCompatActivity {
                 Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish();
+        finishAffinity();
     }
 
     public void loginIdPass() {
@@ -520,15 +524,9 @@ public class Login extends AppCompatActivity {
                             password.setText("");
                             email.setEnabled(true);
                             password.setEnabled(true);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.clear();
-                            editor.apply();
                         }
                     } catch (JSONException e) {
                         password.setText("");
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear();
-                        editor.apply();
                         progressbarlogin.setVisibility(View.GONE);
                         login.setVisibility(View.VISIBLE);
                         login.setEnabled(true);
@@ -543,9 +541,6 @@ public class Login extends AppCompatActivity {
                 },
                 error -> {
                     password.setText("");
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
                     progressbarlogin.setVisibility(View.GONE);
                     login.setVisibility(View.VISIBLE);
                     email.setEnabled(true);

@@ -20,7 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class Plans_Activity extends AppCompatActivity {
+public class Plans_Activity extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private TextView header,final_price,header2,final_price2,memberName,userId;
     private Button payBasic,payPrime;

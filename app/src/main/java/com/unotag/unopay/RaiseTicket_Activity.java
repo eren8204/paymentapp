@@ -49,7 +49,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class RaiseTicket_Activity extends AppCompatActivity {
+public class RaiseTicket_Activity extends BaseActivity {
 
     private static final String TAG = "arsh";
     private EditText messageEditText;

@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-public class companydocument extends AppCompatActivity {
+public class companydocument extends BaseActivity {
 
     private ImageView back_button;
     @Override

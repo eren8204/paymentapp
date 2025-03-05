@@ -95,7 +95,7 @@
                 <EditText
                     android:id="@+id/phonenumber"
                     android:layout_width="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="2"
                     android:layout_height="match_parent"
                     android:background="@drawable/edittextbackground"
                     android:hint="Enter Mobile Number"
@@ -121,6 +121,95 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_15sdp" />
 
+
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittextbackground"
+                android:hint="Password"
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
+                android:inputType="textPassword"
+                android:maxLength="12"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp">
+
+            </EditText>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password must be:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* 8-12 characters long"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* Contains at least one uppercase letter (A-Z)"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* Contains at least one lowercase letter (a-z)"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* Contains at least one number (0-9)"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* Contains at least one special character (@,$,!,%,?,&amp;)"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* Example: Unopay#123"/>
+            </LinearLayout>
+            <EditText
+                android:id="@+id/coinfirmpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittextbackground"
+                android:hint="Confirm  Password"
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:inputType="textPassword"
+                android:maxLength="12"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:layout_gravity="center">
+
+            </EditText>
+            <EditText
+                android:id="@+id/T_PIN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittextbackground"
+                android:hint="Enter 4 digit T-pin"
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                tools:ignore="HardcodedText">
+            </EditText>
 
             <EditText
                 android:id="@+id/registeremail"
@@ -178,87 +267,6 @@
                 android:visibility="gone"
                 tools:ignore="RtlSymmetry">
             </EditText>
-            <TextView
-                android:id="@+id/verifyotp_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="Verify"
-                android:textStyle="bold"
-                android:inputType="number"
-                android:textColor="@color/endColor"
-                android:padding="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:textSize="@dimen/_13sdp"
-                android:visibility="gone"/>
-            <LinearLayout
-                android:id="@+id/verify_progress_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_25sdp"
-                android:orientation="horizontal"
-                android:layout_marginStart="@dimen/_50sdp"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:gravity="end"
-                android:visibility="gone">
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittextbackground"
-                android:hint="Password"
-                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-                android:inputType="textPassword"
-                android:maxLength="12"
-                android:padding="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:drawableStart="@drawable/baseline_lock_24"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp">
-
-            </EditText>
-            <EditText
-                android:id="@+id/coinfirmpassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittextbackground"
-                android:hint="Confirm  Password"
-                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-                android:padding="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:inputType="textPassword"
-                android:maxLength="12"
-                android:drawableStart="@drawable/baseline_lock_24"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp">
-
-            </EditText>
-            <EditText
-                android:id="@+id/T_PIN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittextbackground"
-                android:hint="Enter 4 digit T-pin"
-                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-                android:inputType="numberPassword"
-                android:maxLength="4"
-                android:padding="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:drawableStart="@drawable/baseline_lock_24"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp"
-                tools:ignore="HardcodedText">
-
-            </EditText>
-
-
 
             <CheckBox
                 android:id="@+id/checkbox_example"
@@ -267,12 +275,12 @@
                 android:gravity="center"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:textStyle="bold"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_30sdp"
                 android:textColor="#FF1A09"
-                android:textSize="@dimen/_12sdp"
-                android:text="I agree to the Terms and Condition" />
+                android:textSize="@dimen/_10sdp"
+                android:text="I agree to the terms and conditions" />
 
         </LinearLayout>
 

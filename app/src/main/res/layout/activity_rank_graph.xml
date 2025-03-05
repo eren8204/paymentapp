@@ -42,17 +42,13 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UNO PAY"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Status Graph"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_18sdp"
                     android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#Bachat Har Bar"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/white"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,8 +99,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="8dp"
         android:visibility="gone"

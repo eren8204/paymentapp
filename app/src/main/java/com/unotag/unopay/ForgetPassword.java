@@ -33,7 +33,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ForgetPassword extends AppCompatActivity {
+public class ForgetPassword extends BaseActivity {
 
     private static final String TAG = "adityi";
 

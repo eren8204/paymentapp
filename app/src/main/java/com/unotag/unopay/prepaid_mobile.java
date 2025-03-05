@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class prepaid_mobile extends AppCompatActivity {
+public class prepaid_mobile extends BaseActivity {
     HashMap<String, String> operatorMap = new HashMap<>();
     ArrayAdapter<String> adapter;
     ArrayAdapter<String> circleAdapter;

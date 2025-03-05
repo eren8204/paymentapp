@@ -41,17 +41,13 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UNO PAY"
+                    android:layout_height="match_parent"
+                    android:text="Prepaid Mobile"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_18sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#Bachat Har Bar"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/white"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

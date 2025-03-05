@@ -43,9 +43,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyTeam extends AppCompatActivity {
+public class MyTeam extends BaseActivity {
     private ImageButton back_button;
-    private TextView tb_memberid,tb_username;
+    private TextView tb_memberid,tb_username,name;
     private RequestQueue requestQueue;
     private ExpandableListView expandableListView;
     private LinearLayout progress_layout,oops_layout;
@@ -59,6 +59,7 @@ public class MyTeam extends AppCompatActivity {
         back_button = findViewById(R.id.back_button);
         progress_layout = findViewById(R.id.progress_layout);
         expandableListView = findViewById(R.id.expandableListView);
+        name = findViewById(R.id.name);
         requestQueue = Volley.newRequestQueue(this);
 
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -74,7 +75,15 @@ public class MyTeam extends AppCompatActivity {
 
         expandableListView.setVisibility(View.GONE);
         progress_layout.setVisibility(View.VISIBLE);
-        fetchTeamData(memberId);
+        Intent intent = getIntent();
+        if(intent.hasExtra("shared_name"))
+            name.setText(intent.getStringExtra("shared_name")+"'s");
+        else
+            name.setText("My");
+        if(intent.hasExtra("shared_member"))
+            fetchTeamData(intent.getStringExtra("shared_member"));
+        else
+            fetchTeamData(memberId);
     }
 
     private void fetchTeamData(String member_id) {
@@ -123,8 +132,6 @@ public class MyTeam extends AppCompatActivity {
         });
     }
 
-
-
     private void setupExpandableListView(Map<Integer, List<Member>> teamData) {
         TeamExpandableListAdapter adapter = new TeamExpandableListAdapter(this, teamData);
         expandableListView.setAdapter(adapter);
@@ -141,7 +148,6 @@ public class MyTeam extends AppCompatActivity {
             }
         });
     }
-
 
     private void pre(String username,String memberId){
         back_button.setOnClickListener(v -> finish());

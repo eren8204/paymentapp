@@ -40,7 +40,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class Gallery extends AppCompatActivity {
+public class Gallery extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;

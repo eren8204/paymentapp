@@ -218,13 +218,7 @@ public class HomeFragment extends Fragment {
         });
         lottieAnimationqrscan.setOnClickListener(v->{
             String sponsor_id = sharedPreferences.getString("memberId","");
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this app: " + "https://unotag.biz/referral?sponsor_id=" + sponsor_id);
-
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Download this amazing app!");
-
-            startActivity(Intent.createChooser(shareIntent, "Share via"));
+            ShareUtil.shareApp(requireContext(), sponsor_id);
         });
 
         LottieAnimationView lottieAnimationprime = view.findViewById(R.id.primeAnimation);
@@ -766,7 +760,7 @@ public class HomeFragment extends Fragment {
             String commission = sharedPreferences.getString("commission_wallet","0.0");
             String bonus = sharedPreferences.getString("signup_bonus","0.0");
             String today = sharedPreferences.getString("today_income","0.0");
-            bonusamount.setText("₹ "+bonus);
+            bonusamount.setText(bonus);
             fundwalletamount.setText("₹ "+flexi);
             totalincome.setText("₹ "+commission);
             today_income.setText("₹ "+today);

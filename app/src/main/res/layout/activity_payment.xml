@@ -276,7 +276,7 @@
                         android:id="@+id/paymenttype"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Payment successful"
+                        android:text="Order successful"
                         android:textColor="@color/endColor"
                         android:textSize="@dimen/_20sdp"
                         android:textStyle="bold"
@@ -288,7 +288,7 @@
                         android:id="@+id/successimage"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_140sdp"
-                        android:src="@drawable/unopayimg"/>
+                        android:src="@drawable/uno_img"/>
 
                     <TextView
                         android:id="@+id/rechargetype"

@@ -19,8 +19,8 @@ android {
         applicationId = "com.unotag.unopay"
         minSdk = 24
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.0.7"
+        versionCode = 10
+        versionName = "1.0.9"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String","api_url","\"$api_url\"")
         buildConfigField("String","api_url_non_auth","\"$api_url_non_auth\"")
@@ -46,6 +46,7 @@ android {
 
 dependencies {
 
+    implementation(libs.vanniktech.android.image.cropper)
     implementation(libs.okhttp3.logging.interceptor.v493)
     implementation(libs.google.app.update)
     implementation(libs.installreferrer)

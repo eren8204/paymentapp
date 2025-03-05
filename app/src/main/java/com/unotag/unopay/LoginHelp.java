@@ -31,7 +31,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginHelp extends AppCompatActivity {
+public class LoginHelp extends BaseActivity {
     private ImageButton back;
     private Button submit;
     private ProgressBar submit_progress;

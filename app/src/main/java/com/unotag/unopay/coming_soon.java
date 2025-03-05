@@ -27,12 +27,10 @@ import com.denzcoskun.imageslider.models.SlideModel;
 
 import java.util.ArrayList;
 
-public class coming_soon extends AppCompatActivity {
+public class coming_soon extends BaseActivity {
 
 
     private ImageButton back_button;
-
-    private TextView memberName, memberId;
 
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

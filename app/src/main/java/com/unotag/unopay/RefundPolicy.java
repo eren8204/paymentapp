@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class RefundPolicy extends AppCompatActivity {
+public class RefundPolicy extends BaseActivity {
     private ImageView back_button;
     private SharedPreferences sharedPreferences;
     @Override

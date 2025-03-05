@@ -23,7 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class web_activity extends AppCompatActivity {
+public class web_activity extends BaseActivity {
     private WebView mWebView;
     private ProgressBar mProgressBar;
     private LinearLayout linearLayout;

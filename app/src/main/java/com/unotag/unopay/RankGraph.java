@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RankGraph extends AppCompatActivity {
+public class RankGraph extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private ImageButton back_button;
     private LinearLayout progress_layout;
