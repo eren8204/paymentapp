@@ -172,7 +172,12 @@ public class BankKYCFragment extends Fragment {
             if(!isAdded()) return;
             String nominee_name=nomineeName.getText().toString().trim();
             String nominee_relation=nomineeRelation.getText().toString().trim();
-            if(nominee_name.isEmpty()){
+            String user_ka_name = username.getText().toString().trim();
+            if(user_ka_name.isEmpty()){
+                username.setError("Enter Name");
+                return;
+            }
+            else if(nominee_name.isEmpty()){
                 nomineeName.setError("Enter Nominee Name");
                 return;
             }
@@ -185,7 +190,7 @@ public class BankKYCFragment extends Fragment {
             } else{
                 user_details_save.setVisibility(GONE);
                 user_details_progress.setVisibility(VISIBLE);
-                submitUserDetails(memberId,name,nominee_name,nominee_relation);
+                submitUserDetails(memberId,user_ka_name,nominee_name,nominee_relation);
             }
 
         });
