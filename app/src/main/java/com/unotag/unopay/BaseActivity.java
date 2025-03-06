@@ -1,6 +1,8 @@
 package com.unotag.unopay;
 
 import android.app.AlertDialog;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -9,12 +11,21 @@ import androidx.appcompat.app.AppCompatActivity;
 public class BaseActivity extends AppCompatActivity implements NetworkMonitor.NetworkListener {
     private AlertDialog networkDialog;
     private NetworkMonitor networkMonitor;
+    private NetworkChangeReceiver networkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkMonitor = NetworkMonitor.getInstance(this);
         networkMonitor.startMonitoring(this);
+        NetworkChangeReceiver.setNetworkChangeListener(isConnected -> {
+            if (!isConnected) {
+                showNoInternetDialog();
+            }
+            else {
+                dismissNoInternetDialog();
+            }
+        });
     }
 
     @Override
@@ -61,4 +72,36 @@ public class BaseActivity extends AppCompatActivity implements NetworkMonitor.Ne
             networkDialog.dismiss();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Initialize receiver if null
+        if (networkReceiver == null) {
+            networkReceiver = new NetworkChangeReceiver();
+        }
+
+        // Register receiver manually
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkReceiver, filter);
+
+        // Manually check connection on resume
+        boolean isConnected = NetworkMonitor.isConnected(this);
+        if (!isConnected) {
+            showNoInternetDialog();
+        }
+        else {
+            dismissNoInternetDialog();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister receiver to prevent leaks
+        if (networkReceiver != null) {
+            unregisterReceiver(networkReceiver);
+        }
+    }
+
 }

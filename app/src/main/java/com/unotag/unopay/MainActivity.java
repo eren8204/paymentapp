@@ -55,7 +55,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     private DrawerLayout drawerLayout;

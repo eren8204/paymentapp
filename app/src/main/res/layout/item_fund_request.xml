@@ -9,6 +9,7 @@
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:gravity="start">
 
@@ -37,12 +38,32 @@
                     android:id="@+id/toUpiIdTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_13sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:textColor="@color/endColor"
                     android:text="UPI ID"
                     android:textStyle="bold" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UTR No: "
+                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/endColor"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/utr_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/endColor"
+                    android:text="xxxxxxxxxxxxxxx"
+                    android:textStyle="bold" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/amountTextView"
                 android:layout_width="wrap_content"

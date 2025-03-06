@@ -42,10 +42,10 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
         String formattedDate = formatDate(request.getTime_date());
         String formattedTime = formatTime(request.getTime_date());
         holder.toUpiIdTextView.setText(request.getTo_upi_id());
-        holder.amountTextView.setText("Amount: " + request.getAmount());
+        holder.amountTextView.setText("Amount: ₹" + request.getAmount());
         holder.dateTimeTextView.setText("Date: " + formattedDate);
         holder.timeTextView.setText("Time: "+ formattedTime);
-
+        holder.utr_textView.setText(request.getUtr_no());
         String status = request.getStatus().toLowerCase(Locale.ROOT);
         switch (status) {
             case "pending":
@@ -74,6 +74,7 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
 
         try {
             Date date = inputDateFormat.parse(dateString);
+            assert date != null;
             return outputDateFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -102,6 +103,7 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
         return utcDateString;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<FundRequest> newList) {
         this.fundRequestList = newList;
         notifyDataSetChanged();
@@ -113,7 +115,7 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
     }
 
     public static class FundRequestViewHolder extends RecyclerView.ViewHolder {
-        TextView toUpiIdTextView, amountTextView, dateTimeTextView, status_text, timeTextView;
+        TextView toUpiIdTextView, amountTextView, dateTimeTextView, status_text, timeTextView, utr_textView;
         LinearLayout statusColour;
         LinearLayout statusCard;
         ImageView status_img;
@@ -128,6 +130,7 @@ public class FundRequestAdapter extends RecyclerView.Adapter<FundRequestAdapter.
             status_text = itemView.findViewById(R.id.status_text);
             status_img = itemView.findViewById(R.id.status_img);
             timeTextView = itemView.findViewById(R.id.timeTextView);
+            utr_textView = itemView.findViewById(R.id.utr_no);
         }
     }
 }

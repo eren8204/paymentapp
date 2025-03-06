@@ -354,8 +354,10 @@ public class BankKYCFragment extends Fragment {
                                             setViewGroupEnabled(user_details_card,true);
                                         }
                                         else{
+                                            String name = userDetails.optString("FullName","");
                                             String nominee_name = userDetails.optString("Nominee_name","");
                                             String nominee_relation = userDetails.optString("Nominee_relation","");
+                                            username.setText(name);
                                             nomineeName.setText(nominee_name);
                                             nomineeRelation.setText(nominee_relation);
                                             setViewGroupEnabled(user_details_card,false);

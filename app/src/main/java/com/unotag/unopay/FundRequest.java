@@ -5,7 +5,7 @@ public class FundRequest {
     private String amount;
     private String time_date;
     private String status;
-
+    private String utr_number;
     // Getters and Setters
     public String getTo_upi_id() {
         return to_upi_id;
@@ -27,6 +27,10 @@ public class FundRequest {
         return time_date;
     }
 
+    public String getUtr_no() {
+        return utr_number;
+    }
+
     public void setTime_date(String time_date) {
         this.time_date = time_date;
     }
@@ -37,5 +41,9 @@ public class FundRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setUtr_number(String utr_number) {
+        this.utr_number = utr_number;
     }
 }
