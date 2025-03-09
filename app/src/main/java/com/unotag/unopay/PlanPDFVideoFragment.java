@@ -53,7 +53,7 @@ public class PlanPDFVideoFragment extends Fragment {
             }
         });
 
-        String videoId = "aOfLe3xJvNc";
+        String videoId = "7UlMRd2cOOo";
         String html = "<html>"
                 + "<head>"
                 + "<style>"

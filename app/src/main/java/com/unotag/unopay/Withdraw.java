@@ -1,13 +1,13 @@
 package com.unotag.unopay;
-import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,8 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +35,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
@@ -53,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class Withdraw extends BaseActivity {
@@ -74,6 +72,8 @@ public class Withdraw extends BaseActivity {
     private int k = 0;
     private LinearLayout progressLayout,oopsLayout;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +83,6 @@ public class Withdraw extends BaseActivity {
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String memberId = sharedPreferences.getString("memberId", "UP000000");
         String username = sharedPreferences.getString("username", "Hello, !");
-        String fund = sharedPreferences.getString("commission_wallet", "0.0");
         TextView memberName = findViewById(R.id.memberName);
         TextView userId = findViewById(R.id.memberId);
         memberName.setText(username);
@@ -91,7 +90,6 @@ public class Withdraw extends BaseActivity {
 
         available_fund = findViewById(R.id.available_fund);
         tpin = findViewById(R.id.tpin);
-        available_fund.setText("₹ "+fund);
         progressLayout = findViewById(R.id.progress_layout);
         oopsLayout = findViewById(R.id.oops_layout);
         withdrawbtn=findViewById(R.id.withdrawbtn);
@@ -101,47 +99,84 @@ public class Withdraw extends BaseActivity {
         toMember.setVisibility(GONE);
         messageEditText = findViewById(R.id.withdraw_amount);
         withdrawbtn.setEnabled(true);
+
+        updateUI();
+        preferenceChangeListener = (sharedPreferences, key) -> {
+            if ("commission_minus_hold".equals(key)) {
+                new Handler(Looper.getMainLooper()).post(this::updateUI);
+            }
+        };
+        sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+
         withdrawbtn.setOnClickListener(v -> {
-            if(tpin.getText().toString().trim().isEmpty()){
+            String pin = tpin.getText().toString().trim();
+            if (pin.length() < 4) {
                 tpin.setError("Enter T-PIN");
                 return;
             }
-            check(memberId,tpin.getText().toString().trim(),response -> {
+
+            check(memberId, pin, response -> {
                 try {
                     boolean isValid = response.getBoolean("isValid");
-                    if(isValid){
-                        String message = messageEditText.getText().toString();
-                        if(message.isEmpty()){
+                    if (isValid) {
+                        String message = messageEditText.getText().toString().trim();
+                        if (message.isEmpty()) {
                             messageEditText.setError("Enter amount");
                             return;
-                        } else if (Integer.valueOf(message)<100) {
-                            messageEditText.setError("Minimum Withdraw Amount is 100");
-                        } else if(k==1){
+                        }
+
+                        int amt;
+                        try {
+                            amt = Integer.parseInt(message);
+                        } catch (NumberFormatException e) {
+                            messageEditText.setError("Please enter a numeric amount");
+                            return;
+                        }
+
+                        int availableBalance;
+                        try {
+                            availableBalance = Integer.parseInt(available_fund.getText().toString().replaceAll("[^0-9]", ""));
+                        } catch (NumberFormatException e) {
+                            showError("Invalid balance format. Contact support.");
+                            return;
+                        }
+
+                        if (amt > availableBalance) {
+                            messageEditText.setError("Insufficient Balance");
+                            return;
+                        }
+
+                        if ((transferSelect == 1 || transferSelect == 2) && (amt < 50 || amt % 50 != 0)) {
+                            messageEditText.setError("Minimum amount is 50 and must be a multiple of 50");
+                            return;
+                        } else if (transferSelect == 3 && (amt < 250 || amt % 50 != 0)) {
+                            messageEditText.setError("Minimum amount is 250 and must be a multiple of 50");
+                            return;
+                        } else if (k == 1) {
                             toMember.setError("Valid Member Required");
                             return;
                         }
-                        else{
-                            try {
-                                withdrawbtn.setVisibility(GONE);
-                                withdraw_progress.setVisibility(VISIBLE);
-                                sendMessageAndFetchChat(memberId,message);
-                            } catch (JSONException e) {
-                                withdraw_progress.setVisibility(GONE);
-                                withdrawbtn.setVisibility(VISIBLE);
-                                Toast.makeText(this, "Try again later", Toast.LENGTH_SHORT).show();
-                                throw new RuntimeException(e);
-                            }
+
+                        withdrawbtn.setVisibility(View.GONE);
+                        withdraw_progress.setVisibility(View.VISIBLE);
+
+                        try {
+                            sendMessageAndFetchChat(memberId, message);
+                        } catch (JSONException e) {
+                            withdraw_progress.setVisibility(View.GONE);
+                            withdrawbtn.setVisibility(View.VISIBLE);
+                            Toast.makeText(v.getContext(), "Try again later", Toast.LENGTH_SHORT).show();
                         }
+
+                    } else {
+                        tpin.setError("Invalid T-PIN");
                     }
-                    else{
-                        showError("Invalid T-PIN");
-                    }
-                }
-                catch (Exception e){
-                    showError("Some error occured");
+                } catch (Exception e) {
+                    showError("Some error occurred");
                 }
             });
         });
+
 
         back_button=findViewById(R.id.back_button);
         back_button.setOnClickListener(v -> finish());
@@ -166,11 +201,13 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
+                messageEditText.setHint("Amount x 50 (Min - 50)");
             }
             else if(checkedId==R.id.togglePerson){
                 k=1;
                 transferSelect = 2;
                 toMember.setVisibility(VISIBLE);
+                messageEditText.setHint("Amount x 50 (Min - 50)");
             }
             else if(checkedId==R.id.toggleBank){
                 k=0;
@@ -178,6 +215,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 3;
                 toMember.setVisibility(GONE);
+                messageEditText.setHint("Amount x 50 (Min - 250)");
             }
             else{
                 k=0;
@@ -185,6 +223,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
+                messageEditText.setHint("Amount x 50 (Min - 50)");
             }
         });
 
@@ -242,7 +281,6 @@ public class Withdraw extends BaseActivity {
         LottieAnimationView shareAnimation = findViewById(R.id.shareAnimation);
         shareAnimation.setOnClickListener(v->ShareUtil.shareApp(this, memberId));
 
-
         fetchData(memberId);
     }
 
@@ -284,12 +322,12 @@ public class Withdraw extends BaseActivity {
         try {
             requestBody.put("sponser_id", sponsorID);
         } catch (JSONException e) {
-            Log.d("Sponsor Id: ",e.getMessage());
+            Log.d("Sponsor Id: ", Objects.requireNonNull(e.getMessage()));
             return;
         }
 
         RequestQueue requestQueue = Volley.newRequestQueue(Withdraw.this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        @SuppressLint("SetTextI18n") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 baseUrl,
                 requestBody,
@@ -323,7 +361,7 @@ public class Withdraw extends BaseActivity {
                             k=0;
                             withdrawbtn.setEnabled(true);
                         }
-                        Log.d("Sponsor Id: ",e.getMessage());
+                        Log.d("Sponsor Id: ", Objects.requireNonNull(e.getMessage()));
                     }
                 },
                 error -> {
@@ -334,7 +372,7 @@ public class Withdraw extends BaseActivity {
                         k=0;
                         withdrawbtn.setEnabled(true);
                     }
-                    Log.e("Bhenkeloada", "An error occurred: " + error.getMessage(), error);
+                    Log.e("Withdraw_Error", "An error occurred: " + error.getMessage(), error);
                 }
         ){
             @Override
@@ -411,8 +449,6 @@ public class Withdraw extends BaseActivity {
             requestBody.put("member_id", memberId);
             requestBody.put("commission_amount", message);
         }
-        Log.d("arsh_gendu",SEND_MESSAGE_URL);
-        Log.d("arsh_gendu",requestBody.toString());
         JsonObjectRequest sendRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 SEND_MESSAGE_URL,
@@ -428,7 +464,6 @@ public class Withdraw extends BaseActivity {
                             if(response.has("message"))
                                 msg = response.getString("message");
                             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-                            Log.d("arsh_gendu",msg);
                             fetchData(memberId);
                         }
                         else{
@@ -436,7 +471,6 @@ public class Withdraw extends BaseActivity {
                             if(response.has("message"))
                                 msg = response.getString("message");
                             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-                            Log.d("arsh_gendu",msg);
                         }
                     } catch (JSONException e) {
                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
@@ -447,7 +481,7 @@ public class Withdraw extends BaseActivity {
                     }
                 },
                 error -> {
-                    Log.d("arsh_gendu",error.getMessage());
+                    Log.d("Withdraw_Error", Objects.requireNonNull(error.getMessage()));
                     Toast.makeText(Withdraw.this, "Error", Toast.LENGTH_SHORT).show();
                     withdraw_progress.setVisibility(GONE);
                     withdrawbtn.setVisibility(VISIBLE);
@@ -481,6 +515,7 @@ public class Withdraw extends BaseActivity {
 
         try {
             Date date = inputDateFormat.parse(dateString);
+            assert date != null;
             return outputDateFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -509,6 +544,15 @@ public class Withdraw extends BaseActivity {
         return utcDateString;
     }
 
+    private void updateUI(){
+        if(sharedPreferences==null)
+            sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
+        String minus = sharedPreferences.getString("commission_minus_hold","0");
+        if(available_fund==null)
+            available_fund = findViewById(R.id.available_fund);
+        available_fund.setText(minus);
+    }
+
     private void fetchWalletBalance(String memberId){
         String url = BuildConfig.api_url+"user-wallet-wise-balance";
         Map<String, String> params = new HashMap<>();
@@ -530,12 +574,16 @@ public class Withdraw extends BaseActivity {
                             if (status.equals("true")) {
                                 String flexi_wallet = response.optString("flexi_wallet","0.0");
                                 String commission_wallet = response.optString("commission_wallet","0.0");
-                                String signup_bonus = response.optString("signup_bonus","0.0");
+                                String signup_bonus = response.optString("signup_bonus","649");
                                 String today_income = response.optString("today_income","0");
+                                String total_income = response.optString("total_income","0");
+                                String commission_minus = response.optString("commission_minus_hold","0");
 
-                                flexi_wallet = String.format("%.2f", Double.parseDouble(flexi_wallet));
-                                commission_wallet = String.format("%.2f", Double.parseDouble(commission_wallet));
-                                signup_bonus = String.format("%.2f", Double.parseDouble(signup_bonus));
+                                flexi_wallet = sanitizeIncome(flexi_wallet);
+                                commission_wallet = sanitizeIncome(commission_wallet);
+                                commission_minus = sanitizeIncome(commission_minus);
+                                today_income = sanitizeIncome(today_income);
+                                total_income = sanitizeIncome(total_income);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -543,6 +591,8 @@ public class Withdraw extends BaseActivity {
                                 editor.putString("commission_wallet",commission_wallet);
                                 editor.putString("signup_bonus",signup_bonus);
                                 editor.putString("today_income",today_income);
+                                editor.putString("total_income",total_income);
+                                editor.putString("commission_minus_hold",commission_minus);
                                 editor.apply();
 
                             }
@@ -579,7 +629,6 @@ public class Withdraw extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("googlekitesting",memberId);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         @SuppressLint("NotifyDataSetChanged") JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -714,6 +763,7 @@ public class Withdraw extends BaseActivity {
             return new ViewHolder(view);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -774,6 +824,7 @@ public class Withdraw extends BaseActivity {
 
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         public void updateList(List<WithdrawItem> newList) {
             this.withdrawItems = newList;
             notifyDataSetChanged();
@@ -799,6 +850,24 @@ public class Withdraw extends BaseActivity {
                 status_img = itemView.findViewById(R.id.status_img);
                 statusColour = itemView.findViewById(R.id.statuscolour);
             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (sharedPreferences != null && preferenceChangeListener != null) {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String sanitizeIncome(String income) {
+        try {
+            double value = Double.parseDouble(income);
+            return String.format("%.2f", Math.max(value, 0.0));
+        } catch (NumberFormatException e) {
+            return "0.00";
         }
     }
 }

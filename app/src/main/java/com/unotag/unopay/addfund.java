@@ -516,7 +516,7 @@ public class addfund extends BaseActivity {
                 Toast.makeText(addfund.this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(Integer.valueOf(amountText)<50){
+            if(Integer.parseInt(amountText)<50){
                 Toast.makeText(addfund.this, "Minimum amount is 50", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -619,6 +619,7 @@ public class addfund extends BaseActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

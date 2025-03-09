@@ -5,35 +5,88 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText"
-    android:layout_margin="@dimen/_8sdp"
+    android:layout_margin="@dimen/_5sdp"
     app:cardCornerRadius="@dimen/_10sdp"
     app:cardElevation="@dimen/_10sdp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"
         android:orientation="horizontal">
-        <ImageButton
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/baseline_perm_identity_24"/>
-        <TextView
-            android:id="@+id/active_memberid"
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12sdp"
-            android:text="UP1000000"/>
-        <TextView
-            android:id="@+id/active_member_rank"
+            android:padding="@dimen/_2sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/active_memberid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:text="userid" />
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:text="0000000000"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:text="Rank"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:layout_gravity="fill_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/active_member_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:text="Level: "/>
+            <TextView
+                android:id="@+id/active_member_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:text="Not Achieved"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/call_sponsor"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:background="@drawable/baseline_call_24"
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
+                <ImageButton
+                    android:id="@+id/wsp_sponsor"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:background="@drawable/whatsapp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

@@ -1,29 +1,32 @@
 package com.unotag.unopay;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 public class BaseActivity extends AppCompatActivity implements NetworkMonitor.NetworkListener {
     private AlertDialog networkDialog;
     private NetworkMonitor networkMonitor;
-    private NetworkChangeReceiver networkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkMonitor = NetworkMonitor.getInstance(this);
         networkMonitor.startMonitoring(this);
+
         NetworkChangeReceiver.setNetworkChangeListener(isConnected -> {
             if (!isConnected) {
-                showNoInternetDialog();
-            }
-            else {
-                dismissNoInternetDialog();
+                new Handler(Looper.getMainLooper()).post(this::showNoInternetDialog);
+            } else {
+                new Handler(Looper.getMainLooper()).post(this::dismissNoInternetDialog);
             }
         });
     }
@@ -38,14 +41,17 @@ public class BaseActivity extends AppCompatActivity implements NetworkMonitor.Ne
     public void onNetworkChanged(boolean isConnected) {
         runOnUiThread(() -> {
             if (!isConnected) {
-                showNoInternetDialog();
+                new Handler(Looper.getMainLooper()).post(this::showNoInternetDialog);
             } else {
-                dismissNoInternetDialog();
+                new Handler(Looper.getMainLooper()).post(this::dismissNoInternetDialog);
             }
         });
     }
 
     private void showNoInternetDialog() {
+        if (!isAppInForeground() || isFinishing() || isDestroyed()) {
+            return;
+        }
         if (networkDialog == null || !networkDialog.isShowing()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("No Internet Connection")
@@ -59,7 +65,7 @@ public class BaseActivity extends AppCompatActivity implements NetworkMonitor.Ne
 
             networkDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
                 if (NetworkMonitor.isConnected(this)) {
-                    dismissNoInternetDialog();
+                    new Handler(Looper.getMainLooper()).post(this::dismissNoInternetDialog);
                 } else {
                     Toast.makeText(this, "Still no internet. Please check your connection.", Toast.LENGTH_SHORT).show();
                 }
@@ -76,32 +82,32 @@ public class BaseActivity extends AppCompatActivity implements NetworkMonitor.Ne
     @Override
     protected void onResume() {
         super.onResume();
-        // Initialize receiver if null
-        if (networkReceiver == null) {
-            networkReceiver = new NetworkChangeReceiver();
-        }
-
-        // Register receiver manually
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkReceiver, filter);
-
-        // Manually check connection on resume
         boolean isConnected = NetworkMonitor.isConnected(this);
         if (!isConnected) {
-            showNoInternetDialog();
-        }
-        else {
-            dismissNoInternetDialog();
+            new Handler(Looper.getMainLooper()).post(this::showNoInternetDialog);
+        } else {
+            new Handler(Looper.getMainLooper()).post(this::dismissNoInternetDialog);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // Unregister receiver to prevent leaks
-        if (networkReceiver != null) {
-            unregisterReceiver(networkReceiver);
-        }
+        //
     }
 
+    public boolean isAppInForeground() {
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
+
+        if (processes == null) return false;
+
+        for (ActivityManager.RunningAppProcessInfo process : processes) {
+            if (process.processName.equals(getPackageName()) &&
+                    process.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

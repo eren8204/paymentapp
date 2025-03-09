@@ -181,6 +181,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/doj_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -190,12 +191,37 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Date:"
+                                android:text="DOJ:"
                                 android:textSize="@dimen/_16sdp"
                                 android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/id_card_doj"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:text="31/04/2024"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/doa_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:layout_marginTop="@dimen/_8sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="DOA:"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/id_card_doa"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
@@ -483,7 +509,7 @@
                     android:padding="@dimen/_8sdp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:text="Welcome to Customer Support All Problem Report Here On Our Official Whatsapp Channel"
+                    android:text="Welcome to Customer Support All Problem Report Here On Our Official Whatsapp Account"
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:scrollHorizontally="true"

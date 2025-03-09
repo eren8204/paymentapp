@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     private CardView addfund;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
-    private TextView bonusamount, fundwalletamount, totalincome, today_income;
+    private TextView bonusamount, fundwalletamount, income_wallet, total_income, today_income;
     private LinearLayout prepaid_mobile,cibil,sbi,icici,hdfc,postpaid_mobile,dth_recharge,fastag,electricity_bill,gas_cylinder,water_bill,cable_tv,money_transfer,credit_card,
             loan_repayment,atm_locator,bike_insurance,car_insurance,family_insurance,tax_calculation,irctc,confirm_tkt,spot_train,parivahan,redbus,makemytrip,
             ola,uber,aadhar,pan_card,income_tax,ecard,voter_card,passport,post_office,rashan,amazon,flipkart,meesho,zomato,swiggy,vishal_mart,bookmyshow,tata1mg,
@@ -116,7 +116,8 @@ public class HomeFragment extends Fragment {
 
         bonusamount = view.findViewById(R.id.bonusamount);
         fundwalletamount = view.findViewById(R.id.fundwalletamount);
-        totalincome = view.findViewById(R.id.totalincome);
+        income_wallet = view.findViewById(R.id.income_wallet);
+        total_income = view.findViewById(R.id.totalincome);
         today_income = view.findViewById(R.id.today_income);
 
         if (isAdded()) {
@@ -124,7 +125,7 @@ public class HomeFragment extends Fragment {
         }
 
         preferenceChangeListener = (sharedPreferences, key) -> {
-            if ("flexi_wallet".equals(key) || "commission_wallet".equals(key) || "today_income".equals(key)) {
+            if ("flexi_wallet".equals(key) || "commission_wallet".equals(key) || "today_income".equals(key) || "total_income".equals(key)) {
                 if (isAdded()) {
                     updateUI();
                 }
@@ -140,21 +141,21 @@ public class HomeFragment extends Fragment {
         lottieAnimationzoom.playAnimation();
         lottieAnimationzoom.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(@NonNull Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationEnd(@NonNull Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
 
             }
         });
@@ -167,21 +168,21 @@ public class HomeFragment extends Fragment {
         lottieAnimationqr.playAnimation();
         lottieAnimationqr.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(@NonNull Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationEnd(@NonNull Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
 
             }
         });
@@ -191,28 +192,25 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-
-
-
         LottieAnimationView lottieAnimationqrscan = view.findViewById(R.id.qrscanAnimation);
         lottieAnimationqrscan.playAnimation();
         lottieAnimationqrscan.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(@NonNull Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationEnd(@NonNull Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
 
             }
         });
@@ -243,41 +241,33 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        lottieAnimationprime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), Plans_Activity.class); // Use getActivity() instead of HomeFragment.this
-                    startActivity(intent);
-            }
+        lottieAnimationprime.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), Plans_Activity.class);
+                startActivity(intent);
         });
 
         LottieAnimationView lottieAnimationnoti = view.findViewById(R.id.notificationAnimation);
         lottieAnimationnoti.playAnimation();
         lottieAnimationnoti.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(@NonNull Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationEnd(@NonNull Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
 
             }
         });
-
-
-
-
-
 
         marquee_text.setSelected(true);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
@@ -545,31 +535,17 @@ public class HomeFragment extends Fragment {
         marquee_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
-                intent.setPackage("com.whatsapp");
-
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
-                    startActivity(browserIntent);
-                }
+                String number = "6395427453";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + "+91"+number));
+                startActivity(intent);
             }
         });
         support.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
-                intent.setPackage("com.whatsapp");
-
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
-                    startActivity(browserIntent);
-                }
+                String number = "6395427453";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + "+91"+number));
+                startActivity(intent);
             }
         });
         whatsapp.setOnClickListener(new View.OnClickListener() {
@@ -754,16 +730,19 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getActivity(), coming_soon.class);
         startActivity(intent);
     }
+    @SuppressLint("SetTextI18n")
     private void updateUI(){
         if (isAdded() && getActivity() != null && sharedPreferences!=null) {
             String flexi = sharedPreferences.getString("flexi_wallet","0.0");
             String commission = sharedPreferences.getString("commission_wallet","0.0");
             String bonus = sharedPreferences.getString("signup_bonus","0.0");
             String today = sharedPreferences.getString("today_income","0.0");
+            String total = sharedPreferences.getString("total_income","0.0");
             bonusamount.setText(bonus);
             fundwalletamount.setText("₹ "+flexi);
-            totalincome.setText("₹ "+commission);
+            income_wallet.setText("₹ "+commission);
             today_income.setText("₹ "+today);
+            total_income.setText("₹ "+total);
         }
     }
     @Override

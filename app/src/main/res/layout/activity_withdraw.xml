@@ -208,7 +208,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:maxLength="4"
                         android:background="@drawable/edittextbackground"
-                        android:hint="Enter Amount (Min - 100)"
+                        android:hint="Amount x 50 (Min - 50)"
                         android:padding="@dimen/_8sdp"
                         android:minLines="1"
                         android:maxLines="5"

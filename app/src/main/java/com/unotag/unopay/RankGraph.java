@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -32,8 +33,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RankGraph extends BaseActivity {
     private SharedPreferences sharedPreferences;
@@ -57,13 +64,7 @@ public class RankGraph extends BaseActivity {
         String memberId = sharedPreferences.getString("memberId", "UP000000");
         LottieAnimationView shareAnimation = findViewById(R.id.shareAnimation);
         shareAnimation.setOnClickListener(v->ShareUtil.shareApp(this, memberId));
-        try {
-            getActiveTeam(memberId);
-        } catch (JSONException e) {
-            progress_layout.setVisibility(GONE);
-            recyclerView.setVisibility(VISIBLE);
-            throw new RuntimeException(e);
-        }
+        fetchTeamData(memberId);
     }
     private void pre(){
         String memberId = sharedPreferences.getString("memberId", "UP000000");
@@ -76,71 +77,87 @@ public class RankGraph extends BaseActivity {
         back_button.setOnClickListener(v->finish());
     }
 
-    private void getActiveTeam(String memberId) throws JSONException {
-        String url = BuildConfig.api_url + "get-active-team-no";
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("member_id", memberId);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                url,
-                requestBody,
-                response -> {
-                    try {
-                        Log.d("active_team",response.toString());
-                        double[] percentages = new double[7];
-                        if (response.has("active_team")) {
-                            team_size = response.getInt("active_team");
-                            int[] required = {12, 48, 192, 768, 3072, 12288, 49152};
-                            for (int i = 0; i < 7; i++) {
-                                if (team_size >= required[i])
-                                    percentages[i] = 100;
-                                else
-                                    percentages[i] = (double) team_size / required[i] * 100;
-                                Log.d("active_number", String.valueOf(percentages[i]));
-                            }
-                        }
-                        String[] ranks = {"Opal", "Topaz", "Jasper", "Alexander",
-                                "Diamond", "Blue Diamond", "Crown Diamond"};
-                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                        RankGraphAdapter adapter = new RankGraphAdapter(ranks, percentages);
-                        recyclerView.setAdapter(adapter);
-                        progress_layout.setVisibility(GONE);
-                        recyclerView.setVisibility(VISIBLE);
+    private void fetchTeamData(String member_id) {
+        MemberRequest requestBody = new MemberRequest(member_id);
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        String token = sharedPreferences.getString("token","");
+        Call<TeamResponse> call = apiService.fetchTeamData("Bearer " + token,requestBody);
 
-                    } catch (Exception e) {
-                        Log.d("active_team", response.toString());
-                        progress_layout.setVisibility(GONE);
-                        recyclerView.setVisibility(VISIBLE);
-                    }
-                },
-                error -> {
-                    Log.d("active_team", error.toString());
-                    if (error.networkResponse != null) {
-                        int statusCode = error.networkResponse.statusCode;
-                        String responseBody = new String(error.networkResponse.data);
-                        Log.e("active_team", "Error: " + statusCode + " - " + responseBody);
-                    } else {
-                        Log.e("active_team", "Unknown error", error);
-                    }
-                    progress_layout.setVisibility(GONE);
-                    recyclerView.setVisibility(VISIBLE);
-                }) {
+        call.enqueue(new Callback<TeamResponse>() {
             @Override
-            public Map<String, String> getHeaders() {
-                String token = sharedPreferences.getString("token", "");
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Accept", "application/json");
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
+            public void onResponse(@NonNull Call<TeamResponse> call, @NonNull Response<TeamResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    TeamResponse teamResponse = response.body();
+                    if (teamResponse.isSuccess()) {
+                        List<Member> teamMembersList = teamResponse.getTeamMembers();
+                        Map<Integer, List<Member>> teamData = new HashMap<>();
+
+                        for (Member member : teamMembersList) {
+                            int level = member.getLevel();
+                            teamData.computeIfAbsent(level, k -> new ArrayList<>()).add(member);
+                        }
+                        updateGraph(teamData);
+                        //
+                    } else {
+                        Toast.makeText(RankGraph.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    //
+                    Toast.makeText(RankGraph.this, "No Team Found", Toast.LENGTH_SHORT).show();
+                }
+                //
             }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(request);
+
+            @Override
+            public void onFailure(@NonNull Call<TeamResponse> call, @NonNull Throwable t) {
+                Toast.makeText(RankGraph.this, "Network Error", Toast.LENGTH_SHORT).show();
+                double[] percentages = new double[7];
+                String[] ranks = {"Opal", "Topaz", "Jasper", "Alexander",
+                        "Diamond", "Blue Diamond", "Crown Diamond"};
+                recyclerView.setLayoutManager(new LinearLayoutManager(RankGraph.this));
+                RankGraphAdapter adapter = new RankGraphAdapter(ranks, percentages);
+                recyclerView.setAdapter(adapter);
+                progress_layout.setVisibility(GONE);
+                recyclerView.setVisibility(VISIBLE);
+            }
+        });
+    }
+
+    private void updateGraph(Map<Integer, List<Member>> teamData) {
+        double[] percentages = new double[7];
+        int[] required = {12, 48, 192, 768, 3072, 12288, 49152};
+        for (int i = 0; i < 7; i++) {
+            int level = i + 1;
+            if (teamData.containsKey(level)) {
+                int active = 0;
+                int free = 0;
+                List<Member> members = teamData.get(level);
+                if (members != null) {
+                    for (Member member : members) {
+                        String membership = member.getMembership();
+                        if (membership != null && membership.trim().equalsIgnoreCase("Free")) {
+                            free++;
+                        } else {
+                            active++;
+                        }
+                    }
+                }
+                if(active>required[i])
+                    percentages[i] = 100;
+                else
+                    percentages[i] = (double) active / required[i] * 100;
+            } else {
+                percentages[i] = 0;
+            }
+        }
+        String[] ranks = {"Opal", "Topaz", "Jasper", "Alexander",
+                "Diamond", "Blue Diamond", "Crown Diamond"};
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RankGraphAdapter adapter = new RankGraphAdapter(ranks, percentages);
+        recyclerView.setAdapter(adapter);
+        progress_layout.setVisibility(GONE);
+        recyclerView.setVisibility(VISIBLE);
+
     }
 
 }

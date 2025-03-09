@@ -1,10 +1,15 @@
 package com.unotag.unopay;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +38,9 @@ public class LevelStatusGraph extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private RecyclerView recyclerView;
     private LevelStatusAdapter adapter;
+    private LinearLayout levelStatusProgress;
     private List<LevelStatusItem> levelStatusList = new ArrayList<>();
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +51,7 @@ public class LevelStatusGraph extends AppCompatActivity {
         total = findViewById(R.id.total);
         total_active = findViewById(R.id.total_active);
         total_free = findViewById(R.id.total_free);
+        levelStatusProgress = findViewById(R.id.level_status_progress);
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Hello, !");
         String memberId = sharedPreferences.getString("memberId", "UP000000");
@@ -55,7 +63,8 @@ public class LevelStatusGraph extends AppCompatActivity {
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerView.setVisibility(GONE);
+        levelStatusProgress.setVisibility(VISIBLE);
         // Initialize and set adapter
         fetchTeamData(memberId);
     }
@@ -89,16 +98,19 @@ public class LevelStatusGraph extends AppCompatActivity {
                     //
                     Toast.makeText(LevelStatusGraph.this, "No Team Found", Toast.LENGTH_SHORT).show();
                 }
-                //
+                levelStatusProgress.setVisibility(GONE);
+                recyclerView.setVisibility(VISIBLE);
             }
 
             @Override
-            public void onFailure(Call<TeamResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<TeamResponse> call, @NonNull Throwable t) {
                 Toast.makeText(LevelStatusGraph.this, "Network Error", Toast.LENGTH_SHORT).show();
-                //
+                levelStatusProgress.setVisibility(GONE);
+                recyclerView.setVisibility(VISIBLE);
             }
         });
     }
+
     private void updateLevelStatusList(Map<Integer, List<Member>> teamData) {
         List<LevelStatusItem> levelStatusList = new ArrayList<>();
 
@@ -118,7 +130,6 @@ public class LevelStatusGraph extends AppCompatActivity {
                             active++;
                         }
                         assert membership != null;
-                        Log.d("level_status_graph", membership);
                     }
                 }
                 ato+=active;

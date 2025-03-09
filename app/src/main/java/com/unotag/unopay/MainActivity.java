@@ -322,13 +322,17 @@ public class MainActivity extends BaseActivity {
                             if (status.equals("true")) {
                                 String flexi_wallet = response.optString("flexi_wallet","0.0");
                                 String commission_wallet = response.optString("commission_wallet","0.0");
-                                String signup_bonus = response.optString("signup_bonus","0.0");
+                                String total_income = response.optString("total_income","0.0");
+                                String signup_bonus = response.optString("signup_bonus","649");
                                 String today_income = response.optString("today_income","0");
+                                String commission_minus = response.optString("commission_minus_hold","0");
                                 String membership = response.optString("membership","FREE");
 
-                                flexi_wallet = String.format("%.2f", Double.parseDouble(flexi_wallet));
-                                commission_wallet = String.format("%.2f", Double.parseDouble(commission_wallet));
-                                signup_bonus = String.format("%.2f", Double.parseDouble(signup_bonus));
+                                flexi_wallet = sanitizeIncome(flexi_wallet);
+                                commission_wallet = sanitizeIncome(commission_wallet);
+                                total_income = sanitizeIncome(total_income);
+                                commission_minus = sanitizeIncome(commission_minus);
+                                today_income = sanitizeIncome(today_income);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -337,6 +341,8 @@ public class MainActivity extends BaseActivity {
                                 editor.putString("signup_bonus",signup_bonus);
                                 editor.putString("today_income",today_income);
                                 editor.putString("membership",membership);
+                                editor.putString("total_income",total_income);
+                                editor.putString("commission_minus_hold",commission_minus);
                                 editor.apply();
 
                             }
@@ -385,11 +391,17 @@ public class MainActivity extends BaseActivity {
                             if (status.equals("true")) {
                                 String flexi_wallet = response.optString("flexi_wallet","0.0");
                                 String commission_wallet = response.optString("commission_wallet","0.0");
-                                String signup_bonus = response.optString("signup_bonus","0.0");
+                                String signup_bonus = response.optString("signup_bonus","649");
                                 String today_income = response.optString("today_income","0");
+                                String membership = response.optString("membership","FREE");
+                                String total_income = response.optString("total_income","0.0");
+                                String commission_minus = response.optString("commission_minus_hold","0");
 
-                                flexi_wallet = String.format("%.2f", Double.parseDouble(flexi_wallet));
-                                commission_wallet = String.format("%.2f", Double.parseDouble(commission_wallet));
+                                flexi_wallet = sanitizeIncome(flexi_wallet);
+                                commission_wallet = sanitizeIncome(commission_wallet);
+                                total_income = sanitizeIncome(total_income);
+                                commission_minus = sanitizeIncome(commission_minus);
+                                today_income = sanitizeIncome(today_income);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -397,6 +409,9 @@ public class MainActivity extends BaseActivity {
                                 editor.putString("commission_wallet",commission_wallet);
                                 editor.putString("signup_bonus",signup_bonus);
                                 editor.putString("today_income",today_income);
+                                editor.putString("membership",membership);
+                                editor.putString("total_income",total_income);
+                                editor.putString("commission_minus_hold",commission_minus);
                                 editor.apply();
 
                             }
@@ -629,6 +644,16 @@ public class MainActivity extends BaseActivity {
             } else {
                 Log.e("Gallery", "Failed to delete image");
             }
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String sanitizeIncome(String income) {
+        try {
+            double value = Double.parseDouble(income);
+            return String.format("%.2f", Math.max(value, 0.0));
+        } catch (NumberFormatException e) {
+            return "0.00";
         }
     }
 }

@@ -69,8 +69,8 @@ public class BusinessFragment extends Fragment {
     private ProgressBar upload_progress;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
-    private LinearLayout rank_layout,level_status;
-    private TextView uname,uid,id_status,u_number,id_doj,flexi_text,commission_text,bonus_text,rank_graph,user_ki_rank,today_income,filename;
+    private LinearLayout rank_layout,level_status,doa_layout,doj_layout;
+    private TextView uname,uid,id_status,u_number,id_doa,id_doj,flexi_text,commission_text,bonus_text,rank_graph,user_ki_rank,today_income,filename;
     private CardView my_team,income;
     private ImageView view_image,change_image;
     @SuppressLint({"CutPasteId", "MissingInflatedId", "SetTextI18n"})
@@ -87,6 +87,9 @@ public class BusinessFragment extends Fragment {
         my_team = view.findViewById(R.id.my_team);
         u_number = view.findViewById(R.id.id_card_no);
         id_doj = view.findViewById(R.id.id_card_doj);
+        id_doa = view.findViewById(R.id.id_card_doa);
+        doa_layout = view.findViewById(R.id.doa_layout);
+        doj_layout = view.findViewById(R.id.doj_layout);
         income = view.findViewById(R.id.income);
         rank_layout = view.findViewById(R.id.rank_layout);
         flexi_text = view.findViewById(R.id.flexi_wallet_text);
@@ -114,7 +117,7 @@ public class BusinessFragment extends Fragment {
 
         updateUI();
         preferenceChangeListener = (sharedPreferences, key) -> {
-            if ("flexi_wallet".equals(key) || "commission_wallet".equals(key) || "membership".equals(key) || "rank".equals(key)) {
+            if ("flexi_wallet".equals(key) || "commission_wallet".equals(key) || "membership".equals(key) || "rank".equals(key) || "doa".equals(key)) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (isAdded()) {
                         updateUI();
@@ -162,16 +165,9 @@ public class BusinessFragment extends Fragment {
             startActivity(intent);
         });
         marquee_text.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
-            intent.setPackage("com.whatsapp");
-
-            try {
-                startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whatsapp.com/channel/0029VaHzaUo42DcdqW2IGI1C"));
-                startActivity(browserIntent);
-            }
+            String number = "6395427453";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + "+91"+number));
+            startActivity(intent);
         });
         return  view;
     }
@@ -417,16 +413,17 @@ public class BusinessFragment extends Fragment {
             return;
         }
         sharedPreferences = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username","Hello!");
+        String username = sharedPreferences.getString("username","User");
         String memberId = sharedPreferences.getString("memberId","UP000000");
         String status = sharedPreferences.getString("membership","FREE");
-        String mno = sharedPreferences.getString("mobile","9999999999");
-        String doj = sharedPreferences.getString("doj","01 Jan 25");
+        String mno = sharedPreferences.getString("mobile","-");
+        String doj = sharedPreferences.getString("doj","-");
         String flexi = sharedPreferences.getString("flexi_wallet","0.0");
-        String commission = sharedPreferences.getString("commission_wallet","0.0");
+        String total = sharedPreferences.getString("total_income","0.0");
         String bonus = sharedPreferences.getString("signup_bonus","0.0");
         String rank = sharedPreferences.getString("rank","Not Achieved");
         String today = sharedPreferences.getString("today_income","0.0");
+        String dateOfActivation = sharedPreferences.getString("doa", "-");
         Log.d("user_ki_rank",rank);
 
         uname.setText(username);
@@ -449,11 +446,20 @@ public class BusinessFragment extends Fragment {
             user_ki_rank.setTextColor(getResources().getColor(R.color.endColor));
         else
             user_ki_rank.setTextColor(getResources().getColor(R.color.msg_grey));
+        if(dateOfActivation.equals("-")) {
+            doa_layout.setVisibility(GONE);
+            doj_layout.setVisibility(VISIBLE);
+        }
+        else {
+            id_doa.setText(dateOfActivation);
+            doa_layout.setVisibility(VISIBLE);
+            doj_layout.setVisibility(GONE);
+        }
         id_status.setText(status);
         u_number.setText(mno);
         id_doj.setText(doj);
         flexi_text.setText("₹ "+flexi);
-        commission_text.setText("₹ "+commission);
+        commission_text.setText("₹ "+total);
         bonus_text.setText(bonus);
         user_ki_rank.setText(rank);
         today_income.setText("₹ "+today);

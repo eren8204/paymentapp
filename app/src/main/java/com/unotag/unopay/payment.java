@@ -18,8 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -377,10 +375,12 @@ public class payment extends BaseActivity {
             if(response!=null){
                 try {
                     if(response.getString("status").equals("true")){
-                        String membership = response.getString("membership");
+                        String membership = response.optString("membership","Free");
+                        String doa = response.optString("doa","-");
                         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("membership",membership);
+                        editor.putString("doa",doa);
                         editor.apply();
                     }
                 } catch (JSONException e) {
@@ -754,13 +754,17 @@ public class payment extends BaseActivity {
                             if (status.equals("true")) {
                                 String flexi_wallet = response.optString("flexi_wallet","0.0");
                                 String commission_wallet = response.optString("commission_wallet","0.0");
-                                String signup_bonus = response.optString("signup_bonus","0.0");
-                                String today_income = response.optString("today_income","0");
+                                String signup_bonus = response.optString("signup_bonus","649");
+                                String today_income = response.optString("today_income","0.0");
                                 String membership = response.optString("membership","FREE");
+                                String total_income = response.optString("total_income","0");
+                                String commission_minus = response.optString("commission_minus_hold","0");
 
-                                flexi_wallet = String.format("%.2f", Double.parseDouble(flexi_wallet));
-                                commission_wallet = String.format("%.2f", Double.parseDouble(commission_wallet));
-                                signup_bonus = String.format("%.2f", Double.parseDouble(signup_bonus));
+                                flexi_wallet = sanitizeIncome(flexi_wallet);
+                                commission_wallet = sanitizeIncome(commission_wallet);
+                                today_income = sanitizeIncome(today_income);
+                                total_income = sanitizeIncome(total_income);
+                                commission_minus = sanitizeIncome(commission_minus);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -769,6 +773,8 @@ public class payment extends BaseActivity {
                                 editor.putString("signup_bonus",signup_bonus);
                                 editor.putString("today_income",today_income);
                                 editor.putString("membership",membership);
+                                editor.putString("total_income",total_income);
+                                editor.putString("commission_minus_hold",commission_minus);
                                 editor.apply();
 
                             }
@@ -794,6 +800,16 @@ public class payment extends BaseActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String sanitizeIncome(String income) {
+        try {
+            double value = Double.parseDouble(income);
+            return String.format("%.2f", Math.max(value, 0.0));
+        } catch (NumberFormatException e) {
+            return "0.00";
+        }
     }
 
     private void showDateTime(){

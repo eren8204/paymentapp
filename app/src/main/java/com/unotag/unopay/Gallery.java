@@ -1,5 +1,8 @@
 package com.unotag.unopay;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +49,7 @@ public class Gallery extends BaseActivity {
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
     private List<Bitmap> imageUrls = new ArrayList<>();
+    private LinearLayout progressLayout;
     private int width = 0;
 
     @SuppressLint("MissingInflatedId")
@@ -55,6 +60,7 @@ public class Gallery extends BaseActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        progressLayout = findViewById(R.id.gallery_progress);
 
         width = getResources().getDisplayMetrics().widthPixels / 3;
         imageAdapter = new ImageAdapter(this,imageUrls,width);
@@ -95,6 +101,8 @@ public class Gallery extends BaseActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 runOnUiThread(() -> {
+                    progressLayout.setVisibility(GONE);
+                    recyclerView.setVisibility(VISIBLE);
                     Toast.makeText(Gallery.this, "No Images Found", Toast.LENGTH_SHORT).show();
                 });
             }
@@ -104,7 +112,10 @@ public class Gallery extends BaseActivity {
                 if (!response.isSuccessful()) {
                     return;
                 }
-
+                runOnUiThread(() -> {
+                    progressLayout.setVisibility(GONE);
+                    recyclerView.setVisibility(VISIBLE);
+                });
                 assert response.body() != null;
                 String responseBody = response.body().string();
                 try {

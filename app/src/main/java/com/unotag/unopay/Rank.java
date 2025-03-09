@@ -4,6 +4,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class Rank extends BaseActivity {
     private List<ActiveDirect> filteredList;
     private RequestQueue requestQueue;
     private int progress=0;
+    private Context context;
     private TextView progress_text,rank_ka_name,ranked_members_count;
     private LinearLayout progress_layout,oops_layout;
     private SharedPreferences sharedPreferences;
@@ -57,7 +59,7 @@ public class Rank extends BaseActivity {
         setContentView(R.layout.activity_rank);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.endColor));
-
+        context = this;
         progress_text = findViewById(R.id.progress_text);
         progress_layout = findViewById(R.id.progress_layout);
         oops_layout = findViewById(R.id.oops_layout);
@@ -74,9 +76,8 @@ public class Rank extends BaseActivity {
         activeDirectList = new ArrayList<>();
         filteredList = new ArrayList<>();
 
-        adapter = new ActiveDirectAdapter(activeDirectList, item -> {
-            Toast.makeText(this, "Opening details for: " + item.getMemberId(), Toast.LENGTH_SHORT).show();
-
+        adapter = new ActiveDirectAdapter(context,activeDirectList, item -> {
+            //
         });
 
 
@@ -161,7 +162,7 @@ public class Rank extends BaseActivity {
         try {
             requestBody.put("member_id", memberId);
         } catch (JSONException e) {
-            Toast.makeText(this, "Error creating request body", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error Try Again Later", Toast.LENGTH_SHORT).show();
             return;
         }
         @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"}) JsonObjectRequest request = new JsonObjectRequest(
@@ -169,8 +170,6 @@ public class Rank extends BaseActivity {
                 url,
                 requestBody,
                 response -> {
-                    Log.d("Response", response.toString());
-
                     try {
                         progress_layout.setVisibility(GONE);
                         if(response.has("rank_no")){
@@ -182,14 +181,18 @@ public class Rank extends BaseActivity {
                             progress_text.setText(ranks[n]);
                         }
                         if (response.has("active_directs_list")) {
-                            JSONArray activeDirectsArray = response.getJSONArray("active_directs_list");
+                            JSONArray activeDirectsArray = response.getJSONArray("active_team_list");
                             activeDirectList.clear();
                             for (int i = 0; i < activeDirectsArray.length(); i++) {
                                 JSONObject activeDirectObject = activeDirectsArray.getJSONObject(i);
-                                int rank = activeDirectObject.getInt("rank");
-                                String activeMemberId = activeDirectObject.getString("member_id");
-                                String membership = activeDirectObject.getString("membership");
-                                activeDirectList.add(new ActiveDirect(rank, activeMemberId, membership));
+                                int rank = activeDirectObject.optInt("rank",0);
+                                String activeMemberId = activeDirectObject.optString("member_id","");
+                                String membership = activeDirectObject.optString("membership","");
+                                String username = activeDirectObject.optString("username","");
+                                String phoneNumber = activeDirectObject.optString("phoneno","0000000000");
+                                String level = activeDirectObject.optString("level","");
+                                if(rank>0)
+                                    activeDirectList.add(new ActiveDirect(rank, username, phoneNumber, level, activeMemberId, membership));
                                 recyclerView.setVisibility(VISIBLE);
                             }
                             Log.d("ActiveDirectListSize", "Size: " + activeDirectList.size());
@@ -207,7 +210,6 @@ public class Rank extends BaseActivity {
                     } catch (JSONException e) {
                         oops_layout.setVisibility(VISIBLE);
                         Log.e("rank_err", "JSON Parsing Error: " + e);
-                        Toast.makeText(this, "Parsing Error", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
@@ -220,7 +222,6 @@ public class Rank extends BaseActivity {
                             Log.e("rank_err1", "Response Body: " + responseBody);
                         }
                     }
-                    Toast.makeText(this, "Error Fetching Data", Toast.LENGTH_SHORT).show();
                 }
         ){
             @Override
