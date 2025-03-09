@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,14 +13,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +25,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -92,7 +87,7 @@ public class MyIncome extends BaseActivity {
         RadioButton seeMembership = findViewById(R.id.seeMembership);
         RadioButton seeRecharge = findViewById(R.id.seeRecharge);
         RadioButton seeRank = findViewById(R.id.seeRank);
-        RadioButton seeMoneyPlant = findViewById(R.id.seeRank);
+        RadioButton seeMoneyPlant = findViewById(R.id.seeMoneyPlant);
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId==R.id.seeAll){
@@ -151,7 +146,7 @@ public class MyIncome extends BaseActivity {
         }
         else if(seeSelect == 5){
             for (Transaction transaction : transactionList) {
-                if (transaction.type.equalsIgnoreCase("Money Plant")) {
+                if (transaction.type.equalsIgnoreCase("Magic Plant")) {
                     filteredList.add(transaction);
                 }
             }
