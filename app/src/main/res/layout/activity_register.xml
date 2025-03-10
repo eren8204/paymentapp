@@ -189,6 +189,7 @@
                 android:layout_marginEnd="@dimen/_30sdp"
                 android:inputType="textPassword"
                 android:maxLength="12"
+                android:visibility="gone"
                 android:drawableStart="@drawable/baseline_lock_24"
                 android:layout_gravity="center">
 

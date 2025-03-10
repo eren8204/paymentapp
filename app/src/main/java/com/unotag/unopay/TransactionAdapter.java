@@ -133,6 +133,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         try {
             Date date = inputDateFormat.parse(dateString);
+            assert date != null;
             return outputDateFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();

@@ -107,8 +107,6 @@ public class companydocument extends BaseActivity {
 
     private void loadImageFromAssets(ImageView imageView, String imagePath) {
         try {
-            Log.d("AssetsLoader", "Loading image: " + imagePath);
-
             InputStream inputStream = getAssets().open(imagePath);
             Drawable drawable = Drawable.createFromStream(inputStream, null);
             imageView.setImageDrawable(drawable);

@@ -125,32 +125,35 @@ public class Withdraw extends BaseActivity {
                             return;
                         }
 
-                        int amt;
+                        double amt=0.0;
                         try {
-                            amt = Integer.parseInt(message);
+                            amt = Double.parseDouble(message);
                         } catch (NumberFormatException e) {
                             messageEditText.setError("Please enter a numeric amount");
                             return;
                         }
 
-                        int availableBalance;
+                        double availableBalance=0.0;
                         try {
-                            availableBalance = Integer.parseInt(available_fund.getText().toString().replaceAll("[^0-9]", ""));
+                            availableBalance = Double.parseDouble(available_fund.getText().toString());
                         } catch (NumberFormatException e) {
                             showError("Invalid balance format. Contact support.");
                             return;
                         }
-
                         if (amt > availableBalance) {
                             messageEditText.setError("Insufficient Balance");
                             return;
                         }
-
-                        if ((transferSelect == 1 || transferSelect == 2) && (amt < 50 || amt % 50 != 0)) {
-                            messageEditText.setError("Minimum amount is 50 and must be a multiple of 50");
+                        if (transferSelect == 1 && (amt < 50)) {
+                            messageEditText.setError("Minimum amount is 50");
                             return;
-                        } else if (transferSelect == 3 && (amt < 250 || amt % 50 != 0)) {
+                        }
+                        else if (transferSelect == 2 && (amt < 50 || amt % 50 != 0)) {
                             messageEditText.setError("Minimum amount is 250 and must be a multiple of 50");
+                            return;
+                        }
+                        else if (transferSelect == 3 && (amt < 250)) {
+                            messageEditText.setError("Minimum amount is 250");
                             return;
                         } else if (k == 1) {
                             toMember.setError("Valid Member Required");
@@ -201,7 +204,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
-                messageEditText.setHint("Amount x 50 (Min - 50)");
+                messageEditText.setHint("Amount (Min - 50)");
             }
             else if(checkedId==R.id.togglePerson){
                 k=1;
@@ -215,7 +218,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 3;
                 toMember.setVisibility(GONE);
-                messageEditText.setHint("Amount x 50 (Min - 250)");
+                messageEditText.setHint("Amount (Min - 250)");
             }
             else{
                 k=0;
@@ -223,7 +226,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
-                messageEditText.setHint("Amount x 50 (Min - 50)");
+                messageEditText.setHint("Amount (Min - 50)");
             }
         });
 
@@ -460,6 +463,7 @@ public class Withdraw extends BaseActivity {
                         if(response.has("status") && response.getString("status").equals("true")){
                             messageEditText.setText("");
                             toMember.setText("");
+                            tpin.setText("");
                             String msg = "Done";
                             if(response.has("message"))
                                 msg = response.getString("message");
@@ -819,8 +823,6 @@ public class Withdraw extends BaseActivity {
                     holder.statusColour.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accept));
                     break;
             }
-
-
 
         }
 

@@ -45,9 +45,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 public class Register extends BaseActivity {
 
-    private EditText countryCodeEditText, otp_edit , sponsorID, phoneNumberEditText, nameEditText, emailEditText, passwordEditText, confirmPasswordEditText, tPinEditText;
+    private EditText countryCodeEditText, otp_edit , sponsorID, phoneNumberEditText, nameEditText, emailEditText, passwordEditText, tPinEditText;
     private TextView sponsor_name,login,sendotp;
     private CheckBox termsCheckBox;
     private Button registerButton;
@@ -74,7 +76,6 @@ public class Register extends BaseActivity {
         otp_progress_layout = findViewById(R.id.otp_progress_layout);
         emailEditText = findViewById(R.id.registeremail);
         passwordEditText = findViewById(R.id.password);
-        confirmPasswordEditText = findViewById(R.id.coinfirmpassword);
         tPinEditText = findViewById(R.id.T_PIN);
         termsCheckBox = findViewById(R.id.checkbox_example);
         registerButton = findViewById(R.id.save);
@@ -103,6 +104,11 @@ public class Register extends BaseActivity {
                 emailEditText.setError("Valid E-mail required");
                 emailEditText.requestFocus();
             }
+            else if (!email.toLowerCase().endsWith("@gmail.com")) {
+                emailEditText.setError("Only Gmail addresses are allowed");
+                emailEditText.requestFocus();
+                return;
+            }
             else{
                 sendotp.setVisibility(View.GONE);
                 otp_progress_layout.setVisibility(View.VISIBLE);
@@ -123,25 +129,6 @@ public class Register extends BaseActivity {
                             passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                         }
                         passwordEditText.setSelection(passwordEditText.getText().length());
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
-        confirmPasswordEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (confirmPasswordEditText.getRight() - confirmPasswordEditText.getCompoundDrawables()[2].getBounds().width())) {
-                        cPasswordVisible = !cPasswordVisible;
-                        if (cPasswordVisible) {
-                            confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-                        } else {
-                            confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        }
-                        confirmPasswordEditText.setSelection(confirmPasswordEditText.getText().length());
                         return true;
                     }
                 }
@@ -202,7 +189,6 @@ public class Register extends BaseActivity {
                 }
 
                 String password = passwordEditText.getText().toString().trim();
-                String confirmPassword = confirmPasswordEditText.getText().toString().trim();
                 String phonenumber = phoneNumberEditText.getText().toString().trim();
                 String mail = emailEditText.getText().toString().trim();
                 String tpin = tPinEditText.getText().toString().trim();
@@ -233,13 +219,12 @@ public class Register extends BaseActivity {
                     return;
                 }
 
-                if (mail.isEmpty() || !isValidEmail(mail)) {
+                if (mail.isEmpty() || !isValidEmail(mail.toLowerCase())) {
                     emailEditText.setError("Valid E-mail required");
                     emailEditText.requestFocus();
                     return;
                 }
-
-                if (tpin.isEmpty() ) {
+                if (tpin.isEmpty()) {
                     if(tpin.length()!=4)
                     {
                         tPinEditText.setError("T-pin must be of four character");
@@ -248,23 +233,13 @@ public class Register extends BaseActivity {
                     tPinEditText.requestFocus();
                     return;
                 }
-
-                if (!mail.endsWith("@gmail.com")) {
+                if (!mail.toLowerCase().endsWith("@gmail.com")) {
                     emailEditText.setError("Only Gmail addresses are allowed");
                     emailEditText.requestFocus();
                     return;
                 }
-
                 if (!password.matches(passwordPattern)) {
                     Toast.makeText(Register.this, "Password must be 8-12 characters long and include uppercase, lowercase, a number, and a special character. ", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(Register.this, "Password is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!password.equals(confirmPassword)){
-                    Toast.makeText(Register.this, "Password do not match", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(k==1){
@@ -338,9 +313,6 @@ public class Register extends BaseActivity {
         String tPin = tPinEditText.getText().toString().trim();
         String otp=otp_edit.getText().toString().trim();
 
-
-
-
         String baseUrl = BuildConfig.api_url+"register";
         JSONObject requestBody = new JSONObject();
         try {
@@ -381,14 +353,8 @@ public class Register extends BaseActivity {
                             intent.putExtra("MEMBER_ID", response.getString("memberId"));
                             intent.putExtra("DATE",response.getString("dateOfJoining"));
                             startActivity(intent);
-
-                            Intent intent1 = new Intent(Register.this, SuccessRegisterActivity.class);
-                            startActivity(intent);
                             finish();
                             Log.d("Bhenkeloada", "Registration response: " + response.toString());
-
-
-
                         }
                         else{
                             progressbar_register.setVisibility(View.GONE);
@@ -406,7 +372,7 @@ public class Register extends BaseActivity {
                     }
                     catch (Exception e){
                         Log.d("Submit Error",e.getMessage());
-                        Toast.makeText(this, "submit Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Register Error", Toast.LENGTH_SHORT).show();
                         progressbar_register.setVisibility(View.GONE);
                         registerButton.setVisibility(View.VISIBLE);
                     }
