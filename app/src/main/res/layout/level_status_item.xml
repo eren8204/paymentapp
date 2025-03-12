@@ -16,57 +16,74 @@
         android:text="1"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/black"/>
 
-    <!-- Progress Container -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/progressContainer"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_weight="1"
         android:background="@color/msg_grey"
+        android:orientation="horizontal"
         android:padding="2dp">
 
-        <!-- Active Progress Section (Left Side) -->
-        <View
+        <!-- Total Progress Section -->
+        <LinearLayout
+            android:id="@+id/total"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/endColor"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/total_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <!-- Active Progress Section -->
+        <LinearLayout
             android:id="@+id/activeProgress"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/start_bg"
-            android:layout_alignParentStart="true"/>
+            android:layout_weight="1"
+            android:background="@color/accept"
+            android:gravity="center">
 
-        <!-- Free Progress Section (Right Side) -->
-        <View
+            <TextView
+                android:id="@+id/active_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <!-- Free Progress Section -->
+        <LinearLayout
             android:id="@+id/freeProgress"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/end_bg"
-            android:layout_toEndOf="@id/activeProgress"/>
+            android:layout_weight="1"
+            android:background="@color/reject"
+            android:gravity="center">
 
-        <!-- Active Count (Inside Progress) -->
-        <TextView
-            android:id="@+id/active_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="@android:color/white"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"/>
+            <TextView
+                android:id="@+id/free_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+    </LinearLayout>
 
-        <!-- Free Count (Inside Progress) -->
-        <TextView
-            android:id="@+id/free_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="@android:color/holo_red_light"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"/>
-    </RelativeLayout>
 
 </LinearLayout>

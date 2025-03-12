@@ -37,57 +37,9 @@ public class LevelStatusAdapter extends RecyclerView.Adapter<LevelStatusAdapter.
         holder.activeCount.setText(String.valueOf(item.getActiveCount()));
         holder.freeCount.setText(String.valueOf(item.getFreeCount()));
 
-        // Get total count
         int total = item.getActiveCount() + item.getFreeCount();
+        holder.totalCount.setText(String.valueOf(total));
 
-        // **RESET Views to Avoid Wrong Recycled Widths**
-        holder.activeProgress.setLayoutParams(new RelativeLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-        holder.freeProgress.setLayoutParams(new RelativeLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        holder.activeProgress.requestLayout();
-        holder.freeProgress.requestLayout();
-
-        // Wait until the layout is measured to get the correct width
-        holder.progressContainer.post(() -> {
-            int totalWidth = holder.progressContainer.getWidth();
-
-            if (totalWidth > 0) {
-                int activeWidth, freeWidth;
-
-                if (total == 0 || item.getActiveCount() == item.getFreeCount()) {
-                    // **Equal or Zero Case: Split 50-50**
-                    activeWidth = totalWidth / 2;
-                    freeWidth = totalWidth / 2;
-                } else {
-                    // **Proportional Width Calculation**
-                    float activeRatio = (float) item.getActiveCount() / total;
-                    activeWidth = (int) (totalWidth * activeRatio);
-                    freeWidth = totalWidth - activeWidth;
-                }
-
-                // **Apply the calculated widths**
-                RelativeLayout.LayoutParams activeParams = new RelativeLayout.LayoutParams(activeWidth, ViewGroup.LayoutParams.MATCH_PARENT);
-                holder.activeProgress.setLayoutParams(activeParams);
-
-                RelativeLayout.LayoutParams freeParams = new RelativeLayout.LayoutParams(freeWidth, ViewGroup.LayoutParams.MATCH_PARENT);
-                freeParams.addRule(RelativeLayout.END_OF, holder.activeProgress.getId());
-                holder.freeProgress.setLayoutParams(freeParams);
-            }
-        });
-
-        // **Dynamic Coloring by Level**
-        int[] levelColors = {
-                R.color.level_1, R.color.level_2, R.color.level_3, R.color.level_4,
-                R.color.level_5, R.color.level_6, R.color.level_7, R.color.level_8,
-                R.color.level_9, R.color.level_10
-        };
-
-        int colorIndex = (item.getIndex() - 1) % levelColors.length;
-        int backgroundColor = ContextCompat.getColor(holder.itemView.getContext(), levelColors[colorIndex]);
-
-        holder.index.setBackgroundColor(backgroundColor);
-        holder.activeProgress.setBackgroundColor(backgroundColor);
-        holder.freeProgress.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.msg_grey));
     }
 
     @Override
@@ -102,9 +54,8 @@ public class LevelStatusAdapter extends RecyclerView.Adapter<LevelStatusAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView index, activeCount, freeCount;
+        TextView index, activeCount, freeCount, totalCount;
         View activeProgress, freeProgress;
-        RelativeLayout progressContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,7 +64,8 @@ public class LevelStatusAdapter extends RecyclerView.Adapter<LevelStatusAdapter.
             freeCount = itemView.findViewById(R.id.free_count);
             activeProgress = itemView.findViewById(R.id.activeProgress);
             freeProgress = itemView.findViewById(R.id.freeProgress);
-            progressContainer = itemView.findViewById(R.id.progressContainer);
+            totalCount = itemView.findViewById(R.id.total_count);
+
         }
     }
 }

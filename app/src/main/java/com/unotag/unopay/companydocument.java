@@ -58,14 +58,16 @@ public class companydocument extends BaseActivity {
                 "gst_certificate.jpg",
                 "gst_certificate_third.jpg",
                 "incorporation_certificate.jpg",
-                "pan_card_company.jpg"
+                "pan_card_company.jpg",
+                "msme.jpg"
         };
         String[] displayNames = {
                 "TAN CARD",
                 "GST CERTIFICATE",
                 "GST CERTIFICATE THIRD",
                 "INCORPORATION CERTIFICATE",
-                "COMPANY PAN CARD"
+                "COMPANY PAN CARD",
+                "MSME CERTIFICATE"
         };
 
         int[] cardImageIds = {
@@ -73,21 +75,24 @@ public class companydocument extends BaseActivity {
                 R.id.cardImage2,
                 R.id.cardImage4,
                 R.id.cardImage5,
-                R.id.cardImage6
+                R.id.cardImage6,
+                R.id.cardImage3
         };
         int[] cardNameIds = {
                 R.id.cardName1,
                 R.id.cardName2,
                 R.id.cardName4,
                 R.id.cardName5,
-                R.id.cardName6
+                R.id.cardName6,
+                R.id.cardName3
         };
         int[] cardViewIds = {
                 R.id.cardView1,
                 R.id.cardView2,
                 R.id.cardView4,
                 R.id.cardView5,
-                R.id.cardView6
+                R.id.cardView6,
+                R.id.cardView3
         };
 
         for (int i = 0; i < imageNames.length; i++) {

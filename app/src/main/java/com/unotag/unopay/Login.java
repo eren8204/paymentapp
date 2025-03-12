@@ -60,9 +60,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class Login extends BaseActivity {
 
+    private boolean isAutoLogin = false;
     private TextView signup, error_msg, help;
     private EditText email, password, otp_edittext;
     private Button login;
@@ -168,7 +170,6 @@ public class Login extends BaseActivity {
             }
         }
 
-        checkForUpdate();
         forgetpassword.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, ForgetPassword.class);
             startActivity(intent);
@@ -211,9 +212,9 @@ public class Login extends BaseActivity {
             password.setEnabled(false);
             login.setEnabled(true);
             signup.setEnabled(false);
-            loginIdPass();
+            isAutoLogin = true;
         }
-
+        checkForUpdate();
         signup.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, Register.class);
             startActivity(intent);
@@ -408,16 +409,34 @@ public class Login extends BaseActivity {
 //    }
 
     private void checkForUpdate() {
+        if (BuildConfig.DEBUG) {
+            if (isAutoLogin) {
+                loginIdPass();
+            }
+            return;
+        }
+
         appUpdateManager = AppUpdateManagerFactory.create(this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+            boolean isUpdateAvailable = appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE);
+
+            if (isUpdateAvailable) {
                 redirectToPlayStore();
+            } else if (isAutoLogin) {
+                loginIdPass();
+            }
+        });
+
+        appUpdateInfoTask.addOnFailureListener(e -> {
+            if (isAutoLogin) {
+                loginIdPass();
             }
         });
     }
+
 
     private void redirectToPlayStore() {
         Toast.makeText(this, "Please update the app to continue", Toast.LENGTH_LONG).show();
@@ -425,8 +444,9 @@ public class Login extends BaseActivity {
                 Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finishAffinity();
+        finishAndRemoveTask();
     }
+
 
     public void loginIdPass() {
         login.setVisibility(View.GONE);
@@ -563,6 +583,11 @@ public class Login extends BaseActivity {
     public static String formatDate(String dateString) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yy", Locale.getDefault());
+
+        // Input is in UTC
+        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // Output should be in IST
+        outputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 
         try {
             Date date = inputFormat.parse(dateString);

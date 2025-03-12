@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolder> {
 
@@ -101,6 +102,11 @@ class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolde
     public static String formatDate(String dateString) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yy", Locale.getDefault());
+
+        // Input is in UTC
+        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // Output should be in IST
+        outputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 
         try {
             Date date = inputFormat.parse(dateString);

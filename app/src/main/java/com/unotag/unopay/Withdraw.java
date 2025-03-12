@@ -58,17 +58,17 @@ public class Withdraw extends BaseActivity {
     private RecyclerView recyclerView;
     private WithdrawAdapter adapter;
     private List<WithdrawItem> withdrawList,filteredList;
-
     private EditText messageEditText,toMember;
     private static String SEND_MESSAGE_URL;
-
     private int transferSelect = 1;
     private int seeSelect = 1;
-
+    private static final String INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String DATE_FORMAT = "dd MMM yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
     private Button withdrawbtn;
     private ImageView back_button;
     private ProgressBar withdraw_progress;
-    private TextView member_name,available_fund,tpin;
+    private TextView member_name,available_fund,available_income,tpin;
     private int k = 0;
     private LinearLayout progressLayout,oopsLayout;
     private SharedPreferences sharedPreferences;
@@ -88,6 +88,7 @@ public class Withdraw extends BaseActivity {
         memberName.setText(username);
         userId.setText(memberId);
 
+        available_income = findViewById(R.id.available_income);
         available_fund = findViewById(R.id.available_fund);
         tpin = findViewById(R.id.tpin);
         progressLayout = findViewById(R.id.progress_layout);
@@ -102,7 +103,7 @@ public class Withdraw extends BaseActivity {
 
         updateUI();
         preferenceChangeListener = (sharedPreferences, key) -> {
-            if ("commission_minus_hold".equals(key)) {
+            if ("commission_minus_hold".equals(key) || "flexi_wallet".equals(key)) {
                 new Handler(Looper.getMainLooper()).post(this::updateUI);
             }
         };
@@ -132,24 +133,35 @@ public class Withdraw extends BaseActivity {
                             messageEditText.setError("Please enter a numeric amount");
                             return;
                         }
-
-                        double availableBalance=0.0;
-                        try {
-                            availableBalance = Double.parseDouble(available_fund.getText().toString());
-                        } catch (NumberFormatException e) {
-                            showError("Invalid balance format. Contact support.");
-                            return;
+                        if(transferSelect == 1 || transferSelect==3){
+                            double availableBalance=0.0;
+                            try {
+                                availableBalance = Double.parseDouble(available_income.getText().toString());
+                            } catch (NumberFormatException e) {
+                                showError("Invalid balance format. Contact support.");
+                                return;
+                            }
+                            if (amt > availableBalance) {
+                                messageEditText.setError("Insufficient Balance");
+                                messageEditText.setFocusable(true);
+                                return;
+                            }
+                        } else if (transferSelect==2) {
+                            double availableBalance=0.0;
+                            try {
+                                availableBalance = Double.parseDouble(available_fund.getText().toString());
+                            } catch (NumberFormatException e) {
+                                showError("Invalid balance format. Contact support.");
+                                return;
+                            }
+                            if (amt > availableBalance) {
+                                messageEditText.setError("Insufficient Balance");
+                                messageEditText.setFocusable(true);
+                                return;
+                            }
                         }
-                        if (amt > availableBalance) {
-                            messageEditText.setError("Insufficient Balance");
-                            return;
-                        }
-                        if (transferSelect == 1 && (amt < 50)) {
+                        if ((transferSelect == 1 || transferSelect == 2) && (amt < 50)) {
                             messageEditText.setError("Minimum amount is 50");
-                            return;
-                        }
-                        else if (transferSelect == 2 && (amt < 50 || amt % 50 != 0)) {
-                            messageEditText.setError("Minimum amount is 250 and must be a multiple of 50");
                             return;
                         }
                         else if (transferSelect == 3 && (amt < 250)) {
@@ -210,7 +222,7 @@ public class Withdraw extends BaseActivity {
                 k=1;
                 transferSelect = 2;
                 toMember.setVisibility(VISIBLE);
-                messageEditText.setHint("Amount x 50 (Min - 50)");
+                messageEditText.setHint("Amount (Min - 50)");
             }
             else if(checkedId==R.id.toggleBank){
                 k=0;
@@ -273,7 +285,14 @@ public class Withdraw extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 8) {
-                    checkSponsorID(toMember.getText().toString().trim());
+                    String checkId = toMember.getText().toString().trim();
+                    if(checkId.equalsIgnoreCase(memberId)){
+                        toMember.setError("Invalid Member Id");
+                        toMember.setFocusable(true);
+                        return;
+                    }
+                    else
+                        checkSponsorID(checkId);
                 } else if (s.length() > 0) {
                     toMember.setError("ID should be 8 characters in length");
                 }
@@ -511,50 +530,17 @@ public class Withdraw extends BaseActivity {
 
     }
 
-    private String formatDate(String dateString) {
-        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        String outputFormat = "dd MMM yyyy";
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
-
-        try {
-            Date date = inputDateFormat.parse(dateString);
-            assert date != null;
-            return outputDateFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return dateString;
-        }
-    }
-
-    private String formatTime(String utcDateString) {
-        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-        String outputFormat = "hh:mm a";
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
-
-        inputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-
-        try {
-            Date date = inputDateFormat.parse(utcDateString);
-            if (date != null) {
-
-                return outputDateFormat.format(date);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return utcDateString;
-    }
-
     private void updateUI(){
         if(sharedPreferences==null)
             sharedPreferences = getSharedPreferences("UserPrefs",MODE_PRIVATE);
-        String minus = sharedPreferences.getString("commission_minus_hold","0");
+        String minus = sharedPreferences.getString("commission_minus_hold","0.0");
+        String flexi = sharedPreferences.getString("flexi_wallet","0.0");
         if(available_fund==null)
             available_fund = findViewById(R.id.available_fund);
-        available_fund.setText(minus);
+        available_fund.setText(flexi);
+        if(available_income==null)
+            available_income = findViewById(R.id.available_income);
+        available_income.setText(minus);
     }
 
     private void fetchWalletBalance(String memberId){
@@ -573,7 +559,6 @@ public class Withdraw extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("balance_response",response.toString());
                             String status = response.getString("status");
                             if (status.equals("true")) {
                                 String flexi_wallet = response.optString("flexi_wallet","0.0");
@@ -644,6 +629,7 @@ public class Withdraw extends BaseActivity {
                     try {
                         if (response.getString("success").equals("true")) {
                             JSONArray dataArray = response.getJSONArray("data");
+                            withdrawList.clear();
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject item = dataArray.getJSONObject(i);
                                 String type = item.getString("type");
@@ -661,7 +647,7 @@ public class Withdraw extends BaseActivity {
                                             item.getString("type"),
                                             formatAmount(item.getString("amount")),
                                             item.getString("date_time"),
-                                            item.getString("receiver")
+                                            item.optString("receiver","")
                                     );
                                     withdrawList.add(withdrawItem);
                                 }
@@ -683,7 +669,7 @@ public class Withdraw extends BaseActivity {
                                     Date date1 = sdf.parse(request1.dateTime);
                                     Date date2 = sdf.parse(request2.dateTime);
                                     assert date2 != null;
-                                    return date2.compareTo(date1);
+                                    return date2.compareTo(date1); // Latest to oldest
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                     return 0;
@@ -824,6 +810,34 @@ public class Withdraw extends BaseActivity {
                     break;
             }
 
+        }
+
+        private String formatDate(String dateString) {
+            return formatDateTime(dateString, INPUT_FORMAT, DATE_FORMAT);
+        }
+
+        private String formatTime(String dateString) {
+            return formatDateTime(dateString, INPUT_FORMAT, TIME_FORMAT);
+        }
+
+        private String formatDateTime(String dateString, String inputFormat, String outputFormat) {
+            SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
+
+            // Input is in UTC
+            inputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            // Output should be in IST
+            outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+
+            try {
+                Date date = inputDateFormat.parse(dateString);
+                if (date != null) {
+                    return outputDateFormat.format(date);
+                }
+            } catch (ParseException e) {
+                Log.e("DateFormat", "Error parsing date: " + dateString, e);
+            }
+            return dateString;
         }
 
         @SuppressLint("NotifyDataSetChanged")

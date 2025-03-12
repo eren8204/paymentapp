@@ -181,7 +181,6 @@ public class addfund extends BaseActivity {
 
         lottieAnimationshare.setOnClickListener(v -> shareCardView());
 
-
         lottieAnimationsave = findViewById(R.id.saveButton);
         lottieAnimationsave.playAnimation();
         lottieAnimationsave.addAnimatorListener(new Animator.AnimatorListener() {
@@ -204,8 +203,6 @@ public class addfund extends BaseActivity {
 
             }
         });
-
-
 
         lottieAnimationsave.setOnClickListener(v -> {
             if (qrBitmap != null) {
@@ -705,9 +702,9 @@ public class addfund extends BaseActivity {
         builder.setTitle("Select Image Source")
                 .setItems(new CharSequence[]{"Camera", "Gallery"}, (dialog, which) -> {
                     if (which == 0) {
-                        openCamera(requestCode + 100); // Camera (Add 100 to differentiate)
+                        openCamera(requestCode + 100);
                     } else {
-                        openGallery(requestCode); // Gallery (Keep requestCode same)
+                        openGallery(requestCode);
                     }
                 })
                 .show();
@@ -716,7 +713,7 @@ public class addfund extends BaseActivity {
     private void openGallery(int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //intent.setType("image/*");
-        startActivityForResult(intent, requestCode); // Keep requestCode unchanged for Gallery
+        startActivityForResult(intent, requestCode);
     }
 
     private void openCamera(int requestCode) {
@@ -750,7 +747,7 @@ public class addfund extends BaseActivity {
         values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
 
         Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        if (uri != null) {
+        if (uri != null && bitmap != null) {
             try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
                 assert outputStream != null;
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
@@ -759,6 +756,9 @@ public class addfund extends BaseActivity {
                 Log.e(TAG, "Error saving image: " + e.getMessage());
                 Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
             }
+        }
+        else{
+            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
         }
     }
 

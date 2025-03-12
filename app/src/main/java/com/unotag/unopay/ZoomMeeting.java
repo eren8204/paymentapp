@@ -172,6 +172,9 @@ public class ZoomMeeting extends BaseActivity {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yy", Locale.getDefault());
 
+        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        outputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+
         try {
             Date date = inputFormat.parse(dateString);
             assert date != null;

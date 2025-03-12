@@ -271,6 +271,11 @@ public class RaiseTicket_Activity extends BaseActivity {
             SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
             SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
 
+            // Input is in UTC
+            inputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            // Output should be in IST
+            outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+
             try {
                 Date date = inputDateFormat.parse(dateString);
                 return outputDateFormat.format(date);

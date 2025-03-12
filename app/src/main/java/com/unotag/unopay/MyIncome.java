@@ -43,6 +43,9 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class MyIncome extends BaseActivity {
+    private static final String INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String DATE_FORMAT = "dd MMM yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
     private static final String TAG = "adityai";
     private SharedPreferences sharedPreferences;
     private ImageButton back_button;
@@ -262,44 +265,31 @@ public class MyIncome extends BaseActivity {
     }
 
     private String formatDate(String dateString) {
-        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        String outputFormat = "dd MMM yyyy";
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
-
-        try {
-            Date date = inputDateFormat.parse(dateString);
-            String formattedDate = outputDateFormat.format(date);
-            Log.d(TAG, "Formatted date: " + formattedDate);
-            return formattedDate;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Error formatting date: ", e);
-            return dateString;
-        }
+        return formatDateTime(dateString, INPUT_FORMAT, DATE_FORMAT);
     }
 
-    private String formatTime(String utcDateString) {
-        String inputFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-        String outputFormat = "hh:mm a";
+    private String formatTime(String dateString) {
+        return formatDateTime(dateString, INPUT_FORMAT, TIME_FORMAT);
+    }
+
+    private String formatDateTime(String dateString, String inputFormat, String outputFormat) {
         SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat, Locale.getDefault());
         SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat, Locale.getDefault());
 
+        // Input is in UTC
         inputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // Output should be in IST
         outputDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 
         try {
-            Date date = inputDateFormat.parse(utcDateString);
+            Date date = inputDateFormat.parse(dateString);
             if (date != null) {
-                String formattedTime = outputDateFormat.format(date);
-                Log.d(TAG, "Formatted time: " + formattedTime);
-                return formattedTime;
+                return outputDateFormat.format(date);
             }
         } catch (ParseException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Error formatting time: ", e);
+            Log.e("DateFormat", "Error parsing date: " + dateString, e);
         }
-        return utcDateString;
+        return dateString;
     }
 
     private void pre(String username, String memberId) {
