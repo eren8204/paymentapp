@@ -147,7 +147,7 @@ public class prepaid_mobile extends BaseActivity {
     }
     private void initializeOperatorMap(){
         operatorMap.put("Airtel","A");
-        operatorMap.put("Vodafone Idea","VI");
+        operatorMap.put("Vodafone Idea","V");
         operatorMap.put("JIO","RC");
         operatorMap.put("BSNL - TOPUP","BT");
         operatorMap.put("BSNL - STV","BS");

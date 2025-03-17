@@ -68,7 +68,7 @@ public class Withdraw extends BaseActivity {
     private Button withdrawbtn;
     private ImageView back_button;
     private ProgressBar withdraw_progress;
-    private TextView member_name,available_fund,available_income,tpin;
+    private TextView member_name,available_fund,available_income,tpin,sender_type;
     private int k = 0;
     private LinearLayout progressLayout,oopsLayout;
     private SharedPreferences sharedPreferences;
@@ -99,6 +99,7 @@ public class Withdraw extends BaseActivity {
         member_name = findViewById(R.id.member_name);
         toMember.setVisibility(GONE);
         messageEditText = findViewById(R.id.withdraw_amount);
+        sender_type = findViewById(R.id.sender_type);
         withdrawbtn.setEnabled(true);
 
         updateUI();
@@ -216,12 +217,14 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
+                sender_type.setText("Income Wallet");
                 messageEditText.setHint("Amount (Min - 50)");
             }
             else if(checkedId==R.id.togglePerson){
                 k=1;
                 transferSelect = 2;
                 toMember.setVisibility(VISIBLE);
+                sender_type.setText("Fund Wallet");
                 messageEditText.setHint("Amount (Min - 50)");
             }
             else if(checkedId==R.id.toggleBank){
@@ -230,6 +233,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 3;
                 toMember.setVisibility(GONE);
+                sender_type.setText("Income Wallet");
                 messageEditText.setHint("Amount (Min - 250)");
             }
             else{
@@ -238,6 +242,7 @@ public class Withdraw extends BaseActivity {
                 withdrawbtn.setEnabled(true);
                 transferSelect = 1;
                 toMember.setVisibility(GONE);
+                sender_type.setText("Income Wallet");
                 messageEditText.setHint("Amount (Min - 50)");
             }
         });
@@ -286,7 +291,7 @@ public class Withdraw extends BaseActivity {
             public void afterTextChanged(Editable s) {
                 if (s.length() == 8) {
                     String checkId = toMember.getText().toString().trim();
-                    if(checkId.equalsIgnoreCase(memberId)){
+                    if(checkId.equalsIgnoreCase(memberId) || checkId.equalsIgnoreCase("UP130566")){
                         toMember.setError("Invalid Member Id");
                         toMember.setFocusable(true);
                         return;

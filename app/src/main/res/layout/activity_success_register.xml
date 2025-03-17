@@ -109,7 +109,7 @@ tools:context=".SuccessRegisterActivity">
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="UP100070"
-                            android:textColor="@color/startColor"
+                            android:textColor="@color/endColor"
                             android:textSize="@dimen/_15sdp"
                             android:textStyle="bold" />
                     </LinearLayout>

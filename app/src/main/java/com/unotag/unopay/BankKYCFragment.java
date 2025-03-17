@@ -799,13 +799,15 @@ public class BankKYCFragment extends Fragment {
                 public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                     form.setEnabled(true);
                     Log.e("bank_details", "Error: " + t.getMessage(), t);
-                    Toast.makeText(getActivity(), "Error submitting KYC", Toast.LENGTH_SHORT).show();
+                    if (isAdded() && getContext() != null)
+                        Toast.makeText(requireContext(), "Error submitting KYC", Toast.LENGTH_SHORT).show();
                 }
             });
 
         } catch (Exception e) {
             Log.e("bank_details", "File processing error: " + e.getMessage(), e);
-            Toast.makeText(getActivity(), "Error processing images", Toast.LENGTH_SHORT).show();
+            if (isAdded() && getContext() != null)
+                Toast.makeText(requireContext(), "Error processing images", Toast.LENGTH_SHORT).show();
         }
         finally {
             bank_details_msg.setVisibility(GONE);

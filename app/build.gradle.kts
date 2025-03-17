@@ -19,8 +19,8 @@ android {
         applicationId = "com.unotag.unopay"
         minSdk = 24
         targetSdk = 34
-        versionCode = 16
-        versionName = "1.0.15"
+        versionCode = 17
+        versionName = "1.0.16"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String","api_url","\"$api_url\"")
         buildConfigField("String","api_url_non_auth","\"$api_url_non_auth\"")

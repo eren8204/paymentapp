@@ -151,11 +151,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password must be:"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="* 8-12 characters long"/>
+                android:text="Password must be: 8-12 characters long"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -164,6 +160,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="* Contains at least one lowercase letter (a-z)"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="* Contains at least one special character (@,$,!,%,?,&amp;)"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,11 +171,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="* Contains at least one special character (@,$,!,%,?,&amp;)"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="* Example: Unopay#123"/>
+                android:text="* Example: Unopay@123"/>
             </LinearLayout>
             <EditText
                 android:id="@+id/coinfirmpassword"

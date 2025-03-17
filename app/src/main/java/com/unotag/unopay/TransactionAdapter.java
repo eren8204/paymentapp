@@ -69,7 +69,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             String time = formatTime(transaction.getString("date_time"));
             String date = formatDate(transaction.getString("date_time"));
             holder.date.setText(date+" "+time);
-            holder.amount.setText(transaction.getString("total_balance"));
+            String total_balance = transaction.getString("total_balance");
+            total_balance = sanitizeValue(total_balance);
+            holder.amount.setText(total_balance);
 
             if (!transaction.getString("subType").equals("null")) {
                 desc = desc + " - " + transaction.getString("subType");
@@ -79,8 +81,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 desc = desc + " - " + transaction.getString("recharge_to");
             }
             holder.type.setText(desc);
-            holder.cr.setText(transaction.getString("credit"));
-            holder.dr.setText(transaction.getString("debit"));
+            String credit = transaction.getString("credit");
+            String debit = transaction.getString("debit");
+            credit = sanitizeValue(credit);
+            debit = sanitizeValue(debit);
+            holder.cr.setText(credit);
+            holder.dr.setText(debit);
             holder.sno.setText(String.valueOf(position));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -135,5 +141,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             Log.e("DateFormat", "Error parsing date: " + dateString, e);
         }
         return dateString;
+    }
+    @SuppressLint("DefaultLocale")
+    private String sanitizeValue(String income) {
+        try {
+            double value = Double.parseDouble(income);
+            return String.format("%.2f", Math.max(value, 0.0));
+        } catch (NumberFormatException e) {
+            return "0.00";
+        }
     }
 }

@@ -116,6 +116,7 @@ public class Transactionfragment extends Fragment {
 
         return view;
     }
+    @SuppressLint("DefaultLocale")
     private void filterByType() throws JSONException {
         if (filteredList != null) {
             filteredList.clear();
@@ -144,8 +145,12 @@ public class Transactionfragment extends Fragment {
             recyclerView.setVisibility(GONE);
             oops_layout.setVisibility(VISIBLE);
         }else{
-            closing_balance.setText(filteredList.get(0).getString("total_balance"));
-            opening_balance.setText(filteredList.get(filteredList.size()-1).getString("total_balance"));
+            String closing = filteredList.get(0).getString("total_balance");
+            String opening = filteredList.get(filteredList.size()-1).getString("total_balance");
+            opening = sanitizeValue(opening);
+            closing = sanitizeValue(closing);
+            closing_balance.setText(closing);
+            opening_balance.setText(opening);
             adapter.updateData(filteredList);
             double cr = 0;
             double dr = 0;
@@ -153,8 +158,8 @@ public class Transactionfragment extends Fragment {
                 cr+=Double.parseDouble(transaction.optString("credit","0.0"));
                 dr+=Double.parseDouble(transaction.optString("debit","0.0"));
             }
-            total_cr.setText(String.valueOf(cr));
-            total_dr.setText(String.valueOf(dr));
+            total_cr.setText(String.format("%.2f", Math.max(cr, 0.0)));
+            total_dr.setText(String.format("%.2f", Math.max(dr, 0.0)));
             recyclerView.setAdapter(adapter);
         }
     }
@@ -237,7 +242,10 @@ public class Transactionfragment extends Fragment {
         queue.add(request);
     }
 
+    @SuppressLint("DefaultLocale")
     private void filterTransactions() {
+        if(filteredList==null)
+            filteredList = new ArrayList<>();
         String startDateStr = startDateEditText.getText().toString();
         String endDateStr = endDateEditText.getText().toString();
 
@@ -274,10 +282,14 @@ public class Transactionfragment extends Fragment {
                 closing_balance.setText("0.0");
                 total_cr.setText("0.0");
                 total_dr.setText("0.0");
-                Toast.makeText(requireActivity(), "No Data To Display", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "No data for this time period", Toast.LENGTH_SHORT).show();
             } else {
-                closing_balance.setText(TimefilteredList.get(0).getString("total_balance"));
-                opening_balance.setText(TimefilteredList.get(TimefilteredList.size()-1).getString("total_balance"));
+                String closing = TimefilteredList.get(0).getString("total_balance");
+                String opening  = TimefilteredList.get(TimefilteredList.size()-1).getString("total_balance");
+                closing = sanitizeValue(closing);
+                opening = sanitizeValue(opening);
+                closing_balance.setText(closing);
+                opening_balance.setText(opening);
                 adapter.updateData(TimefilteredList);
                 double cr = 0;
                 double dr = 0;
@@ -285,15 +297,15 @@ public class Transactionfragment extends Fragment {
                     cr+=Double.parseDouble(transaction.optString("credit","0.0"));
                     dr+=Double.parseDouble(transaction.optString("debit","0.0"));
                 }
-                total_cr.setText(String.valueOf(cr));
-                total_dr.setText(String.valueOf(dr));
+                total_cr.setText(String.format("%.2f", Math.max(cr, 0.0)));
+                total_dr.setText(String.format("%.2f", Math.max(dr, 0.0)));
                 recyclerView.setVisibility(VISIBLE);
             }
         } catch (JSONException | ParseException e) {
             recyclerView.setVisibility(GONE);
             progress_layout.setVisibility(GONE);
             oops_layout.setVisibility(VISIBLE);
-            showError("No data found");
+            showError("No data for this time period");
             Log.d("sorting_ki_error",e.toString());
         }
     }
@@ -301,5 +313,14 @@ public class Transactionfragment extends Fragment {
     private void showError(String message) {
         recyclerView.setVisibility(GONE);
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+    @SuppressLint("DefaultLocale")
+    private String sanitizeValue(String income) {
+        try {
+            double value = Double.parseDouble(income);
+            return String.format("%.2f", Math.max(value, 0.0));
+        } catch (NumberFormatException e) {
+            return "0.00";
+        }
     }
 }
